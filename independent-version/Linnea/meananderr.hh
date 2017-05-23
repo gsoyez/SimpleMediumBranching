@@ -8,17 +8,17 @@
 
 class MeanAndErr{
 public:
-    MeanAndErr();
+  MeanAndErr();
 
-    void addEntry(double myValue);
-    double mean() const;
-    double variance() const;
-    double error() const;
+  void addEntry(double myValue);
+  double mean() const;
+  double variance() const;
+  double error() const;
 
 private:
-    unsigned long long _counter;
-    double _value;
-    double _valueSquared;
+  unsigned long long _counter;
+  double _value;
+  double _valueSquared;
 };
 
 #endif // MEANANDERR_HH_INCLUDED
