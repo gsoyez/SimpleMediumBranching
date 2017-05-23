@@ -67,41 +67,36 @@ private:
 ///given time, which is given as input
 class Event{
 public:
-    Event();
-    void setCutoff(double cutoff);
+    Event()=default;
+    ///Set and get the epsilon used for the event
+    void setCutoff(double value) {_cutoff = value;}
     double getCutoff() const {return _cutoff;}
-    void generateEvent(double time);///nope
-	unsigned int getN() const;
-	const std::vector<Particle>& getParticles() const;
-	///need setParticles
-	void setSeed(int newSeed){_v.setSeed(newSeed);}///nope
-    int getSeed(){return _v.seed();}///nope
-    std::vector<Particle> particles;///<public for now, consider options
-    const std::vector<Particle>& testParticles() const {return particles;}///temporary test
+    ///Set and get the time during which the leading particle has branched
+    void setEndTime(double value) {_endTime = value;}
+    double getEndTime() const {return _endTime;}
+	unsigned int getN() const {return (_particles.size()+1)/2;}///<Number of final particles
+	///Set and get the vector storing all (intermediate and final) particles
+	void setParticles(std::vector<Particle> value){_particles = value;}///Should be optimized
+	const std::vector<Particle>& getParticles() const{return _particles;}
 private:
     std::vector<Particle> _particles;
-    void _branch();///nope
-    Branching _v;///nope
     double _cutoff;
     double _endTime;
 };
-
-
 
 ///\class GenerateInMedium
 ///Generate an event. Returns a member of the class Event.
 class GenerateInMedium{
 public:
-    GenerateInMedium();
-    ///Return the generated event:
+    GenerateInMedium()=default;
     void generateEvent(double time, double cutoff);
-    const Event event() const {return _event;}
-
+    ///Return the generated event:
+    const Event getEvent() const {return event;}///<causes issues with first element
 	void setSeed(int newSeed){_v.setSeed(newSeed);}
     int getSeed(){return _v.seed();}
-    Event _event; ///should not be public but want to check things
+    Event event; ///should not be public but getEvent causes issues
 private:
-
+    std::vector<Particle> _particles;
     void _branch();
     Branching _v;
     double _cutoff;

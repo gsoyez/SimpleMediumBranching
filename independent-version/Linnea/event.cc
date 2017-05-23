@@ -63,38 +63,26 @@ void Branching::setSeed(int new_seed){
 	_seed=new_seed;
 	gsl_rng_set (_r, _seed);
 }
-//##############################################
-///Defining member functions for the class Event
 
-Event::Event(){
-    setCutoff(0.01); ///<default cutoff, gives _alpha around 40
-}
+///Defining member functions for the class GenerateInMedium
 
-void Event::setCutoff(double cutoff){
-    _cutoff = cutoff;
-}
-
-void Event::generateEvent(double time){
+void GenerateInMedium::generateEvent(double time,double cutoff){
     ///-1 is the default parent, 0 is starting time, x is energy fraction
-    ///TODO make a default parent and use, to not rely on using -1
     _particles.clear();
-	Particle firstParticle(-1,0);
+	Particle firstParticle;
+	firstParticle.setStartTime(0);
     firstParticle.setX(1);
     _particles.push_back(firstParticle);
     _endTime=time;
+    _cutoff=cutoff;
 	_branch();
-}
-
-unsigned int Event::getN() const{
-	return (_particles.size()+1)/2;///<Number of final particles
-}
-
-const std::vector<Particle>& Event::getParticles() const{
-	return _particles;
+	event.setParticles(_particles);
+	event.setCutoff(cutoff);
+	event.setEndTime(time);
 }
 
 ///Branches the last particle in _particles
-void Event::_branch(){
+void GenerateInMedium::_branch(){
     unsigned int parent=_particles.size()-1;
     double x=_particles[parent].x();///<Relies on pushing back child before branching
     if(x<2*_cutoff){
@@ -121,60 +109,5 @@ void Event::_branch(){
     ///Second child:
     _particles.push_back(child2);
     _particles[parent].setChild2(_particles.size()-1);
-    _branch();
-}
-
-
-
-
-//##############################################
-///Defining member functions for the class GenerateInMedium
-
-GenerateInMedium::GenerateInMedium(){
-}
-
-void GenerateInMedium::generateEvent(double time,double cutoff){
-    ///-1 is the default parent, 0 is starting time, x is energy fraction
-    ///TODO make a default parent and use, to not rely on using -1
-    _event.particles.clear();
-	Particle firstParticle(-1,0);
-    firstParticle.setX(1);
-    _event.particles.push_back(firstParticle);
-    _endTime=time;
-    _cutoff=cutoff;
-	_branch();
-
-	///Event.set(stuff such as particles)
-}
-
-
-///Branches the last particle in _particles
-void GenerateInMedium::_branch(){
-    unsigned int parent=_event.particles.size()-1;
-    double x=_event.particles[parent].x();///<Relies on pushing back child before branching
-    if(x<2*_cutoff){
-        return;///<We have reached the bottom of the recursion => we have one particle.
-    }
-  	///splittingTime, randomly generated
-  	_v.generateBranching(x, _cutoff);
-  	double splittingTime = _v.t();
-  	double z = _v.z();
-  	double timeLeft=_endTime - _event.particles[parent].startTime();
-    if(timeLeft < splittingTime){
-        return;///<We have reached the bottom of the recursion => we have one particle.
-    }
-    ///No if triggered =>we have time enough for another split and x is large enough
-    double currentTime=_event.particles[parent].startTime() + splittingTime;
-    _event.particles[parent].setEndTime(currentTime);
-    ///To add to the vector storing the event
-    Particle child1(parent,currentTime,z*x), child2(parent,currentTime,(1-z)*x);
-    ///Branching into two
-    ///First child:
-    _event.particles.push_back(child1);
-    _event.particles[parent].setChild1(_event.particles.size()-1);
-    _branch();
-    ///Second child:
-    _event.particles.push_back(child2);
-    _event.particles[parent].setChild2(_event.particles.size()-1);
     _branch();
 }
