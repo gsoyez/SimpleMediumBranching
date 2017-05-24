@@ -170,8 +170,13 @@ class Vertex
 {
     public:
     // Constructors
-    Vertex()
-    {this->index_parent=0; this->index_first=1; this->index_second=2; this->time=0;};
+
+  /// default ctor
+  /// put everything to -1 to mark them as uninitialised 
+    Vertex() 
+    {this->index_parent=-1; this->index_first=-1; this->index_second=-1; this->time=0;};
+
+  /// ctor w initialisation
     Vertex(int index_parent, int index_first, int index_second, double time)
     {this->index_parent=index_parent; this->index_first=index_first; this->index_second=index_second; this->time=time;}
 
@@ -201,7 +206,7 @@ class Parton
 
     // Constructors
     Parton()
-    {this->starting_vertex=-1;this->ending_vertex=0; this->x=1;};
+    {this->starting_vertex=-1;this->ending_vertex=-1; this->x=1;};
     Parton(int starting_vertex,int ending_vertex, double x)
     {this->starting_vertex=starting_vertex; this->ending_vertex=ending_vertex; this->x=x;};
 
@@ -215,6 +220,9 @@ class Parton
     void set_ending_vertex(int starting_vertex) {this->starting_vertex=starting_vertex;}
     void set_x(double x) {this->x=x;}
 
+  /// returns true if a particle is final
+  bool is_final const(){ return ending_vertex==-1; }
+  
 	private:
 
 
@@ -256,8 +264,8 @@ vector<Parton>  PartonShower(double time_ini, double x_ini, gsl_rng *r)
             new_time = alea_generator_sudakov(last_time,last_x,r);
             new_z = alea_generator_Pgg(last_x,r);
 
-            Parton new_parton1(N_vertex,-2,new_z*last_x);
-            Parton new_parton2(N_vertex,-2,(1-new_z)*last_x);
+            Parton new_parton1(N_vertex,-1,new_z*last_x);
+            Parton new_parton2(N_vertex,-1,(1-new_z)*last_x);
             all_partons.push_back(new_parton1);
             all_partons.push_back(new_parton2);
 
@@ -302,7 +310,7 @@ int main()
 		int j;
 		for(j=0;j<N_one_cascade;j++)
         {
-			if(one_cascade[j].get_ending_vertex()==-2 && one_cascade[j].get_x()>=epsilon && one_cascade[j].get_x() <= 1-epsilon) // Selects the gluons produced at the final step of the shower
+          if(one_cascade[j].is_final() && one_cascade[j].get_x()>=epsilon && one_cascade[j].get_x() <= 1-epsilon) // Selects the gluons produced at the final step of the shower
             {
 				double final_x;
 				int k_bin;
