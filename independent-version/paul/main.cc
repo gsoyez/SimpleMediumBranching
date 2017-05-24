@@ -221,7 +221,7 @@ class Parton
     void set_x(double x) {this->x=x;}
 
   /// returns true if a particle is final
-  bool is_final const(){ return ending_vertex==-1; }
+  bool is_final() const{ return ending_vertex==-1; }
   
 	private:
 
