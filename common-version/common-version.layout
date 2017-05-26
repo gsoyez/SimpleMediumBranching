@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="event.cc" open="1" top="0" tabpos="2">
+		<Cursor position="494" topLine="0" />
+	</File>
+	<File name="event.hh" open="1" top="0" tabpos="3">
+		<Cursor position="4928" topLine="48" />
+	</File>
+	<File name="generator.cc" open="1" top="0" tabpos="5">
+		<Cursor position="7131" topLine="211" />
+	</File>
+	<File name="generator.hh" open="1" top="0" tabpos="4">
+		<Cursor position="1076" topLine="0" />
+	</File>
+	<File name="main.cc" open="1" top="1" tabpos="1">
+		<Cursor position="856" topLine="25" />
+	</File>
+</CodeBlocks_layout_file>
