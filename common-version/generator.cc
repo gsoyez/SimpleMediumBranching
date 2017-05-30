@@ -23,10 +23,10 @@ using namespace QCD;
 
 
 //############################################
-///Defining member functions for the class Branching
-///which is the class responsible for generating t and z.
-///This would be the one for which similar ones should be
-///added with different kernels.
+// Defining member functions for the class Branching
+// which is the class responsible for generating t and z.
+// This would be the one for which similar ones should be
+// added with different kernels.
 
 
 /// default ctor
@@ -40,9 +40,14 @@ Branching::~Branching(){
   gsl_rng_free(_r);
 }
 
-///Using simplified kernel g >= real kernel f in the veto algorithm
-/// g = 1/(z(1-z))^(3/2)
-/// f = (1-z(1-z))^(5/2)/(z(1-z))^(3/2)
+//------------------------------------------------------------------------
+// generate an event
+//  - time    maximal time over which we keep branching
+//  - cutoff  min x value allowed
+//
+// Using simplified kernel g >= real kernel f in the veto algorithm
+//  g = 1/(z(1-z))^(3/2)
+//  f = (1-z(1-z))^(5/2)/(z(1-z))^(3/2)
 void Branching::generateBranching(double x, double cutoff){
   double z=1,R=1,fgratio=0,t=0;
   cutoff=cutoff/x;

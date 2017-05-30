@@ -12,10 +12,10 @@ int main(){
 
   double testTime=0.1;
   double epsilon=1e-3;
-	GenerateInMedium gen;
-	gen.generateEvent(testTime,epsilon);
+  GenerateInMedium gen;
+  gen.generateEvent(testTime,epsilon);
 
-	const vector<Particle> testvec=gen.getEvent().getParticles();
+  const vector<Particle> testvec=gen.getEvent().getParticles();
 
   cout <<setw(8) << "index" <<setw(8)<< "parent"<<setw(8) <<"child1"<<setw(8) <<"child2";
   cout <<setw(8) <<"start"<<setw(8) <<"end"<<setw(8) <<"x"<<setw(8)<<"final"<<endl;

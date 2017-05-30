@@ -3,4 +3,35 @@ Not sure if it's worth adopting the parton+vertex structure, might
 make the code harder to read. Will have to play around a bit more,
 but before that we should discuss if we want a structure with all
 final partons either in the beginning or the end of the vector.
-//Linnéa
+//Linnea
+
+
+GS comments on 2017-05-30
+-------------------------
+
+- fix/check the tabs!
+
+- this-> can be removed [C++ is not Pythion] is on by default
+
+- ctor initialisation: prefer
+    Vertex() : index_parent(-1){}
+  over
+    Vertex(){index_parent = -1;}
+
+- class and member functions comment
+  Doxy comments in headers, normal comments in source files
+ 
+- rename getN
+
+- remove useless headers in event.cc
+
+- move Branching::* into Generator
+
+- Generate -> Generator
+
+- Generator returns ref to Event, same for get... in Event
+
+- getXYZ() -> XYZ()
+
+- leave a space in the comments
+

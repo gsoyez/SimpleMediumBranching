@@ -2,10 +2,11 @@
 #define GENERATOR_HH_INCLUDED
 
 #include "event.hh"
+
 //---------------------------------------------------------------------------------------------//
-
-///In this file we should have all classes that have to do with generators
-
+//
+// In this file we should have all classes that have to do with generators
+//
 //---------------------------------------------------------------------------------------------//
 
 
@@ -40,13 +41,17 @@ private:
 
 
 
-///\class GenerateInMedium
-///Generate an event. Returns a member of the class Event.
+/// \class GenerateInMedium
+/// Generate an event. Returns a member of the class Event.
 class GenerateInMedium{
 public:
+  /// generate an event
+  ///  \param time    maximal time over which we keep branching
+  ///  \param cutoff  min x value allowed
   void generateEvent(double time, double cutoff);
+  
   const Event getEvent() const {return _event;}///<Return the generated event:
-	void setSeed(int newSeed){_v.setSeed(newSeed);}
+  void setSeed(int newSeed){_v.setSeed(newSeed);}
   int getSeed(){return _v.seed();}
 
 private:
