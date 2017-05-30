@@ -28,15 +28,13 @@
 			<Add option="-std=c++11" />
 		</Compiler>
 		<Linker>
-			<Add option="-lgsl" />
-			<Add option="-lgslcblas" />
-			<Add option="-lm" />
+			<Add option="-lgsl -lcblas -lm" />
 		</Linker>
-		<Unit filename="event.cc" />
-		<Unit filename="event.hh" />
-		<Unit filename="generator.cc" />
-		<Unit filename="generator.hh" />
-		<Unit filename="main.cc" />
+		<Unit filename="../event.cc" />
+		<Unit filename="../event.hh" />
+		<Unit filename="../generator.cc" />
+		<Unit filename="../generator.hh" />
+		<Unit filename="../main.cc" />
 		<Extensions>
 			<code_completion />
 			<debugger />

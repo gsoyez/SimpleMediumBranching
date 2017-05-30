@@ -17,7 +17,7 @@ int main(){
 	const vector<Particle> testvec=gen.getEvent().getParticles();
 
   cout <<setw(8) << "index" <<setw(8)<< "parent"<<setw(8) <<"child1"<<setw(8) <<"child2";
-  cout <<setw(8) <<"start"<<setw(8) <<"end"<<setw(8) <<"x"<<endl;
+  cout <<setw(8) <<"start"<<setw(8) <<"end"<<setw(8) <<"x"<<setw(8)<<"final"<<endl;
   cout << setprecision(2);
 
   for (unsigned int i = 0; i < testvec.size(); i++ ) {
@@ -27,26 +27,15 @@ int main(){
     cout <<setw(8) << testvec[i].startTime();
     cout <<setw(8) << testvec[i].endTime();
     cout <<setw(8) << testvec[i].x();
+    cout <<setw(8) << testvec[i].is_final();
     cout <<endl;
   }
 
-	const vector<Parton> testvec2=gen.getEvent().getPartons();
-  cout << endl << "Note that the parton vector below is not filled properly." << endl;
-  cout << "We should first decide upon in which order we want to fill it." << endl;
-  cout <<setw(8) << "index" <<setw(8)<< "start"<<setw(8) <<"end";
-  cout <<setw(8) <<"x"<<setw(8)<< "final"<<endl;
-  cout << setprecision(2);
-
-  for (unsigned int i = 0; i < testvec2.size(); i++ ) {
-    cout <<setw(8) << i<<setw(8)<< testvec2[i].get_starting_vertex();
-    cout <<setw(8) << testvec2[i].get_ending_vertex();
-    cout <<setw(8) << testvec2[i].get_x();
-    cout <<setw(8) << testvec2[i].is_final();
-    cout <<endl;
+  cout << "Final x-values:"<<endl;
+  const vector<double> final_x=gen.getEvent().get_final();
+  for (unsigned int i = 0; i < final_x.size(); i++ ) {
+    cout << final_x[i] <<endl;
   }
-
-
-
 
   return 0;
 }

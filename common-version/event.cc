@@ -16,3 +16,15 @@ Particle::Particle(int parent,double startTime,double x,double endTime,
   setChild1(child1);
   setChild2(child2);
 }
+
+
+///Member function of Event that returns final partons' x-values
+const std::vector<double> Event::get_final() const{
+  std::vector<double> x_values;
+  for (unsigned int i = 0; i < _particles.size(); i++ ){
+    if (_particles[i].is_final()){
+      x_values.push_back(_particles[i].x());
+    }
+  }
+  return x_values;
+}

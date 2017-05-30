@@ -99,6 +99,8 @@ public:
   void setChild2(double value) { _child2=value;}
   int child1() const { return _child1;}
   int child2() const { return _child2;}
+  /// returns true if a particle is final
+  bool is_final() const{ return _child1==-1;}
 
 private:
   ///All these are initialized to -1
@@ -124,12 +126,15 @@ public:
   double getEndTime() const {return _endTime;}
 	unsigned int getN() const {return (_particles.size()+1)/2;}///<Number of final particles
 	///Set and get the vector storing all (intermediate and final) particles
-	void setParticles(std::vector<Particle> value){_particles = value;}///Should be optimized...
-	const std::vector<Particle>& getParticles() const{return _particles;}
-	void setPartons(std::vector<Parton> value){_partons = value;}///Should be optimized...
-	const std::vector<Parton>& getPartons() const{return _partons;}
-	void setVertices(std::vector<Vertex> value){_vertices = value;}///Should be optimized...
-	const std::vector<Vertex>& getVertices() const{return _vertices;}
+	///When returning vectors the compiler should optimize so it shouldn't be an issue
+	void setParticles(std::vector<Particle> value){_particles = value;}
+	const std::vector<Particle> getParticles() const{return _particles;}
+	void setPartons(std::vector<Parton> value){_partons = value;}
+	const std::vector<Parton> getPartons() const{return _partons;}
+	void setVertices(std::vector<Vertex> value){_vertices = value;}
+	const std::vector<Vertex> getVertices() const{return _vertices;}
+	///Function that returns list of x ie energy fractions for the final partons
+  const std::vector<double> get_final() const;
 private:
   std::vector<Particle> _particles;
   std::vector<Parton> _partons;
