@@ -20,14 +20,17 @@ class GeneratorInMedium{
 public:
   /// default ctor
   GeneratorInMedium(int init_seed=1);
+
   /// default dtor
   ~GeneratorInMedium();
+
   /// generate an event
   ///  \param time    maximal time over which we keep branching
   ///  \param cutoff  min x value allowed
   void generateEvent(double time, double cutoff);
 
-  const Event& event() const {return _event;}///< Return the generated event
+  /// Return the generated event
+  const Event& event() const {return _event;}
 
   /// related to branching
   void generateBranching(double x);

@@ -49,7 +49,7 @@ int main(){
   GeneratorInMedium v;
   double cutoff = 1e-10;
   v.set_cutoff(cutoff);
-  double alpha = (4-8*cutoff)/sqrt(cutoff*(1-cutoff));///<integral of simplified kernel
+  //unused: double alpha = (4-8*cutoff)/sqrt(cutoff*(1-cutoff));///<integral of simplified kernel
   unsigned int iter1=1e3;///usually 1e3 is good
   unsigned int iter2=1e4;///<adjust to follow behaviour
 
