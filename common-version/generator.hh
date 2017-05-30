@@ -14,16 +14,22 @@
 //then derived classes
 
 
-
-/// \class Branching
-/// Generate random branching times and z values
-/// The class uses GSL for random numbers.
-class Branching{
+/// \class GenerateInMedium
+/// Generate an event. Returns a member of the class Event.
+class GeneratorInMedium{
 public:
   /// default ctor
-  Branching(int init_seed=1);
+  GeneratorInMedium(int init_seed=1);
   /// default dtor
-  ~Branching();
+  ~GeneratorInMedium();
+  /// generate an event
+  ///  \param time    maximal time over which we keep branching
+  ///  \param cutoff  min x value allowed
+  void generateEvent(double time, double cutoff);
+
+  const Event& event() const {return _event;}///< Return the generated event
+
+  /// related to branching
   void generateBranching(double x, double cutoff);
   double t() const {return _t;}
   double z() const {return _z;}
@@ -32,37 +38,19 @@ public:
   /// set the random seed
   void setSeed(int new_seed);
 
-private:
-  gsl_rng *_r; ///< random number generator (GSL)
-  int _seed;   ///< random seed
-  double _t;
-  double _z;
-};
-
-
-
-/// \class GenerateInMedium
-/// Generate an event. Returns a member of the class Event.
-class GenerateInMedium{
-public:
-  /// generate an event
-  ///  \param time    maximal time over which we keep branching
-  ///  \param cutoff  min x value allowed
-  void generateEvent(double time, double cutoff);
-  
-  const Event getEvent() const {return _event;}///<Return the generated event:
-  void setSeed(int newSeed){_v.setSeed(newSeed);}
-  int getSeed(){return _v.seed();}
 
 private:
   Event _event;
   std::vector<Particle> _particles;
-  std::vector<Parton> _partons;
-  std::vector<Vertex> _vertices;
   void _branch();
-  Branching _v;
   double _cutoff;
   double _endTime;
+
+  /// Related to branching
+  gsl_rng *_r; ///< random number generator (GSL)
+  int _seed;   ///< random seed
+  double _t;
+  double _z;
 };
 
 

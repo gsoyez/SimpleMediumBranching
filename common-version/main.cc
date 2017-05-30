@@ -12,10 +12,10 @@ int main(){
 
   double testTime=0.1;
   double epsilon=1e-3;
-  GenerateInMedium gen;
+  GeneratorInMedium gen;
   gen.generateEvent(testTime,epsilon);
 
-  const vector<Particle> testvec=gen.getEvent().getParticles();
+  const vector<Particle> &testvec=gen.event().particles();
 
   cout <<setw(8) << "index" <<setw(8)<< "parent"<<setw(8) <<"child1"<<setw(8) <<"child2";
   cout <<setw(8) <<"start"<<setw(8) <<"end"<<setw(8) <<"x"<<setw(8)<<"final"<<endl;
@@ -33,7 +33,7 @@ int main(){
   }
 
   cout << "Final x-values:"<<endl;
-  const vector<double> final_x=gen.getEvent().get_final();
+  const vector<double> final_x=gen.event().final_particles();
   for (unsigned int i = 0; i < final_x.size(); i++ ) {
     cout << final_x[i] <<endl;
   }
@@ -41,7 +41,7 @@ int main(){
 
 
 
-
+/*
 
 
   ///Checking bin close to 0.5 and first bin in time
@@ -86,7 +86,7 @@ int main(){
 
 
 
-
+*/
 
 
 

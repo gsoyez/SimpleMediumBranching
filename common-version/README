@@ -6,10 +6,10 @@ final partons either in the beginning or the end of the vector.
 //Linnea
 
 
-GS comments on 2017-05-30
+GS comments on 2017-05-30 (x- = fixed //Linnea)
 -------------------------
 
-- fix/check the tabs!
+x- fix/check the tabs!
 
 - this-> can be removed [C++ is not Pythion] is on by default
 
@@ -21,17 +21,17 @@ GS comments on 2017-05-30
 - class and member functions comment
   Doxy comments in headers, normal comments in source files
  
-- rename getN
+x- rename getN
 
-- remove useless headers in event.cc
+x- remove useless headers in event.cc
 
-- move Branching::* into Generator
+x- move Branching::* into Generator
 
-- Generate -> Generator
+x- Generate -> Generator
 
-- Generator returns ref to Event, same for get... in Event
+x- Generator returns ref to Event, same for get... in Event
 
-- getXYZ() -> XYZ()
+x- getXYZ() -> XYZ()
 
 - leave a space in the comments
 

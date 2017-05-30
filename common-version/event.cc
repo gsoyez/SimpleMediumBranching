@@ -1,8 +1,4 @@
 #include "event.hh"
-#include <gsl/gsl_math.h>
-#include <iostream>
-#include <gsl/gsl_integration.h>
-
 
 ///Initializing Particle with values that will signify that
 ///this has no physical meaning. E.g. first particle
@@ -19,7 +15,7 @@ Particle::Particle(int parent,double startTime,double x,double endTime,
 
 
 ///Member function of Event that returns final partons' x-values
-const std::vector<double> Event::get_final() const{
+const std::vector<double> Event::final_particles() const{
   std::vector<double> x_values;
   for (unsigned int i = 0; i < _particles.size(); i++ ){
     if (_particles[i].is_final()){
