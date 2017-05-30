@@ -41,15 +41,16 @@ int main(){
 
 
 
-/*
+
 
 
   ///Checking bin close to 0.5 and first bin in time
   cout << "Checking fluctuations, takes less than a minute at current number of iterations" <<endl;
-  Branching v;
+  GeneratorInMedium v;
   double cutoff = 1e-10;
+  v.set_cutoff(cutoff);
   double alpha = (4-8*cutoff)/sqrt(cutoff*(1-cutoff));///<integral of simplified kernel
-  unsigned int iter1=1e4;///usually 1e3 is good
+  unsigned int iter1=1e3;///usually 1e3 is good
   unsigned int iter2=1e4;///<adjust to follow behaviour
 
   double totalArea=399993.0/2;
@@ -63,7 +64,7 @@ int main(){
     binZ=0;
     binT=0;
       for (unsigned int j=1; j<iter2;j++){
-        v.generateBranching(1,cutoff);
+        v.generateBranching(1);
         double z=v.z();
         double t=v.t();
           if (z>0.49&&z<0.5){
@@ -86,7 +87,7 @@ int main(){
 
 
 
-*/
+
 
 
 

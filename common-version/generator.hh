@@ -30,14 +30,16 @@ public:
   const Event& event() const {return _event;}///< Return the generated event
 
   /// related to branching
-  void generateBranching(double x, double cutoff);
+  void generateBranching(double x);
   double t() const {return _t;}
   double z() const {return _z;}
   /// get the random seed
   int seed() const { return _seed;}
   /// set the random seed
   void setSeed(int new_seed);
-
+  /// Set and get the epsilon used for the event
+  void set_cutoff(double value) {_cutoff = value;}
+  double cutoff() const {return _cutoff;}
 
 private:
   Event _event;

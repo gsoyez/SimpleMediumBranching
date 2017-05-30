@@ -49,29 +49,29 @@ void GeneratorInMedium::setSeed(int new_seed){
 	gsl_rng_set (_r, _seed);
 }
 
-void GeneratorInMedium::generateBranching(double x, double cutoff){
+void GeneratorInMedium::generateBranching(double x){
   double z=1,R=1,fgratio=0,t=0;
-  cutoff=cutoff/x;
+  double cutoff=_cutoff/x;
+  double root_x=sqrt(x);
   /// Calculating the integral from cutoff to 1-cutoff
-  double alpha = (4-8*cutoff)/sqrt(cutoff*(1-cutoff));
+  double alpha = (2-4*cutoff)/sqrt(cutoff*(1-cutoff));
 
   while (fgratio<R){
     /// Generate t according to g
-    t = t - log(gsl_rng_uniform(_r))/(alpha/(2*sqrt(x)));
+    t = t - log(gsl_rng_uniform(_r))/(alpha/(root_x));
     /// Generate z according to g. x-dependence of alpha cancels
     double u = gsl_rng_uniform(_r);
-    double v = (4*cutoff-2)/sqrt(cutoff*(1-cutoff))+u*alpha*0.5;
+    double v = (u-1)*alpha;
     /// z distribution is symmetric around 0.5. Generate below.
     z = 0.5 + v/(2*sqrt(v*v+16));
     /// Decide if rejecting or not
-    fgratio = pow((1-z*(1-z)),2.5); /// Rejection factor f/g
-    R = gsl_rng_uniform(_r);
+    fgratio = pow((1-z*(1-z)),5); /// Rejection factor f/g, squared
+    u = gsl_rng_uniform(_r);
+    R=u*u;
   }
   _t=t;
   _z=z;
 }
-
-
 
 void GeneratorInMedium::generateEvent(double time,double cutoff){
   /// -1 is the default parent, 0 is starting time, x is energy fraction
@@ -97,7 +97,7 @@ void GeneratorInMedium::_branch(){
       return;///< We have reached the bottom of the recursion => we have one particle.
   }
   /// plittingTime, randomly generated
-  generateBranching(x, _cutoff);
+  generateBranching(x);
   double splittingTime=_t;
   double z=_z;
 
