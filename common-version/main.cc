@@ -1,8 +1,11 @@
 #include <iostream>
+#include <fstream>
+#include <iomanip>
 #include "event.hh"
 #include "generator.hh"
 #include <iomanip>
 #include <gsl/gsl_math.h>
+#include <gsl/gsl_histogram.h>
 using namespace std;
 
 
@@ -12,10 +15,11 @@ int main(){
 
   double testTime=0.1;
   double epsilon=1e-3;
-  GeneratorInMedium gen;
-  gen.generateEvent(testTime,epsilon);
 
-  const vector<Particle> &testvec=gen.event().particles();
+  GeneratorInMedium gen;
+  gen.set_seed(1);
+  gen.generateEvent(testTime,epsilon);
+  const vector<Particle>& testvec=gen.event().particles();
 
   cout <<setw(8) << "index" <<setw(8)<< "parent"<<setw(8) <<"child1"<<setw(8) <<"child2";
   cout <<setw(8) <<"start"<<setw(8) <<"end"<<setw(8) <<"x"<<setw(8)<<"final"<<endl;
@@ -40,10 +44,73 @@ int main(){
 
 
 
+//Should test spectrum against known solution...
+
+  GeneratorInMediumSimple gen2;
+  gen2.generateEvent(testTime,epsilon);
+  gen.set_seed(1);
+  const vector<Particle>& testvec2=gen2.event().particles();
+
+  cout <<setw(8) << "index" <<setw(8)<< "parent"<<setw(8) <<"child1"<<setw(8) <<"child2";
+  cout <<setw(8) <<"start"<<setw(8) <<"end"<<setw(8) <<"x"<<setw(8)<<"final"<<endl;
+  cout << setprecision(2);
+
+  for (unsigned int i = 0; i < testvec2.size(); i++ ) {
+    cout <<setw(8) << i<<setw(8)<< testvec2[i].parent();
+    cout <<setw(8) << testvec2[i].child1();
+    cout <<setw(8) << testvec2[i].child2();
+    cout <<setw(8) << testvec2[i].startTime();
+    cout <<setw(8) << testvec2[i].endTime();
+    cout <<setw(8) << testvec2[i].x();
+    cout <<setw(8) << testvec2[i].is_final();
+    cout <<endl;
+  }
+
+  cout << "Final x-values:"<<endl;
+  const vector<double> final_x2=gen2.event().final_particles();
+  for (unsigned int i = 0; i < final_x2.size(); i++ ) {
+    cout << final_x2[i] <<endl;
+  }
 
 
 
 
+
+  ///Plotting histograms
+  testTime=0.1;
+  epsilon=1e-4;
+  gsl_histogram * h_simple = gsl_histogram_alloc (1000);
+  gsl_histogram_set_ranges_uniform (h_simple, epsilon, 1-epsilon);
+  unsigned int iterations = 1e5;
+  GeneratorInMediumSimple g;
+  for (unsigned int i_it=1; i_it<iterations;i_it++){
+    g.generateEvent(testTime,epsilon);
+    const vector<double> finals=g.event().final_particles();
+    for (unsigned int i_x = 0; i_x < finals.size(); i_x++ ) {
+      gsl_histogram_increment (h_simple, finals[i_x]);
+    }
+  }
+
+  ofstream ostr("histogram_simple.dat");
+  double binwidth, minval, maxval, value;
+  ostr << "# histogram of simple kernel" << endl;
+  ostr << "# columns are min, max, value" << endl;
+  for (unsigned int i_h=0; i_h<gsl_histogram_bins(h_simple); ++i_h){
+    gsl_histogram_get_range(h_simple, i_h, &minval, &maxval);
+    binwidth = maxval-minval;
+    value = minval*gsl_histogram_get(h_simple, i_h)/(binwidth*iterations);
+    ostr << minval << " " << maxval << " " << value << endl;
+  }
+  ostr.close();
+
+
+  system("gnuplot -p 'plotting_simple.p'");
+
+
+
+
+
+/*
   ///Checking bin close to 0.5 and first bin in time
   cout << "Checking fluctuations, takes less than a minute at current number of iterations" <<endl;
   GeneratorInMedium v;
@@ -84,7 +151,7 @@ int main(){
 
 
 
-
+*/
 
 
 

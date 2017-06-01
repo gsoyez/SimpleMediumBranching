@@ -39,7 +39,53 @@ public:
   /// get the random seed
   int seed() const { return _seed;}
   /// set the random seed
-  void setSeed(int new_seed);
+  void set_seed(int new_seed);
+  /// Set and get the epsilon used for the event
+  void set_cutoff(double value) {_cutoff = value;}
+  double cutoff() const {return _cutoff;}
+
+private:
+  Event _event;
+  std::vector<Particle> _particles;
+  void _branch();
+  double _cutoff;
+  double _endTime;
+
+  /// Related to branching
+  gsl_rng *_r; ///< random number generator (GSL)
+  int _seed;   ///< random seed
+  double _t;
+  double _z;
+};
+
+
+
+/// \class GenerateInMediumSimple
+/// Generate an event. Returns a member of the class Event.
+class GeneratorInMediumSimple{
+public:
+  /// default ctor
+  GeneratorInMediumSimple(int init_seed=1);
+
+  /// default dtor
+  ~GeneratorInMediumSimple();
+
+  /// generate an event
+  ///  \param time    maximal time over which we keep branching
+  ///  \param cutoff  min x value allowed
+  void generateEvent(double time, double cutoff);
+
+  /// Return the generated event
+  const Event& event() const {return _event;}
+
+  /// related to branching
+  void generateBranching(double x);
+  double t() const {return _t;}
+  double z() const {return _z;}
+  /// get the random seed
+  int seed() const { return _seed;}
+  /// set the random seed
+  void set_seed(int new_seed);
   /// Set and get the epsilon used for the event
   void set_cutoff(double value) {_cutoff = value;}
   double cutoff() const {return _cutoff;}
