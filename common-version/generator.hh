@@ -14,26 +14,26 @@
 //then derived classes
 
 
-/// \class GenerateInMedium
+/// \class Generator_in_medium
 /// Generate an event. Returns a member of the class Event.
-class GeneratorInMedium{
+class Generator_in_medium{
 public:
   /// default ctor
-  GeneratorInMedium(int init_seed=1);
+  Generator_in_medium(int init_seed=1);
 
   /// default dtor
-  ~GeneratorInMedium();
+  ~Generator_in_medium();
 
   /// generate an event
   ///  \param time    maximal time over which we keep branching
   ///  \param cutoff  min x value allowed
-  void generateEvent(double time, double cutoff);
+  void generate_event(double time, double cutoff);
 
   /// Return the generated event
   const Event& event() const {return _event;}
 
   /// related to branching
-  void generateBranching(double x);
+  void generate_branching(double x);
   double t() const {return _t;}
   double z() const {return _z;}
   /// get the random seed
@@ -49,7 +49,7 @@ private:
   std::vector<Particle> _particles;
   void _branch();
   double _cutoff;
-  double _endTime;
+  double _end_time;
 
   /// Related to branching
   gsl_rng *_r; ///< random number generator (GSL)
@@ -60,26 +60,26 @@ private:
 
 
 
-/// \class GenerateInMediumSimple
+/// \class Generator_in_medium_simple
 /// Generate an event. Returns a member of the class Event.
-class GeneratorInMediumSimple{
+class Generator_in_medium_simple{
 public:
   /// default ctor
-  GeneratorInMediumSimple(int init_seed=1);
+  Generator_in_medium_simple(int init_seed=1);
 
   /// default dtor
-  ~GeneratorInMediumSimple();
+  ~Generator_in_medium_simple();
 
   /// generate an event
   ///  \param time    maximal time over which we keep branching
   ///  \param cutoff  min x value allowed
-  void generateEvent(double time, double cutoff);
+  void generate_event(double time, double cutoff);
 
   /// Return the generated event
   const Event& event() const {return _event;}
 
   /// related to branching
-  void generateBranching(double x);
+  void generate_branching(double x);
   double t() const {return _t;}
   double z() const {return _z;}
   /// get the random seed
@@ -95,7 +95,7 @@ private:
   std::vector<Particle> _particles;
   void _branch();
   double _cutoff;
-  double _endTime;
+  double _end_time;
 
   /// Related to branching
   gsl_rng *_r; ///< random number generator (GSL)

@@ -21,7 +21,7 @@ namespace QCD
 using namespace QCD;
 
 
-//Defining member functions for the class GenerateInMedium
+//Defining member functions for the class Generator_in_medium
 
 //------------------------------------------------------------------------
 // generate an event
@@ -34,22 +34,22 @@ using namespace QCD;
 //------------------------------------------------------------------------
 
 /// default ctor
-GeneratorInMedium::GeneratorInMedium(int init_seed): _t(-1), _z(-1){
+Generator_in_medium::Generator_in_medium(int init_seed): _t(-1), _z(-1){
   _r = gsl_rng_alloc (gsl_rng_default);
   set_seed(init_seed);
 }
 
 /// default dtor
-GeneratorInMedium::~GeneratorInMedium(){
+Generator_in_medium::~Generator_in_medium(){
   gsl_rng_free(_r);
 }
 
-void GeneratorInMedium::set_seed(int new_seed){
+void Generator_in_medium::set_seed(int new_seed){
 	_seed=new_seed;
 	gsl_rng_set (_r, _seed);
 }
 
-void GeneratorInMedium::generateBranching(double x){
+void Generator_in_medium::generate_branching(double x){
   double z=1,R=1,fgratio=0,t=0;
   double cutoff=_cutoff/x;
   double root_x=sqrt(x);
@@ -73,14 +73,14 @@ void GeneratorInMedium::generateBranching(double x){
   _z=z;
 }
 
-void GeneratorInMedium::generateEvent(double time,double cutoff){
+void Generator_in_medium::generate_event(double time,double cutoff){
   /// -1 is the default parent, 0 is starting time, x is energy fraction
   _particles.clear();
-	Particle firstParticle;
-	firstParticle.setStartTime(0);
-  firstParticle.setX(1);
-  _particles.push_back(firstParticle);
-  _endTime=time;
+	Particle first_particle;
+	first_particle.set_start_time(0);
+  first_particle.set_x(1);
+  _particles.push_back(first_particle);
+  _end_time=time;
   _cutoff=cutoff;
 	_branch();
 	_event.set_particles(_particles);
@@ -89,7 +89,7 @@ void GeneratorInMedium::generateEvent(double time,double cutoff){
 }
 
 /// Branches the last particle in _particles
-void GeneratorInMedium::_branch(){
+void Generator_in_medium::_branch(){
   unsigned int parent=_particles.size()-1;
 
   double x=_particles[parent].x();///< Relies on pushing back child before branching
@@ -97,28 +97,28 @@ void GeneratorInMedium::_branch(){
       return;///< We have reached the bottom of the recursion => we have one particle.
   }
   /// plittingTime, randomly generated
-  generateBranching(x);
-  double splittingTime=_t;
+  generate_branching(x);
+  double splitting_time=_t;
   double z=_z;
 
-  double timeLeft=_endTime - _particles[parent].startTime();
-  if(timeLeft < splittingTime){
+  double time_left=_end_time - _particles[parent].start_time();
+  if(time_left < splitting_time){
     return;///< We have reached the bottom of the recursion => we have one particle.
   }
   /// No "if" triggered =>we have time enough for another split and x is large enough
-  double currentTime=_particles[parent].startTime() + splittingTime;
-  _particles[parent].setEndTime(currentTime);
+  double current_time=_particles[parent].start_time() + splitting_time;
+  _particles[parent].set_end_time(current_time);
   /// To add to the vector storing the event
-  Particle child1(parent,currentTime,z*x), child2(parent,currentTime,(1-z)*x);
+  Particle child1(parent,current_time,z*x), child2(parent,current_time,(1-z)*x);
 
   /// Branching into two
   /// First child:
   _particles.push_back(child1);
-  _particles[parent].setChild1(_particles.size()-1);
+  _particles[parent].set_child1(_particles.size()-1);
   _branch();
   ///Second child:
   _particles.push_back(child2);
-  _particles[parent].setChild2(_particles.size()-1);
+  _particles[parent].set_child2(_particles.size()-1);
   _branch();
 }
 
@@ -132,7 +132,7 @@ void GeneratorInMedium::_branch(){
 
 
 
-//Defining member functions for the class GenerateInMediumSimple
+//Defining member functions for the class Generator_in_medium_simple
 
 //------------------------------------------------------------------------
 // generate an event
@@ -143,22 +143,22 @@ void GeneratorInMedium::_branch(){
 //------------------------------------------------------------------------
 
 /// default ctor
-GeneratorInMediumSimple::GeneratorInMediumSimple(int init_seed): _t(-1), _z(-1){
+Generator_in_medium_simple::Generator_in_medium_simple(int init_seed): _t(-1), _z(-1){
   _r = gsl_rng_alloc (gsl_rng_default);
   set_seed(init_seed);
 }
 
 /// default dtor
-GeneratorInMediumSimple::~GeneratorInMediumSimple(){
+Generator_in_medium_simple::~Generator_in_medium_simple(){
   gsl_rng_free(_r);
 }
 
-void GeneratorInMediumSimple::set_seed(int new_seed){
+void Generator_in_medium_simple::set_seed(int new_seed){
 	_seed=new_seed;
 	gsl_rng_set (_r, _seed);
 }
 
-void GeneratorInMediumSimple::generateBranching(double x){
+void Generator_in_medium_simple::generate_branching(double x){
   double z=1,R=1,fgratio=0,t=0;
   double cutoff=_cutoff/x;
   double root_x=sqrt(x);
@@ -177,14 +177,14 @@ void GeneratorInMediumSimple::generateBranching(double x){
   _z=z;
 }
 
-void GeneratorInMediumSimple::generateEvent(double time,double cutoff){
+void Generator_in_medium_simple::generate_event(double time,double cutoff){
   /// -1 is the default parent, 0 is starting time, x is energy fraction
   _particles.clear();
-	Particle firstParticle;
-	firstParticle.setStartTime(0);
-  firstParticle.setX(1);
-  _particles.push_back(firstParticle);
-  _endTime=time;
+	Particle first_particle;
+	first_particle.set_start_time(0);
+  first_particle.set_x(1);
+  _particles.push_back(first_particle);
+  _end_time=time;
   _cutoff=cutoff;
 	_branch();
 	_event.set_particles(_particles);
@@ -193,36 +193,36 @@ void GeneratorInMediumSimple::generateEvent(double time,double cutoff){
 }
 
 /// Branches the last particle in _particles
-void GeneratorInMediumSimple::_branch(){
+void Generator_in_medium_simple::_branch(){
   unsigned int parent=_particles.size()-1;
 
   double x=_particles[parent].x();///< Relies on pushing back child before branching
   if(x<2*_cutoff){
       return;///< We have reached the bottom of the recursion => we have one particle.
   }
-  /// plittingTime, randomly generated
-  generateBranching(x);
-  double splittingTime=_t;
+  /// splitting_time, randomly generated
+  generate_branching(x);
+  double splitting_time=_t;
   double z=_z;
 
-  double timeLeft=_endTime - _particles[parent].startTime();
-  if(timeLeft < splittingTime){
+  double time_left=_end_time - _particles[parent].start_time();
+  if(time_left < splitting_time){
     return;///< We have reached the bottom of the recursion => we have one particle.
   }
   /// No "if" triggered =>we have time enough for another split and x is large enough
-  double currentTime=_particles[parent].startTime() + splittingTime;
-  _particles[parent].setEndTime(currentTime);
+  double current_time=_particles[parent].start_time() + splitting_time;
+  _particles[parent].set_end_time(current_time);
   /// To add to the vector storing the event
-  Particle child1(parent,currentTime,z*x), child2(parent,currentTime,(1-z)*x);
+  Particle child1(parent,current_time,z*x), child2(parent,current_time,(1-z)*x);
 
   /// Branching into two
   /// First child:
   _particles.push_back(child1);
-  _particles[parent].setChild1(_particles.size()-1);
+  _particles[parent].set_child1(_particles.size()-1);
   _branch();
   ///Second child:
   _particles.push_back(child2);
-  _particles[parent].setChild2(_particles.size()-1);
+  _particles[parent].set_child2(_particles.size()-1);
   _branch();
 }
 

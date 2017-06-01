@@ -13,12 +13,12 @@ int main(){
 
   cout << "Running"<<endl;
 
-  double testTime=0.1;
+  double test_time=0.1;
   double epsilon=1e-3;
 
-  GeneratorInMedium gen;
+  Generator_in_medium gen;
   gen.set_seed(1);
-  gen.generateEvent(testTime,epsilon);
+  gen.generate_event(test_time,epsilon);
   const vector<Particle>& testvec=gen.event().particles();
 
   cout <<setw(8) << "index" <<setw(8)<< "parent"<<setw(8) <<"child1"<<setw(8) <<"child2";
@@ -29,8 +29,8 @@ int main(){
     cout <<setw(8) << i<<setw(8)<< testvec[i].parent();
     cout <<setw(8) << testvec[i].child1();
     cout <<setw(8) << testvec[i].child2();
-    cout <<setw(8) << testvec[i].startTime();
-    cout <<setw(8) << testvec[i].endTime();
+    cout <<setw(8) << testvec[i].start_time();
+    cout <<setw(8) << testvec[i].end_time();
     cout <<setw(8) << testvec[i].x();
     cout <<setw(8) << testvec[i].is_final();
     cout <<endl;
@@ -46,8 +46,8 @@ int main(){
 
 //Should test spectrum against known solution...
 
-  GeneratorInMediumSimple gen2;
-  gen2.generateEvent(testTime,epsilon);
+  Generator_in_medium_simple gen2;
+  gen2.generate_event(test_time,epsilon);
   gen.set_seed(1);
   const vector<Particle>& testvec2=gen2.event().particles();
 
@@ -59,8 +59,8 @@ int main(){
     cout <<setw(8) << i<<setw(8)<< testvec2[i].parent();
     cout <<setw(8) << testvec2[i].child1();
     cout <<setw(8) << testvec2[i].child2();
-    cout <<setw(8) << testvec2[i].startTime();
-    cout <<setw(8) << testvec2[i].endTime();
+    cout <<setw(8) << testvec2[i].start_time();
+    cout <<setw(8) << testvec2[i].end_time();
     cout <<setw(8) << testvec2[i].x();
     cout <<setw(8) << testvec2[i].is_final();
     cout <<endl;
@@ -74,17 +74,20 @@ int main(){
 
 
 
+//Code below here should move to a separate file later
 
+
+/*
 
   ///Plotting histograms
-  testTime=0.1;
+  test_time=0.1;
   epsilon=1e-4;
   gsl_histogram * h_simple = gsl_histogram_alloc (1000);
   gsl_histogram_set_ranges_uniform (h_simple, epsilon, 1-epsilon);
   unsigned int iterations = 1e5;
-  GeneratorInMediumSimple g;
+  Generator_in_medium_simple g;
   for (unsigned int i_it=1; i_it<iterations;i_it++){
-    g.generateEvent(testTime,epsilon);
+    g.generate_event(test_time,epsilon);
     const vector<double> finals=g.event().final_particles();
     for (unsigned int i_x = 0; i_x < finals.size(); i_x++ ) {
       gsl_histogram_increment (h_simple, finals[i_x]);
@@ -107,13 +110,13 @@ int main(){
   system("gnuplot -p 'plotting_simple.p'");
 
 
-
+*/
 
 
 /*
   ///Checking bin close to 0.5 and first bin in time
   cout << "Checking fluctuations, takes less than a minute at current number of iterations" <<endl;
-  GeneratorInMedium v;
+  Generator_in_medium v;
   double cutoff = 1e-10;
   v.set_cutoff(cutoff);
   //unused: double alpha = (4-8*cutoff)/sqrt(cutoff*(1-cutoff));///<integral of simplified kernel
@@ -131,7 +134,7 @@ int main(){
     binZ=0;
     binT=0;
       for (unsigned int j=1; j<iter2;j++){
-        v.generateBranching(1);
+        v.generate_branching(1);
         double z=v.z();
         double t=v.t();
           if (z>0.49&&z<0.5){

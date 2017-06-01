@@ -3,14 +3,14 @@
 ///Initializing Particle with values that will signify that
 ///this has no physical meaning. E.g. first particle
 ///will not have a parent and will get parent = -1.
-Particle::Particle(int parent,double startTime,double x,double endTime,
+Particle::Particle(int parent,double start_time,double x,double end_time,
         int child1, int child2){
-  setParent(parent);
-  setStartTime(startTime);
-  setX(x);
-  setEndTime(endTime);
-  setChild1(child1);
-  setChild2(child2);
+  set_parent(parent);
+  set_start_time(start_time);
+  set_x(x);
+  set_end_time(end_time);
+  set_child1(child1);
+  set_child2(child2);
 }
 
 
