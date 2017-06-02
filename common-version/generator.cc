@@ -21,7 +21,7 @@ namespace QCD
 using namespace QCD;
 
 
-//Defining member functions for the class Generator_in_medium
+//Defining member functions for the class GeneratorInMedium
 
 //------------------------------------------------------------------------
 // generate an event
@@ -34,22 +34,22 @@ using namespace QCD;
 //------------------------------------------------------------------------
 
 /// default ctor
-Generator_in_medium::Generator_in_medium(int init_seed): _t(-1), _z(-1){
+GeneratorInMedium::GeneratorInMedium(int init_seed): _t(-1), _z(-1){
   _r = gsl_rng_alloc (gsl_rng_default);
   set_seed(init_seed);
 }
 
 /// default dtor
-Generator_in_medium::~Generator_in_medium(){
+GeneratorInMedium::~GeneratorInMedium(){
   gsl_rng_free(_r);
 }
 
-void Generator_in_medium::set_seed(int new_seed){
+void GeneratorInMedium::set_seed(int new_seed){
 	_seed=new_seed;
 	gsl_rng_set (_r, _seed);
 }
 
-void Generator_in_medium::generate_branching(double x){
+void GeneratorInMedium::generate_branching(double x){
   double z=1,R=1,fgratio=0,t=0;
   double cutoff=_cutoff/x;
   double root_x=sqrt(x);
@@ -73,7 +73,7 @@ void Generator_in_medium::generate_branching(double x){
   _z=z;
 }
 
-void Generator_in_medium::generate_event(double time,double cutoff){
+void GeneratorInMedium::generate_event(double time,double cutoff){
   /// -1 is the default parent, 0 is starting time, x is energy fraction
   _particles.clear();
 	Particle first_particle;
@@ -89,7 +89,7 @@ void Generator_in_medium::generate_event(double time,double cutoff){
 }
 
 /// Branches the last particle in _particles
-void Generator_in_medium::_branch(){
+void GeneratorInMedium::_branch(){
   unsigned int parent=_particles.size()-1;
 
   double x=_particles[parent].x();///< Relies on pushing back child before branching
@@ -132,7 +132,7 @@ void Generator_in_medium::_branch(){
 
 
 
-//Defining member functions for the class Generator_in_medium_simple
+//Defining member functions for the class GeneratorInMediumSimple
 
 //------------------------------------------------------------------------
 // generate an event
@@ -143,22 +143,22 @@ void Generator_in_medium::_branch(){
 //------------------------------------------------------------------------
 
 /// default ctor
-Generator_in_medium_simple::Generator_in_medium_simple(int init_seed): _t(-1), _z(-1){
+GeneratorInMediumSimple::GeneratorInMediumSimple(int init_seed): _t(-1), _z(-1){
   _r = gsl_rng_alloc (gsl_rng_default);
   set_seed(init_seed);
 }
 
 /// default dtor
-Generator_in_medium_simple::~Generator_in_medium_simple(){
+GeneratorInMediumSimple::~GeneratorInMediumSimple(){
   gsl_rng_free(_r);
 }
 
-void Generator_in_medium_simple::set_seed(int new_seed){
+void GeneratorInMediumSimple::set_seed(int new_seed){
 	_seed=new_seed;
 	gsl_rng_set (_r, _seed);
 }
 
-void Generator_in_medium_simple::generate_branching(double x){
+void GeneratorInMediumSimple::generate_branching(double x){
   double z=1,R=1,fgratio=0,t=0;
   double cutoff=_cutoff/x;
   double root_x=sqrt(x);
@@ -177,7 +177,7 @@ void Generator_in_medium_simple::generate_branching(double x){
   _z=z;
 }
 
-void Generator_in_medium_simple::generate_event(double time,double cutoff){
+void GeneratorInMediumSimple::generate_event(double time,double cutoff){
   /// -1 is the default parent, 0 is starting time, x is energy fraction
   _particles.clear();
 	Particle first_particle;
@@ -193,7 +193,7 @@ void Generator_in_medium_simple::generate_event(double time,double cutoff){
 }
 
 /// Branches the last particle in _particles
-void Generator_in_medium_simple::_branch(){
+void GeneratorInMediumSimple::_branch(){
   unsigned int parent=_particles.size()-1;
 
   double x=_particles[parent].x();///< Relies on pushing back child before branching

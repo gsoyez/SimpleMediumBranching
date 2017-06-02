@@ -14,15 +14,15 @@
 //then derived classes
 
 
-/// \class Generator_in_medium
+/// \class GeneratorInMedium
 /// Generate an event. Returns a member of the class Event.
-class Generator_in_medium{
+class GeneratorInMedium{
 public:
   /// default ctor
-  Generator_in_medium(int init_seed=1);
+  GeneratorInMedium(int init_seed=1);
 
   /// default dtor
-  ~Generator_in_medium();
+  ~GeneratorInMedium();
 
   /// generate an event
   ///  \param time    maximal time over which we keep branching
@@ -60,15 +60,15 @@ private:
 
 
 
-/// \class Generator_in_medium_simple
+/// \class GeneratorInMediumSimple
 /// Generate an event. Returns a member of the class Event.
-class Generator_in_medium_simple{
+class GeneratorInMediumSimple{
 public:
   /// default ctor
-  Generator_in_medium_simple(int init_seed=1);
+  GeneratorInMediumSimple(int init_seed=1);
 
   /// default dtor
-  ~Generator_in_medium_simple();
+  ~GeneratorInMediumSimple();
 
   /// generate an event
   ///  \param time    maximal time over which we keep branching

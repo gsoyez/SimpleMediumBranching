@@ -16,7 +16,7 @@ int main(){
   double test_time=0.1;
   double epsilon=1e-3;
 
-  Generator_in_medium gen;
+  GeneratorInMedium gen;
   gen.set_seed(1);
   gen.generate_event(test_time,epsilon);
   const vector<Particle>& testvec=gen.event().particles();
@@ -46,7 +46,7 @@ int main(){
 
 //Should test spectrum against known solution...
 
-  Generator_in_medium_simple gen2;
+  GeneratorInMediumSimple gen2;
   gen2.generate_event(test_time,epsilon);
   gen.set_seed(1);
   const vector<Particle>& testvec2=gen2.event().particles();
@@ -85,7 +85,7 @@ int main(){
   gsl_histogram * h_simple = gsl_histogram_alloc (1000);
   gsl_histogram_set_ranges_uniform (h_simple, epsilon, 1-epsilon);
   unsigned int iterations = 1e5;
-  Generator_in_medium_simple g;
+  GeneratorInMediumSimple g;
   for (unsigned int i_it=1; i_it<iterations;i_it++){
     g.generate_event(test_time,epsilon);
     const vector<double> finals=g.event().final_particles();
@@ -116,7 +116,7 @@ int main(){
 /*
   ///Checking bin close to 0.5 and first bin in time
   cout << "Checking fluctuations, takes less than a minute at current number of iterations" <<endl;
-  Generator_in_medium v;
+  GeneratorInMedium v;
   double cutoff = 1e-10;
   v.set_cutoff(cutoff);
   //unused: double alpha = (4-8*cutoff)/sqrt(cutoff*(1-cutoff));///<integral of simplified kernel
