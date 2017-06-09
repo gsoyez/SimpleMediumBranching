@@ -77,14 +77,29 @@ int main(){
 //Code below here should move to a separate file later
 
 
-/*
+
 
   ///Plotting histograms
   test_time=0.1;
   epsilon=1e-4;
+
+  /*
   gsl_histogram * h_simple = gsl_histogram_alloc (1000);
   gsl_histogram_set_ranges_uniform (h_simple, epsilon, 1-epsilon);
-  unsigned int iterations = 1e5;
+  */
+
+  //Setting logarithmic bins
+  unsigned int bins=100;
+  double lowest=-log10(epsilon)/bins;
+  gsl_histogram * h_simple = gsl_histogram_alloc (bins);
+  double range[bins+1]={};
+  for(unsigned int i_range=0;i_range<bins+1;++i_range){
+    range[bins-i_range]=1/pow(10,lowest*(i_range));
+  }
+  gsl_histogram_set_ranges (h_simple, range, 101);
+
+
+  unsigned int iterations = 1e4;
   GeneratorInMediumSimple g;
   for (unsigned int i_it=1; i_it<iterations;i_it++){
     g.generate_event(test_time,epsilon);
@@ -95,13 +110,14 @@ int main(){
   }
 
   ofstream ostr("histogram_simple.dat");
-  double binwidth, minval, maxval, value;
+  double binwidth, minval, maxval, meanval, value;
   ostr << "# histogram of simple kernel" << endl;
   ostr << "# columns are min, max, value" << endl;
   for (unsigned int i_h=0; i_h<gsl_histogram_bins(h_simple); ++i_h){
     gsl_histogram_get_range(h_simple, i_h, &minval, &maxval);
     binwidth = maxval-minval;
-    value = minval*gsl_histogram_get(h_simple, i_h)/(binwidth*iterations);
+    meanval=0.5*(minval+maxval);
+    value =sqrt(meanval)*meanval*gsl_histogram_get(h_simple, i_h)/(binwidth*iterations);
     ostr << minval << " " << maxval << " " << value << endl;
   }
   ostr.close();
@@ -110,7 +126,7 @@ int main(){
   system("gnuplot -p 'plotting_simple.p'");
 
 
-*/
+
 
 
 /*
