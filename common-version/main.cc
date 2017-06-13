@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_histogram.h>
+#include <gsl/gsl_histogram2d.h>
 using namespace std;
 
 
@@ -81,7 +82,7 @@ int main(){
 
   ///Plotting histograms
   test_time=0.1;
-  epsilon=1e-4;
+  epsilon=1e-5;
 
   /*
   gsl_histogram * h_simple = gsl_histogram_alloc (1000);
@@ -91,25 +92,34 @@ int main(){
   //Setting logarithmic bins
   unsigned int bins=100;
   double lowest=-log10(epsilon)/bins;
-  gsl_histogram * h_simple = gsl_histogram_alloc (bins);
   double range[bins+1]={};
   for(unsigned int i_range=0;i_range<bins+1;++i_range){
     range[bins-i_range]=1/pow(10,lowest*(i_range));
   }
-  gsl_histogram_set_ranges (h_simple, range, 101);
 
 
-  unsigned int iterations = 1e4;
+  gsl_histogram * h_simple = gsl_histogram_alloc (bins);
+  gsl_histogram_set_ranges (h_simple, range, bins+1);
+
+  gsl_histogram2d * h_simple2d = gsl_histogram2d_alloc (bins,bins);
+  gsl_histogram2d_set_ranges (h_simple2d, range, bins+1,range, bins+1);
+
+  unsigned int iterations = 1e3;
   GeneratorInMediumSimple g;
   for (unsigned int i_it=1; i_it<iterations;i_it++){
     g.generate_event(test_time,epsilon);
     const vector<double> finals=g.event().final_particles();
     for (unsigned int i_x = 0; i_x < finals.size(); i_x++ ) {
       gsl_histogram_increment (h_simple, finals[i_x]);
+      for (unsigned int i_y = 0; i_y < finals.size(); i_y++ ) {
+        if (i_x!=i_y){  //Checking that the gluons are not the same one
+          gsl_histogram2d_increment(h_simple2d,finals[i_x],finals[i_y]);
+        }
+      }
     }
   }
 
-  ofstream ostr("histogram_simple.dat");
+  ofstream ostr("Results/histogram_simple.dat");
   double binwidth, minval, maxval, meanval, value;
   ostr << "# histogram of simple kernel" << endl;
   ostr << "# columns are min, max, value" << endl;
@@ -117,15 +127,44 @@ int main(){
     gsl_histogram_get_range(h_simple, i_h, &minval, &maxval);
     binwidth = maxval-minval;
     meanval=0.5*(minval+maxval);
+    meanval=(minval);
     value =sqrt(meanval)*meanval*gsl_histogram_get(h_simple, i_h)/(binwidth*iterations);
     ostr << minval << " " << maxval << " " << value << endl;
   }
   ostr.close();
 
 
+
+  ofstream ostr2("Results/histogram2d_simple.dat");
+  ofstream ostr3("Results/histogram2d_diag_simple.dat");
+  double xbinwidth,ybinwidth, xminval, xmaxval,yminval,ymaxval, xmeanval,ymeanval, value2;
+  ostr2 << "# histogram of simple kernel" << endl;
+  ostr2 << "# columns are X, Y, Z" << endl;
+  ostr << "# histogram of simple kernel" << endl;
+  ostr << "# columns are min, max, value" << endl;
+  for (unsigned int i_hx=0; i_hx<bins; ++i_hx){
+    for (unsigned int i_hy=0; i_hy<bins; ++i_hy){
+      gsl_histogram2d_get_xrange(h_simple2d, i_hx, &xminval, &xmaxval);
+      gsl_histogram2d_get_yrange(h_simple2d, i_hy, &yminval, &ymaxval);
+      xbinwidth = xmaxval-xminval;
+      ybinwidth = ymaxval-yminval;
+      xmeanval=0.5*(xminval+xmaxval);
+      ymeanval=0.5*(yminval+ymaxval);
+      value2 =sqrt(xmeanval*ymeanval)* xmeanval*ymeanval*gsl_histogram2d_get(h_simple2d, i_hx,i_hy)/(iterations*xbinwidth*ybinwidth);
+      ostr2 << xmeanval << " " << ymeanval << " " << value2 << endl;
+      if (i_hx==i_hy){
+        ostr3<< xminval << " " << xmaxval << " " << value2 << endl;
+      }
+    }
+  }
+  ostr2.close();
+  ostr3.close();
+
+
+
   system("gnuplot -p 'plotting_simple.p'");
-
-
+  system("gnuplot -p 'plotting_simple2d.p'");
+  system("gnuplot -p 'plotting_simple2d_diag.p'");
 
 
 
