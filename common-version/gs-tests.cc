@@ -1,0 +1,81 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include "event.hh"
+#include "generator.hh"
+#include <CmdLine.hh>
+#include <SimpleHist.hh>
+
+using namespace std;
+
+//========================================================================
+// save results to file
+void write(const string &out, SimpleHist &distrib, ostringstream &header, unsigned int nev){
+  ofstream ostr(out.c_str());
+
+  ostr << header.str();
+  ostr << "#" << endl;
+  ostr << "# nev = " << nev << endl;
+  ostr << "#" << endl;
+  
+  // construct the error
+  SimpleHist err = sqrt(distrib);
+
+  // output the results
+  ostr << "# dN/dlogx" << endl;
+  ostr << "#columns are log(1/x) dN/dx  error" << endl;
+  output(distrib, err, &ostr, 1.0/(distrib.binsize()*nev));
+}
+
+//========================================================================
+int main(int argc, char *argv[]){
+  //----------------------------------------------------------------------
+  // parse the command line
+  CmdLine cmd(argc, argv);
+  
+  double tmax = cmd.value("-tmax", 1.0);        ///< max time we evolve to
+  double eps  = cmd.value("-eps", 1.0e-8);      ///< cutoff in x for emissions
+  double xmin = cmd.value("-xmin", -1.0);       ///< cutoff in x for branchings
+  unsigned int nev  = cmd.value<unsigned int>("-nev", 1000); ///< number of events
+  unsigned int rseq = cmd.value<unsigned int>("-rseq", 1);   ///< randon sequence
+  unsigned int nbin = cmd.value<unsigned int>("-nbin", 160); ///< number of bins of x
+  string out = cmd.value<string>("-out");   ///< where to save the results
+
+  //----------------------------------------------------------------------
+  // a header with or setup
+  ostringstream header;
+  header << "# Ran: " << cmd.command_line() << endl;
+  header << "#" << endl;
+  header << "# tmax = " << tmax << endl;
+  header << "# eps  = " << eps  << endl;
+  header << "# xmin = " << xmin << endl;
+  header << "# rseq = " << rseq << endl;
+
+  //----------------------------------------------------------------------
+  // setup things needed for the event generation
+  GeneratorInMedium gen(rseq);
+  SimpleHist distrib(0.0, log(1.0/eps), nbin);
+
+  //----------------------------------------------------------------------
+  // event loop
+  unsigned int nsave = 10;
+  for (unsigned int iev = 0; iev<nev; ++iev){
+    gen.generate_event(tmax,eps,xmin);
+
+    // we only record the final particles
+    for (double x : gen.event().final_particles()){
+      distrib.add_entry(log(1.0/x));
+    }
+
+    if (((iev+1) % nsave == 0)){
+      cout << "Output for nev = " << iev+1 << endl;
+      write(out, distrib, header, iev+1);
+      if ((iev+1) == 15*nsave) nsave*=10;
+    }
+  }
+
+  write(out, distrib, header, nev);
+
+  return 0;
+}
