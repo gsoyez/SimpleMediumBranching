@@ -8,14 +8,14 @@
 
 namespace QCD
 {
-    // Color coefficients
-    const double TR = 1./2.;
-    const double CA = 3;
-    const double CF = 4./3;
+  // Color coefficients
+  const double TR = 1./2.;
+  const double CA = 3;
+  const double CF = 4./3;
 
-    // Coupling constant
-    const double alphaS = 0.1;                 ///< Strong coupling constant (taken independent of the energy scale)
-    const double alphaSbare = alphaS/(2*M_PI); ///< Normalized strong coupling constant
+  // Coupling constant
+  const double alphaS = 0.1;                 ///< Strong coupling constant (taken independent of the energy scale)
+  const double alphaSbare = alphaS/(2*M_PI); ///< Normalized strong coupling constant
 }
 
 using namespace QCD;
@@ -45,8 +45,8 @@ GeneratorInMedium::~GeneratorInMedium(){
 }
 
 void GeneratorInMedium::set_seed(int new_seed){
-	_seed=new_seed;
-	gsl_rng_set (_r, _seed);
+  _seed=new_seed;
+  gsl_rng_set (_r, _seed);
 }
 
 void GeneratorInMedium::generate_branching(double x){
@@ -73,19 +73,20 @@ void GeneratorInMedium::generate_branching(double x){
   _z=z;
 }
 
-void GeneratorInMedium::generate_event(double time,double cutoff){
+void GeneratorInMedium::generate_event(double time,double cutoff,double xmin){
   /// -1 is the default parent, 0 is starting time, x is energy fraction
   _particles.clear();
-	Particle first_particle;
-	first_particle.set_start_time(0);
+  Particle first_particle;
+  first_particle.set_start_time(0);
   first_particle.set_x(1);
   _particles.push_back(first_particle);
   _end_time=time;
   _cutoff=cutoff;
-	_branch();
-	_event.set_particles(_particles);
-	_event.set_cutoff(cutoff);
-	_event.set_end_time(time);
+  set_xmin(xmin);
+  _branch();
+  _event.set_particles(_particles);
+  _event.set_cutoff(cutoff);
+  _event.set_end_time(time);
 }
 
 /// Branches the last particle in _particles
@@ -93,8 +94,9 @@ void GeneratorInMedium::_branch(){
   unsigned int parent=_particles.size()-1;
 
   double x=_particles[parent].x();///< Relies on pushing back child before branching
-  if(x<2*_cutoff){
-      return;///< We have reached the bottom of the recursion => we have one particle.
+  //if(x<2*_cutoff){
+  if(x<_xmin){
+    return;///< We have reached the bottom of the recursion => we have one particle.
   }
   /// plittingTime, randomly generated
   generate_branching(x);
@@ -154,8 +156,8 @@ GeneratorInMediumSimple::~GeneratorInMediumSimple(){
 }
 
 void GeneratorInMediumSimple::set_seed(int new_seed){
-	_seed=new_seed;
-	gsl_rng_set (_r, _seed);
+  _seed=new_seed;
+  gsl_rng_set (_r, _seed);
 }
 
 void GeneratorInMediumSimple::generate_branching(double x){
@@ -177,19 +179,20 @@ void GeneratorInMediumSimple::generate_branching(double x){
   _z=z;
 }
 
-void GeneratorInMediumSimple::generate_event(double time,double cutoff){
+void GeneratorInMediumSimple::generate_event(double time,double cutoff,double xmin){
   /// -1 is the default parent, 0 is starting time, x is energy fraction
   _particles.clear();
-	Particle first_particle;
-	first_particle.set_start_time(0);
+  Particle first_particle;
+  first_particle.set_start_time(0);
   first_particle.set_x(1);
   _particles.push_back(first_particle);
   _end_time=time;
   _cutoff=cutoff;
-	_branch();
-	_event.set_particles(_particles);
-	_event.set_cutoff(cutoff);
-	_event.set_end_time(time);
+  set_xmin(xmin);
+  _branch();
+  _event.set_particles(_particles);
+  _event.set_cutoff(cutoff);
+  _event.set_end_time(time);
 }
 
 /// Branches the last particle in _particles
@@ -197,8 +200,9 @@ void GeneratorInMediumSimple::_branch(){
   unsigned int parent=_particles.size()-1;
 
   double x=_particles[parent].x();///< Relies on pushing back child before branching
-  if(x<2*_cutoff){
-      return;///< We have reached the bottom of the recursion => we have one particle.
+  //if(x<2*_cutoff){
+  if(x<_xmin){
+    return;///< We have reached the bottom of the recursion => we have one particle.
   }
   /// splitting_time, randomly generated
   generate_branching(x);
@@ -245,13 +249,13 @@ const double time_min = 0;          /// Maximal value for the angle, roughly the
 // Pgg splitting kernel as a function of z.
 double Pgg(double z)
 {
-	return CA*(pow(z,4)+1+pow(1-z,4))/(z*(1-z));
+  return CA*(pow(z,4)+1+pow(1-z,4))/(z*(1-z));
 }
 
 // Integration of the Pgg kernel over detectable energy fraction, between epsilon/x=z_min and 1/2.
 double IntPgg(double z_min)
 {
-    // z_min=epsilon/xparent
+  // z_min=epsilon/xparent
   return -CA*(11./6.+z_min*(-4+z_min*(1-2./3.*z_min))-4*atanh(1-2*z_min));
 }
 
@@ -294,9 +298,9 @@ double Inverse_Sudakov(double u, double time_parent, double xparent)
 // Random variable generator following the Sudakov probability density
 double alea_generator_sudakov(double time_parent, double xparent,gsl_rng *r)
 {
-	double alea;
-	alea = gsl_rng_uniform(r);
-	return Inverse_Sudakov(alea,time_parent,xparent);
+  double alea;
+  alea = gsl_rng_uniform(r);
+  return Inverse_Sudakov(alea,time_parent,xparent);
 }
 
 
@@ -309,27 +313,27 @@ double alea_generator_sudakov(double time_parent, double xparent,gsl_rng *r)
 // Approximate Pgg density between 1/2 and 1-epsilon for the veto algoritm
 double alea_generator_Pgg_approx(double xparent,gsl_rng *r)
 {
-	double norm, al;
-	norm = 2*log(-1+1/(epsilon/xparent)); /// Integral of 2/(z(1-z)) between epsilon/x and 1/2
-	al = gsl_rng_uniform(r)*norm;
-	return 1/(1+exp(-al/2.)); /// Generates a number between 1/2 and 1-epsilon/x
+  double norm, al;
+  norm = 2*log(-1+1/(epsilon/xparent)); /// Integral of 2/(z(1-z)) between epsilon/x and 1/2
+  al = gsl_rng_uniform(r)*norm;
+  return 1/(1+exp(-al/2.)); /// Generates a number between 1/2 and 1-epsilon/x
 }
 
 // Implementation of the veto algorithm, Pgg density between 1/2 and 1-epsilon
 double alea_generator_Pgg(double xparent,gsl_rng *r)
 {
-	double output, z_candidate, alea;
-	while(1)
+  double output, z_candidate, alea;
+  while(1)
     {
-		z_candidate = alea_generator_Pgg_approx(xparent,r);
-		alea = gsl_rng_uniform(r)*CA*2/(z_candidate*(1-z_candidate));
-		output = z_candidate;
-		if(alea<=Pgg(z_candidate))
+      z_candidate = alea_generator_Pgg_approx(xparent,r);
+      alea = gsl_rng_uniform(r)*CA*2/(z_candidate*(1-z_candidate));
+      output = z_candidate;
+      if(alea<=Pgg(z_candidate))
         {
-			break;
+          break;
         }
     }
-	return output; /// Generates a number between 1/2 and 1-epsilon/
+  return output; /// Generates a number between 1/2 and 1-epsilon/
 }
 
 
