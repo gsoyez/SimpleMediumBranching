@@ -121,6 +121,9 @@ public:
           const double &lx2 = log(1.0/x_above_xmin[i2]);
           D2full.add_entry(lx1, lx2);
           D2full.add_entry(lx2, lx1);
+          // WATCH OUT: the expression below is missing 2 things:
+          //  1. a fator of 2 for the x1 <-> x2 symmetry
+          //  2. a 1/binsize normalisation (D2 is double-differential)
           if (D2.bin(lx2)==ibin1) D2.add_entry(lx1);
         }
       }
