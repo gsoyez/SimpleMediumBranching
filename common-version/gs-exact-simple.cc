@@ -4,16 +4,17 @@
 #include <iostream>
 #include <fstream>
 
-double tmax;
+double t;
 
 //========================================================================
 double D(double x, void *unused){
-  return tmax/sqrt(x*(1-x)*(1-x)*(1-x))*exp((-M_PI*tmax*tmax)/(1-x));
+  return t/sqrt(x*(1-x)*(1-x)*(1-x))*exp((-M_PI*t*t)/(1-x));
 }
 
 int main(int argc, char*argv[]){
   CmdLine cmd(argc, argv);
-  tmax = cmd.value("-tmax", 1.0);
+  double tmax = cmd.value("-tmax", 1.0);
+  unsigned int nt = cmd.value<unsigned int>("-nt", 10);
   double xmin = cmd.value("-xmin", 0.0001);
   unsigned int nbin = cmd.value<unsigned int>("-nbin", 80);
   string out = cmd.value<string>("-out");
@@ -36,14 +37,25 @@ int main(int argc, char*argv[]){
   //----------------------------------------------------------------------
   // loop over the bins in logx
   double lxmin = log(1.0/xmin);
-  for (unsigned int i=0;i<nbin; ++i){
-    double l1 = exp(-(i+0.0)*lxmin/nbin);
-    double l2 = exp(-(i+1.0)*lxmin/nbin);
 
-    double res, err;
-    gsl_integration_qags(&f, l1, l2, 1.0e-8, 1.0e-8, wsize, w, &res, &err);
-    ostr << l1 << " " << 0.5*(l1+l2) << " " << l2 << " " 
-         << res/(l2-l1) << " " << err/(l2-l1) << endl;
+  for (unsigned int it=0; it<nt; ++it){
+    t = (it+1.0)/nt*tmax;
+    ostr << "# D(x,t=" << t << ")" << endl;
+
+    for (unsigned int i=0;i<nbin; ++i){
+      double l1 = (i+0.0)*lxmin/nbin;
+      double l2 = (i+1.0)*lxmin/nbin;
+
+      double x1 = exp(-l1);
+      double x2 = exp(-l2);
+
+      double res, err;
+      gsl_integration_qags(&f, x2, x1, 1.0e-8, 1.0e-8, wsize, w, &res, &err);
+      ostr << l1 << " " << 0.5*(l1+l2) << " " << l2 << " " 
+           << res/(x1-x2) << " " << err/(x1-x2) << endl;
+    }
+
+    ostr << endl << endl;
   }
   
 
