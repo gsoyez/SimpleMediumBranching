@@ -351,7 +351,7 @@ We now want to compute the spectrum obtained. The differential probability to em
 \end{equation}
 Here ${\bar{\alpha}}/{\omega}$ comes from the familiar bremsstrahlung spectrum, with $\bar{\alpha}={\alpha_s N_c}/{\pi}$. ${L}/{\Delta t_f(\omega)}$ corresponds to the temporal phase space available for an emission of a gluon with energy $\omega$ in a medium of size $L$. 
 
-The conventional spectrum is obtained from multiplying equation \eqref{spectrum} by $\omega$. For the problem at hand this has first been computed by Baier, Dokshitzer, Mueller, Peigné, Schiff and Zakharov and is therefore called the BDMPS-Z spectrum for gluon radiation: (TODO: REF)
+The conventional spectrum is obtained from multiplying equation \eqref{spectrum} by $\omega$. For the problem at hand this has first been computed by Baier, Dokshitzer, Mueller, Peigné, Schiff and Zakharov and is therefore called the BDMPS-Z spectrum for gluon radiation\cite{Baier:1996kr,Zakharov:1997uu}:
 \begin{equation}\label{BDMPS}
 \omega \frac{\mathrm{d}P}{\mathrm{d}\omega} =\bar{\alpha}\sqrt{\frac{\omega_c}{\omega}}.
 \end{equation}
@@ -436,7 +436,7 @@ Not surprisingly, the rate is inversely proportional to the time between two suc
 
 \subsection{The general structure of the stochastic model}
 
-As described by the previous section, we can formulate a stochastic model to describe the jet quenching, see ref [TODO Iancu papers about this, eg “Probabilistic picture for medium-induced jet evolution.”]. We will start by writing equation \eqref{rate} in a more precise way, which takes into account the energy conservation at the emission vertex. We then get the differential probability per unit time and per unit $z$ for the parent gluon with energy $\omega = xE$ to split into a pair of child gluons with energies $z\omega$ and $(1-z)\omega$: (TODO ref Iancu and Fister paper)
+As described by the previous section, we can formulate a stochastic model to describe the jet quenching, see e.g. ref \cite{probabilistic}. We will start by writing equation \eqref{rate} in a more precise way, which takes into account the energy conservation at the emission vertex. We then get the differential probability per unit time and per unit $z$ for the parent gluon with energy $\omega = xE$ to split into a pair of child gluons with energies $z\omega$ and $(1-z)\omega$ as in ref \cite{FisterIancu}:
 \begin{equation}\label{preciserate}
 \frac{\mathrm{d}^2 P(z,\tau)}{\mathrm{d}z,\mathrm{d}\tau(z,\tau)}=\frac{\alpha_s}{2 \pi}\frac{P_{g\leftarrow g}(z)}{t_{br}(z,\omega)},
 \end{equation}
@@ -474,8 +474,7 @@ loss=\sum_{i=1}^n \int \mathrm{d}z\, K(z,x_i) P_n(\{x\}).
 \end{itemize} 
 
 
-Once we have our probabilities, we can use them to find expectation values for physical observables such as number of gluons per energy fraction $x$, (Def already here? Would be helpful as example. TODO.)
-We define the expectation value for any observable $O$ as
+Once we have our probabilities, we can use them to find expectation values for physical observables. We define the expectation value for any observable $O$ as
 \begin{equation}
 \langle O \rangle = \sum_{n=1}^\infty \int \mathrm{d}x_1...\mathrm{d}x_n \, P_n(\{x\},\tau) O_n(\{x\})
 \end{equation}
@@ -484,7 +483,7 @@ and get the time evolution
 \party{\langle O \rangle}{\tau}=\sum_{n=1}^\infty \int \mathrm{d}x_1...\mathrm{d}x_n \, \party{P_n(\{x\},\tau)}{\tau} O_n(\{x\}).
 \end{equation}
 %
-After insertion of the evolution equation for probabilities, equation \eqref{Pevo}, and renaming of summation indices, this turns into
+After insertion of the evolution equation for probabilities (equation \eqref{Pevo}) and renaming of summation indices, this turns into
 %
 \begin{equation}
 \party{\langle O \rangle}{\tau}=\sum_{n=1}^\infty \int \mathrm{d}x_1...\mathrm{d}x_n\, P_n(\{x\},\tau) \sum_{i=1}^n \int \mathrm{d}z\, K(z,x_i) \Delta O_{n,i}(\{x\},z),
@@ -512,17 +511,16 @@ A neat way to write this is to use the functional derivative $\frac{\delta Z(u(x
 \party{Z}{\tau}=\int \mathrm{d}z \int \mathrm{d}x \, K(z,x) [u(zx)u((1-z)x) - u(x)]\frac{\delta Z(u(x),\tau)}{\delta u(x)}.
 \end{equation}
 
-This can be used to find the evolution equation for $n^k(x)=\langle \hat{n}^k(x) \rangle$. We define [TODO Fix writing]
+This can be used to find the evolution equation for the number density in $x$-space,  $n(x)=\langle \hat{n} (x)\rangle$ and the number density of pairs $n^2(x,x') = \langle \hat{n}^2(x,x') \rangle $. We define 
 \begin{equation}
-\hat{n}(x)=\party{N_n}{x}=\sum_{i=1}^n \delta(x_i-x).
+\hat{n}(x)=\sum_{i=1}^n \delta(x_i-x), \quad \hat{n}^2(x,x')=\sum_{i \neq j} \delta(x_i-x)\delta(x_j-x').
 \end{equation}
-
-Taking this definition together with the definition of $Z$ we find
+The higher multiplicities are defined similarly. Taking these definitions together with the definition of $Z$ we find
 \begin{equation}\label{moments}
-n^{(k)}=\frac{\delta Z(u(x),\tau)}{\delta u(x_1)\delta u(x_2)...\delta u(x_k)}\Bigg|_{u=1}
+n^{(k)}(x_1,x_2...x_k)=\frac{\delta Z(u(x),\tau)}{\delta u(x_1)\delta u(x_2)...\delta u(x_k)}\Bigg|_{u=1}.
 \end{equation}
 
-Physically, it is of more interest to look at energy density rather than number density, i.e. to look at the one-point function $D(x,\tau)\equiv xn(x,\tau)$ and the two-point function $D^{(2)}(x,x'\tau)\equiv xx'n^{(2)}(x,x',\tau)$, since these are infra-red safe. Using eqquation \eqref{moments} we get
+Physically, it is of more interest to look at energy density rather than number density, i.e. to look at the one-point function $D(x,\tau)\equiv xn(x,\tau)$ and the two-point function $D^{(2)}(x,x'\tau)\equiv xx'n^{(2)}(x,x',\tau)$, since these are infra-red safe. Using equation \eqref{moments} we get
 \begin{equation}
 D(x,\tau)=x \frac{\delta Z(u(x),\tau)}{\delta u(x)}\Bigg|_{u=1},\quad D^{(2)}(x,x',\tau)=xx' \frac{\delta Z(u(x),\tau)}{\delta u(x)\delta u(x')}\Bigg|_{u=1},
 \end{equation}
@@ -535,8 +533,6 @@ and
 \party{}{\tau}D^{(2)}(x,x',\tau)=\int \mathrm{d}z\, K(z) \left[ \sqrt{\frac{z}{x}} D^{(2)}\left(\frac{x}{z},x',\tau\right) - \frac{z}{\sqrt{x}} D^{(2)}(x,x',\tau)\right]+(x \leftrightarrow x') \\
 + \frac{xx'}{(x+x')^2} K\left(\frac{x}{x+x'}\right) \frac{1}{\sqrt{x+x'}} D(x+x',\tau).
 \end{multline}
-
-
 The rest of this section will focus on the solutions to equations \eqref{Devo} and \eqref{D2evo}, and the interpretations and consequences of these solutions.
 
 \subsection{The gluon spectrum}\label{onepoint}
@@ -544,7 +540,7 @@ For the simplified kernel, a solution to \eqref{Devo} has been found from a Mell
 \begin{equation}\label{Mellin}
 D(x,\tau) = \frac{\tau}{\sqrt{x}(1-x)^{3/2}}\exp\left(-\frac{\pi \tau^2}{1-x}\right).
 \end{equation}
--- see (TODO: ref to paper). This solution is plotted for various values of $\tau$ in figure \ref{Dfig}.
+-- see ref \cite{Blaizot:2013hx}. This solution is plotted for various values of $\tau$ in figure \ref{Dfig}.
 
 
 
@@ -579,8 +575,8 @@ As seen in the figure, and also from the above equation, the spectrum has a powe
 \begin{equation}\label{softD}
 D(x,\tau)\simeq \frac{\tau}{\sqrt{x}}e^{-\pi\tau^2}.
 \end{equation}
-This is exactly the same behaviour for the soft $x$ dependence as in the BDMPS-Z spectrum in equation \ref{BDMPS}; in this equation $\omega=xE$, so the $1/\sqrt{\omega}$ dependence corresponds to $1/\sqrt{x}$. The fact that the spectrum at small values of $x$ is the same for a single gluon emission as for the case of multiple branching is remarkable: apparently the fact that multiple branchings take place does not modify the spectrum. From a mathematical perspective, the evolution equation for the gluon spectrum (see equation \eqref{Devo}) has a fix point at $1/\sqrt{x}$: inserting $D_{fix}(x,\tau)=1/\sqrt{x}$ into the evolution equation would lead to a cancellation between the gain term and the loss term. (\url{https://arxiv.org/pdf/1409.2010.pdf} TODO) 
-Such a fix point is known as a Kolmogorov-Zakharov fixed point in the theory of wave turbulence, and is a necessary condition for the energy flux associated with the multiple branching to be $x$-independent. (See ref ... for flux TODO) This $x$-independence means that during the branching process, energy will be transported to softer and softer gluons without accumulating at any specific value of $x$; we have a so called turbulent energy cascade. To understand the physics behind this we must return to section \ref{multiplebranchings}, where we found that the scattering in the medium makes democratic branchings possible. The democratic branchings are efficient at transporting energy down the energy cascade and will in fact ultimately transport it \emph{out of} the cascade. The comparison between democratic gluon branching and the case of wave turbulence is illustrated in figure \ref{turbulence}.
+This is exactly the same behaviour for the soft $x$ dependence as in the BDMPS-Z spectrum in equation \ref{BDMPS}; in this equation $\omega=xE$, so the $1/\sqrt{\omega}$ dependence corresponds to $1/\sqrt{x}$. The fact that the spectrum at small values of $x$ is the same for a single gluon emission as for the case of multiple branching is remarkable: apparently the fact that multiple branchings take place does not modify the spectrum. From a mathematical perspective, the evolution equation for the gluon spectrum (see equation \eqref{Devo}) has a fix point at $1/\sqrt{x}$: inserting $D_{fix}(x,\tau)=1/\sqrt{x}$ into the evolution equation would lead to a cancellation between the gain term and the loss term\cite{FisterIancu}. 
+Such a fix point is known as a Kolmogorov-Zakharov fixed point in the theory of wave turbulence, and is a necessary condition for the energy flux associated with the multiple branching to be $x$-independent. (See ref \cite{FisterIancu} for further discussion of the energy flow through the spectrum.) This $x$-independence means that during the branching process, energy will be transported to softer and softer gluons without accumulating at any specific value of $x$; we have a so called turbulent energy cascade. To understand the physics behind this we must return to section \ref{multiplebranchings}, where we found that the scattering in the medium makes democratic branchings possible. The democratic branchings are efficient at transporting energy down the energy cascade and will in fact ultimately transport it \emph{out of} the cascade. The comparison between democratic gluon branching and the case of wave turbulence is illustrated in figure \ref{turbulence}.
 
 
 
@@ -705,7 +701,7 @@ At the core of the simulation is a function, {\tt \char`_branch()}, that starts 
 The pseudo code given in algorithm \ref{branchingAlg} gives the general idea of the function {\tt \char`_branch()}, with several bookkeeping variables omitted to increase readability.
 
 
-One important feature in the simulation that we did not have to worry about in the stochastic model up until now is the need for an infra-red cutoff. Indeed, we mentioned by the end of section \ref{onepoint} the number of gluons is not a meaningful observable. Nevertheless, a number of gluons is exactly what our simulation will produce, and unless we introduce a cutoff {\tt \char`_branch()} will find very soft gluons with a very short splitting time at each step. We therefore chose a cutoff well below the energy scales we are interested in, restrict our splitting kernel to values above this cutoff and stop the branching whenever the energy fractions of our gluons get too small.
+One important feature in the simulation that we did not have to worry about in the stochastic model up until now is the need for an infra-red cutoff. Indeed, we mentioned by the end of section \ref{onepoint} the number of gluons is not a meaningful observable. Nevertheless, a number of gluons is exactly what our simulation will produce, and unless we introduce a cutoff our function {\tt \char`_branch()} will find very soft gluons with a very short splitting time at each step. We therefore chose a cutoff well below the energy scales we are interested in, restrict our splitting kernel to values above this cutoff and stop the branching whenever the energy fractions of our gluons get too small.
 
 %The most important function is {\tt \char`_branch()}. The pseudo code shown in algorithm \ref{branchingAlg} gives the general idea of the function, with several bookkeeping variables omitted to increase readability. This function is responsible for recursively branching the leading particle during a given branching time. The full code is given in Appendix \ref{code} for comparison. 
 %The simulation is written in C++ and makes use of the GNU Scientific Library\footnote{\url{https://www.gnu.org/software/gsl/}} for generating (pseudo-)random numbers.
@@ -747,7 +743,6 @@ This vector is stored in the class {\tt Event}. However, the only physical obser
 \end{tt}
 \end{algorithm}
 
-The simulation is written in C++ and makes use of the GNU Scientific Library\footnote{\url{https://www.gnu.org/software/gsl/}} for generating (pseudo-)random numbers.
 
 
 
@@ -771,7 +766,7 @@ As a first step we must establish what cutoff $\epsilon$ we need to take in orde
 
 Altogether, we conclude that $\epsilon=10^{-9}$ gives sufficiently trustworthy results to continue our analysis.  The gluon spectrum is plotted for this cutoff in figure \ref{Dtimes} for $\tau=0.1,\,0.5,\,1$. For this plot we use the full vector generated for each event and traverse it to find the gluons that were present at the relevant times. For the simplified kernel, we see that the one point spectrum matches the analytical result well, while for the  full kernel the spectrum looks slightly different. 
 
-In order to estimate the numerical accuracy, the ratio between the numerical and results for the simplified kernel is plotted for each time, with error bars for the numerical values. This is shown in the lower part of figure \ref{Dtimes}. To the right hand side of each plot the relative error is large due to the small sample size, especially at $\tau=1$ when there is a large depletion at $x \sim 1$. The ratio of 1 is still within the error bars. To the left hand side we see a systematic overestimation of the numerical values, here the error bars do not include the ratio 1 and so we can conclude that we have a bias. This bias was of course also present in figure \ref{convergence}, but is easier to spot here.
+In order to estimate the numerical accuracy, the ratio between the numerical and results for the simplified kernel is plotted for each time, with error bars for the numerical values. This is shown in the lower part of figure \ref{Dtimes}. To the right hand side of each plot the relative error is large due to the small sample size, especially at $\tau=1$ when there is a large depletion at $x \sim 1$. The ratio of 1 is still within the error bars. To the left hand side we see a systematic overestimation of the numerical values, here the error bars do not include the ratio 1 and so we can conclude that we have a bias. This bias also present in figure \ref{convergence}, and therefore originates at least in part from the effect of a nonzero cutoff.
 
 
 
@@ -781,27 +776,28 @@ In order to estimate the numerical accuracy, the ratio between the numerical and
 \begin{figure}
 \centering
 \includegraphics[width=0.8\linewidth]{convergence.pdf}
-\caption{Convergence for the simplified kernel compared to the analytic result}\label{convergence}
+\caption{Convergence for the simplified kernel compared to the analytic result. Plotted as points with error bars}\label{convergence}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=0.8\linewidth]{convergence_full.pdf}
-\caption{Convergence for full kernel, ratio taken with the result at lowest cutoff}\label{convergence_full}
+\caption{Convergence for full kernel, ratio taken with the result at lowest cutoff. Plotted as points with error bars}\label{convergence_full}
 \end{figure}
 
 
 
 \begin{figure}
 \centering
-\includegraphics[width=\linewidth]{times.pdf}
-\caption{$\sqrt{x} D(x)$ at various times}\label{Dtimes}
+\includegraphics[width=0.9\linewidth]{times.pdf}
+\vspace*{-20pt}
+\caption{$\sqrt{x} D(x)$ at various times. The curves for the simple kernel overlaps with the analytic solutions for the simple kernel in the upper subplot, with the ratio between these curves shown in the lower three subplots. The curves for the full kernel depart from those of the simple kernel.}\label{Dtimes}
 \end{figure}
 
 \section{Perspective}
-In this report we have presented and justified a simple one-dimensional stochastic model of jet evolution in a quark gluon plasma, and described the physical implications. Notable among these are the presence of a turbulent energy cascade making the energy lost from the leading particle end up at large angles, and the presence of fluctuations in the energy loss which are of the same order as the average energy loss itself. 
+In this report we have presented and justified a simple one-dimensional stochastic model of jet evolution in a quark gluon plasma, and described the physical implications. Notable among these are the presence of a turbulent energy cascade making the energy lost from the leading particle end up at large angles, and the presence of fluctuations in the energy loss which are of the same order as the average energy loss itself. Both of these agree qualitatively with the results from the heavy ion collisions at the LHC.
 
-We have seen that it is possible to implement a Monte Carlo simulation for the process, and that the numerically generated results match the values calculated analytically. We can see that there is (TODO if there is) X difference between the full kernel and the simple kernel.
+We have seen that it is possible to implement a Monte Carlo simulation for the process, and that for the simple splitting kernel the numerically generated results match the values calculated analytically. This simulation can now be used to compare the simple kernel to the full one
 
 The final weeks of the internship will be spent exploring the results of the simulation. Some interesting quantities to study are ...
 
@@ -920,12 +916,20 @@ B.~Schenke, C.~Gale, and S.~Jeon, ``{Martini: an Event Generator for
 %%CITATION = 0909.2037;%%.
 
   
+  
+  
+\bibitem{FisterIancu}
+ E. Iancu and L. Fister, ``Medium-induced jet evolution: wave turbulence and energy loss,''{\em JHEP} {\bf 1503} (2015) 082,
+ \href{http://arxiv.org/abs/1409.2010}{{\ttfamily arXiv:1409.2010 [hep-ph]}}.
 
- 
+
+
+
+\bibitem{probabilistic}
+JP. Blaizot, F. Dominguez, E. Iancu and Y. Mehtar-Tani, ``Probabilistic picture for medium-induced jet evolution,'' {\em JHEP} {\bf 06} (2014) 075,
+ \href{http://arxiv.org/abs/1311.5823}{{\ttfamily arXiv:1311.5823 [hep-ph]}}.
+ 	
 \end{thebibliography}
-
-
-
 \newpage
 \appendix
 
@@ -970,6 +974,7 @@ G(x,x_0,\tau) = \frac{1}{x_0} D\left(\frac{x}{x_0},\frac{\tau}{\sqrt{x_0}}\right
 \newpage
 \section{Code}\label{code}
 Code for the recursive branching function, {\tt \char`_branch}, which is a member function of the class {\tt GeneratorInMedium}. As a convention, all variables and functions preceded by an underscore are private members of {\tt GeneratorInMedium}. 
+The simulation is written in C++ and makes use of the GNU Scientific Library\footnote{\url{https://www.gnu.org/software/gsl/}} for generating (pseudo-)random numbers.
 
 \begin{lstlisting}
 /// Branches the last particle in _particles
