@@ -69,12 +69,12 @@
 %---------------------------------------------------------
 
 \begin{abstract}
-Abstract goes here
+Quark gluon plasma is produced as an intermediate state in heavy ion collisions at the LHC, but is difficult to study due to its short lifetime. In order to use jet quenching as a probe into the nature of quark gluon plasma, we need a good theoretical understanding of how the jets interact with the medium. We describe and justify a recent one-dimensional stochastic model for in-medium jet evolution, which admits exact solutions for a simplified version of the splitting kernel that is used. This model predicts an efficient transport of energy away from the jet, with large fluctuations in the energy loss, and agrees qualitatively with the results at the LHC. We then present a Monte Carlo simulation of the stochastic process and verify that its numerical results agree with the analytical results for the simplified kernel. We also compare with the numerical results for the full kernel.
 \end{abstract}
 
 %Might add a stylistic representation of branching to make the frontpage more fun... 
 
-\vspace*{5cm}
+%\vspace*{5cm}
 
 \begin{center}
 \includegraphics[width=0.5\linewidth]{jet-quenching.jpg}
@@ -126,12 +126,12 @@ In the effective theory mentioned above the successive branchings are independen
 
 
 
+TODO
+The structure of this report is as follows: 
+In section \ref{general} we give some general features of parton branching and jet evolution. After this, we turn our attention to the in-medium case in section \ref{medium} and describe the physics of our model, introducing the mechanism of democratic branching. In section \ref{stochastic} we give the one-dimensional stochastic model for the in-medium jet evolution and discuss some of the predictions. Then, the Monte Carlo implementation of this stochastic model is described in section \ref{simulation} and some results are shown and discussed. Finally in section \ref{perspective} future work is briefly discussed.
 
-The structure of this report is as follows: (...write this part after all the restructuring is done)
 
-
-
-\section{Parton branching and jet evolution}
+\section{Parton branching and jet evolution}\label{general}
 
 In this section we consider the evolution of a jet through parton branching, giving a brief general discussion and some considerations about the in vacuum evolution.
 
@@ -231,7 +231,7 @@ Before focussing on the in-medium evolution in the next section, we will here ma
 \end{overpic}
 \end{gathered}.
 \end{equation}
-Connected to these possibilities are the splitting functions, which can be found in e.g. (TODO Peskin and Schroeder) as\footnote{For the splitting functions used in e.g. DGLAP there are also "loss terms" to ensure probability conservation. These are not necessary for the purpose of this discussion}
+Connected to these possibilities are the splitting functions, which can be found in e.g. \cite{peskin} as\footnote{For the splitting functions used in e.g. DGLAP there are also "loss terms" to ensure probability conservation. These are not necessary for the purpose of this discussion}
 \begin{equation}\label{splittingrates}
 \begin{split}
 P_{q \leftarrow q}(z)&=C_F \left[ \frac{1+z^2}{1-z} \right] \\
@@ -249,7 +249,7 @@ Note that these splitting functions are the same in the medium since they are fo
 assuming for simplicity that the parent gluon has no transverse momentum. Here $k_\perp^2$ refers to any of the child gluons' momenta squared, since they are equal. Noticing that $\frac{\mathrm{d}k_\perp^2}{k_\perp^2} = \frac{\mathrm{d}\theta^2}{\theta^2}$ we can deduce that bremsstrahlung favours collinear emission in which the child gluons propagate at small $\theta$ with respect to the parent gluon. The same conclusion holds for all elementary branchings considered in the diagrams \eqref{branchingdiagrams}. Altogether we can conclude that in vacuum, the radiation is predominately made up of \emph{soft and collinear gluons}.
 
 
-\section{Medium induced jet evolution}
+\section{Medium induced jet evolution}\label{medium}
 From now on we consider jets produced by a hard process inside a medium, more specifically inside a deconfined quark gluon plasma created in heavy ion collisions. In this context the partons from the jet can scatter off partons in the medium, and as a consequence even on shell partons of the jet can radiate. For simplicity, in what follows we shall consider the situation where the leading particle is on shell. Physically, this means that we consider a leading particle that was produced long before it enters the medium at time $t=0$. 
 
 In this section we will first discuss the properties of our medium in section \ref{themedium}, then the medium induced radiation. For the latter we focus first on a single branching in section \ref{mediuminduced} and then on multiple branchings in section \ref{multiplebranchings}
@@ -399,7 +399,7 @@ Equation \eqref{omega0} can also be used to estimate the typical separation in t
 \end{equation}
 Here, we can see that the time between two successive branchings is parametrically larger than the formation time for a single emission. This is a necessary condition for successive branchings to be viewed as independent from each other. 
 
-So far we have the picture for a typical event where the leading particle emits a number of $\mathcal{O}(1)$ of gluons with energy $\omega_{br}$ together with a large number of softer gluons. The question is what happens to these primary gluons after being emitted. We would like to argue that they in turn generate gluon cascades via multiple branchings and that the energy flow along this cascade is controlled by quasi-democratic branchings (emissions where the energy fraction of the two child gluons are comparable). (TODO: PRL ref) To this aim, let us apply equation \eqref{omega0} to a mini-jet generated by the primary gluon with initial energy $\omega$ and express $\omega_0$ as $\omega_0=z\omega$, with $z$ the energy fraction taken by the softest child gluon in the mini-jet. Then, $\Delta P = \bar{\alpha} \sqrt{{\hat{q}}/{(z \omega)}}\Delta t$ becomes of $\mathcal{O}(1)$ whenever $\Delta t \sim \Delta t_{br}(\omega)=({1}/{\bar{\alpha}}) \sqrt{{\omega}/{\hat{q}}}$ irrespective of the value of $z$, in particular also for democratic branchings with $z \sim 1-z \sim \frac{1}{2}$. Such democratic branchings are the most efficient ones when it comes to redistributing the energy of the primary gluon to its descendants. As a result, the whole initial energy $\omega$ will get degraded into a myriad of very soft ($\omega \sim T$) gluons after a time of $\mathcal{O}(\Delta t_{br}(\omega))$. In other words, the lifetime of a minijet as a whole is of the same order as the time it takes for the primary gluon to undergo the first democratic branching.
+So far we have the picture for a typical event where the leading particle emits a number of $\mathcal{O}(1)$ of gluons with energy $\omega_{br}$ together with a large number of softer gluons. The question is what happens to these primary gluons after being emitted. We would like to argue that they in turn generate gluon cascades via multiple branchings and that the energy flow along this cascade is controlled by quasi-democratic branchings (emissions where the energy fraction of the two child gluons are comparable)\cite{PRL}.  To this aim, let us apply equation \eqref{omega0} to a mini-jet generated by the primary gluon with initial energy $\omega$ and express $\omega_0$ as $\omega_0=z\omega$, with $z$ the energy fraction taken by the softest child gluon in the mini-jet. Then, $\Delta P = \bar{\alpha} \sqrt{{\hat{q}}/{(z \omega)}}\Delta t$ becomes of $\mathcal{O}(1)$ whenever $\Delta t \sim \Delta t_{br}(\omega)=({1}/{\bar{\alpha}}) \sqrt{{\omega}/{\hat{q}}}$ irrespective of the value of $z$, in particular also for democratic branchings with $z \sim 1-z \sim \frac{1}{2}$. Such democratic branchings are the most efficient ones when it comes to redistributing the energy of the primary gluon to its descendants. As a result, the whole initial energy $\omega$ will get degraded into a myriad of very soft ($\omega \sim T$) gluons after a time of $\mathcal{O}(\Delta t_{br}(\omega))$. In other words, the lifetime of a minijet as a whole is of the same order as the time it takes for the primary gluon to undergo the first democratic branching.
 Taking all this into consideration, we arrive at the picture of a typical event shown in figure \ref{democraticbranch}.
 
 
@@ -438,7 +438,7 @@ Not surprisingly, the rate is inversely proportional to the time between two suc
 
 As described by the previous section, we can formulate a stochastic model to describe the jet quenching, see e.g. ref \cite{probabilistic}. We will start by writing equation \eqref{rate} in a more precise way, which takes into account the energy conservation at the emission vertex. We then get the differential probability per unit time and per unit $z$ for the parent gluon with energy $\omega = xE$ to split into a pair of child gluons with energies $z\omega$ and $(1-z)\omega$ as in ref \cite{FisterIancu}:
 \begin{equation}\label{preciserate}
-\frac{\mathrm{d}^2 P(z,\tau)}{\mathrm{d}z,\mathrm{d}\tau(z,\tau)}=\frac{\alpha_s}{2 \pi}\frac{P_{g\leftarrow g}(z)}{t_{br}(z,\omega)},
+\frac{\mathrm{d}^2 P(z,t)}{\mathrm{d}z\mathrm{d}t}=\frac{\alpha_s}{2 \pi}\frac{P_{g\leftarrow g}(z)}{t_{br}(z,\omega)},
 \end{equation}
 with
 \begin{equation}
@@ -456,9 +456,9 @@ K(z)=\frac{[1-z(1-z)]^{5/2}}{[z(1-z)]^{3/2}}.
 \end{equation}
 To be able to obtain analytic results, we also consider a simple version of the kernel, in which the numerator is replaced by one. This simplified kernel is expected to behave in a similar way as the full kernel, notably it has the same poles.
 
-With our new found splitting rate, we can consider the probability ${P_n(\{x\},t)}=P_n(x_1,x_2,...x_n,t)$ to find $n$ gluons with energy fractions $x_i$ compared to the leading parton. This probability will change as
+With our new found splitting rate, we can consider the probability density ${P_n(\{x\},\tau)}=P_n(x_1,x_2,...x_n,\tau)$ to find $n$ gluons with energy fractions $x_i$ compared to the leading parton. This probability density will change as
 \begin{equation}\label{Pevo}
-\party{P_n(\{x\},t)}{t}=gain-loss.
+\party{P_n(\{x\},\tau)}{t}=gain-loss.
 \end{equation}
 \begin{itemize}
 \item Gain term: any gluon with energy fraction $x'_i$ in $P_{n-1}$ splitting as $x'_i \rightarrow z x'_i + (1-z)x'_i$, with the first of the child particles matching the energy fraction $x_i$ in $P_n$ and the second matching $x_n$ in $P_n$. This leads to a gain term 
@@ -474,7 +474,7 @@ loss=\sum_{i=1}^n \int \mathrm{d}z\, K(z,x_i) P_n(\{x\}).
 \end{itemize} 
 
 
-Once we have our probabilities, we can use them to find expectation values for physical observables. We define the expectation value for any observable $O$ as
+Once we have our probability densities, we can use them to find expectation values for physical observables. We define the expectation value for any observable $O$ as
 \begin{equation}
 \langle O \rangle = \sum_{n=1}^\infty \int \mathrm{d}x_1...\mathrm{d}x_n \, P_n(\{x\},\tau) O_n(\{x\})
 \end{equation}
@@ -483,7 +483,7 @@ and get the time evolution
 \party{\langle O \rangle}{\tau}=\sum_{n=1}^\infty \int \mathrm{d}x_1...\mathrm{d}x_n \, \party{P_n(\{x\},\tau)}{\tau} O_n(\{x\}).
 \end{equation}
 %
-After insertion of the evolution equation for probabilities (equation \eqref{Pevo}) and renaming of summation indices, this turns into
+After insertion of the evolution equation for probability densities (equation \eqref{Pevo}) and renaming of summation indices, this turns into
 %
 \begin{equation}
 \party{\langle O \rangle}{\tau}=\sum_{n=1}^\infty \int \mathrm{d}x_1...\mathrm{d}x_n\, P_n(\{x\},\tau) \sum_{i=1}^n \int \mathrm{d}z\, K(z,x_i) \Delta O_{n,i}(\{x\},z),
@@ -496,10 +496,9 @@ with
 
 It is helpful to introduce the moment generating functional $Z$, which will help us find some useful expectation values:
 \begin{equation}
-Z(u(x),\tau)=\sum_{n=1}^\infty \int \mathrm{d}x_1...\mathrm{d}x_n\, P_n(\{x\},t) u(x_1)...u(x_n)
+Z(u(x),\tau)=\sum_{n=1}^\infty \int \mathrm{d}x_1...\mathrm{d}x_n\, P_n(\{x\},\tau) u(x_1)...u(x_n)
 \end{equation}
 We can see $Z$ as an expectation value itself, corresponding to taking $O_n(\{x_i\}=u(x_1)...u(x_n)$. Using the general evolution equation found above, we get
-
 \begin{multline}\label{Zevo}
 \party{Z}{\tau}=\sum_{n=1}^\infty \int \mathrm{d}x_1...\mathrm{d}x_n\, P_n(\{x\},\tau)\\
  \sum_{i=1}^n \int \mathrm{d}z\, [ K(z,x_i)
@@ -520,7 +519,7 @@ The higher multiplicities are defined similarly. Taking these definitions togeth
 n^{(k)}(x_1,x_2...x_k)=\frac{\delta Z(u(x),\tau)}{\delta u(x_1)\delta u(x_2)...\delta u(x_k)}\Bigg|_{u=1}.
 \end{equation}
 
-Physically, it is of more interest to look at energy density rather than number density, i.e. to look at the one-point function $D(x,\tau)\equiv xn(x,\tau)$ and the two-point function $D^{(2)}(x,x'\tau)\equiv xx'n^{(2)}(x,x',\tau)$, since these are infra-red safe. Using equation \eqref{moments} we get
+Physically, it is of more interest to look at energy density rather than number density, i.e. to look at the one-point function $D(x,\tau)\equiv xn(x,\tau)$ and the two-point function $D^{(2)}(x,x'\tau)\equiv xx'n^{(2)}(x,x',\tau)$, since these measure the energy distribution. Using equation \eqref{moments} we get
 \begin{equation}
 D(x,\tau)=x \frac{\delta Z(u(x),\tau)}{\delta u(x)}\Bigg|_{u=1},\quad D^{(2)}(x,x',\tau)=xx' \frac{\delta Z(u(x),\tau)}{\delta u(x)\delta u(x')}\Bigg|_{u=1},
 \end{equation}
@@ -538,33 +537,30 @@ The rest of this section will focus on the solutions to equations \eqref{Devo} a
 \subsection{The gluon spectrum}\label{onepoint}
 For the simplified kernel, a solution to \eqref{Devo} has been found from a Mellin transform to be
 \begin{equation}\label{Mellin}
-D(x,\tau) = \frac{\tau}{\sqrt{x}(1-x)^{3/2}}\exp\left(-\frac{\pi \tau^2}{1-x}\right).
+D(x,\tau) = \frac{\tau}{\sqrt{x}(1-x)^{3/2}}\exp\left(-\frac{\pi \tau^2}{1-x}\right),
 \end{equation}
--- see ref \cite{Blaizot:2013hx}. This solution is plotted for various values of $\tau$ in figure \ref{Dfig}.
-
-
+see ref \cite{Blaizot:2013hx}. This solution is plotted for various values of $\tau$ in figure \ref{Dfig}.
 
 
 
 
 \begin{figure}
-\begin{center}
-\includegraphics[width=0.8\linewidth]{plot_D1.pdf}
-\end{center}
-\vspace*{-30pt}
-\caption{Plot (in log-log scale) of $\sqrt{x}D(x,\tau)$, with $D(x,\tau)$ given by equation \eqref{Mellin}, as a function of
-$x$ for various
-values of $\tau$
-:  solid (black):
-$\tau$= 0.1; dashed–dotted (purple):
-$\tau$= 0.2; dashed double–dotted (blue):
-$\tau$= 0.4;
-dotted (brown):
-$\tau$= 0.75; dashed (green):
-$\tau$= 1; dashed triple–dotted (red) :
-$\tau$= 1.35.
-  figure 2 in Event-by-event fluctuations in the medium-induced jet evolution (page 11) TODO}\label{Dfig}
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{plotD.pdf}
+  \vspace*{-20pt}
+  \caption{Plot of $\sqrt{x}D(x,\tau)$, with $D(x,\tau)$ given by equation \eqref{Mellin}, for various times $\tau$.}\label{Dfig}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{plotD2.pdf}
+  \vspace*{-20pt}
+  \caption{Plot of $x D^2(x,x)$, with $D^2(x,x,\tau)$ given by equation \eqref{D2}, for various times $\tau$.}\label{D2fig}
+\endminipage\hfill
 \end{figure}
+
+
+
+
+
 
 
 
@@ -592,7 +588,7 @@ For small values of $\tau$, the energy loss of the cascade is given by
 \end{equation}
 This quantity will in the next section be compared to the \emph{fluctuations} in the energy loss at small $\tau$. To express this energy loss in physical units, recall the definition for $\tau$ (found above equation \eqref{ratewithkernel}) and the definition for $\omega_{br}$ (given in equation\eqref{omegabr}). Using these definitions for the time when the jet has travelled all the plasma, $t=L$, we get $\tau^2(L)=L^2/\Delta t^2_{br}(E)=\omega_{br}(L)/E$ and hence 
 \begin{equation}
-\mathcal{E}(L)=E\langle \epsilon(L) \rangle = E \left[ 1-e^{-\pi \frac{\omega_{br}(L)}{E}} \right] \simeq \pi \omega_{br}(L),
+\mathcal{E}(L)=E\langle \epsilon(L) \rangle = E \left[ 1-e^{-\pi {\omega_{br}(L)}/{E}} \right] \simeq \pi \omega_{br}(L),
 \end{equation}
 where the last estimate holds whenever $L\ll \Delta t_{br}(E)$ or equivalently $\omega_{br}(L) \ll E$. As we predicted in section \ref{multiplebranchings} the typical energy loss is indeed of $\mathcal{O}(\omega_{br})$.
 
@@ -658,22 +654,22 @@ where we have taken the appropriate limits for the integrals over $x_1$ and $x_2
 
 
 
-Evaluating the integrals in equation \eqref{D2} yields (see appendix B in EbE fluctuations paper)
+Evaluating the integrals in equation \eqref{D2} yields (see appendix B in ref \cite{Escobedo:2016jbm})
 \begin{equation}
-D^{(2)}(x,x',\tau)=\frac{1}{2\pi}\frac{1}{\sqrt{xx'(1-x-x')}}\left[ e^{-\frac{\pi \tau^2}{1-x-x'}} -e^{-\frac{4 \pi \tau^2}{1-x-x'}} \right].
+D^{(2)}(x,x',\tau)=\frac{1}{2\pi}\frac{1}{\sqrt{xx'(1-x-x')}}\left[ \exp\left({-\frac{\pi \tau^2}{1-x-x'}}\right) -\exp\left({-\frac{4 \pi \tau^2}{1-x-x'}}\right) \right].
 \end{equation}
-Through similar considerations the evolution equations can be found for all n-point functions (which are in general also called correlations), see (ref to paper TODO)
+Through similar considerations the equations can be found for all n-point functions (which are in general also called correlations), see (ref to paper TODO). The above solution is plotted for various values of $\tau$ in figure \ref{D2fig} for $x=x'$. Note that at small $x$ and $x'$, $D^{(2)}(x,x')$ goes as $1/\sqrt{xx'}$. 
 
 
 We can use the pair correlations to find the fluctuations in energy loss:
 \begin{equation}
-\sigma_\epsilon^2(\tau)=\sigma_X^2(\tau) = \langle X(\tau)^2 \rangle - \langle X(\tau)\rangle ^2 
+\sigma_\epsilon^2(\tau)=\sigma_X^2(\tau) = \langle X^2(\tau) \rangle - \langle X(\tau)\rangle ^2 
 \end{equation}
 with $\langle X(\tau)\rangle$ given by equation \eqref{X} and $\langle X(\tau)^2 \rangle$ given by
 \begin{equation}
-\langle X(\tau)^2 \rangle =\int_0^1 \mathrm{d}x \int_0^1 \mathrm{d}x'\, D^2(x,x',\tau).
+\langle X^2(\tau) \rangle =\int_0^1 \mathrm{d}x \int_0^1 \mathrm{d}x'\, D^2(x,x',\tau)+\int_0^1 \mathrm{d}x\, x D(x).
 \end{equation}
-Evaluation of the above expression can be found in e.g. ref (ref goes here) to give 
+Evaluation of the above expression can be found in e.g. ref \cite{Escobedo:2016jbm} to give 
 \begin{equation}
 \sigma_\epsilon^2(\tau) = \frac{1}{3}\pi^2\tau^4 - \frac{11}{15}\pi^3 \tau^6 + \mathcal{O}(\tau^8).
 \end{equation}
@@ -686,12 +682,12 @@ Physically, the fact that the fluctuations are of the same order as the energy l
 Note that the above reasoning holds for small values of $\tau$. For large values of $\tau$ the fluctuations will go away, since more and more energy will end up in the condensate. As previously discussed, the regime at the LHC makes the small $\tau$ limit the one of interest.
 
 
-\section{Simulation}
+\section{Simulation}\label{simulation}
 In this section we present the implementation of a Monte Carlo simulation, and some numerical results obtained from it. The simulation treats gluons only for simplicity, which is motivated by the finding in section \ref{mediuminduced} that the in-medium radiation favours gluons. We use both the full kernel, as given in equation \eqref{kernel}, and the simplified kernel in which the numerator is replaced by one. 
 
 
 
-The classes created for this simulation are {\tt Particle}, {\tt Event}, {\tt GeneratorInMedium} and {\tt GeneratorInMediumSimple}. (For each describe the relevant class members. Or perhaps skip this part, doesn't tell the reader that much... focus on results.)
+%The classes created for this simulation are {\tt Particle}, {\tt Event}, {\tt GeneratorInMedium} and {\tt GeneratorInMediumSimple}. (For each describe the relevant class members. Or perhaps skip this part, doesn't tell the reader that much... focus on results.)
 
 
 
@@ -715,7 +711,7 @@ During the branching, each particle (including the intermediate ones) is given a
 \item The indices of the two child particles. (Set to $-1$ for the particles that have not had time to branch, i.e. the final particles.)
 \item The energy fraction $x$ as compared to the leading particle. (Set to $1$ for the leading particle.)
 \end{itemize}
-This vector is stored in the class {\tt Event}. However, the only physical observables will be the final particles and their energy fraction. Therefore, {\tt Event} also stores a vector with only the x-values of the final particles. 
+This vector is stored in a class {\tt Event}. However, the only physical observables will be the final particles and their energy fraction. Therefore, {\tt Event} also stores a vector with only the x-values of the final particles. 
 
 
 \begin{algorithm}
@@ -760,11 +756,20 @@ This vector is stored in the class {\tt Event}. However, the only physical obser
 %Results go here, will probably take up 4-5 pages. (Research project took 4.)
 %Btw, what is the standard for mentioning other interns? Since this is a collaborative effort Paul's name should go somewhere...
 
-As a first step we must establish what cutoff $\epsilon$ we need to take in order to trust our values above a given $x_{min}$, which we here take to be $10^{-4}$. In figure \ref{convergence} we compare the numerical values to the known analytic results down to $x=10^{-4}$ for various values of $\epsilon$ ranging from $10^{-5}$ to $10^{-9}$. As we can see, taking the cutoff to $\epsilon=10^{-9}$ and considering only values above $x=10^{-4}$ will leave us with a relative error at small $x$ around one percent. For the full kernel we do not have the benefit of knowing the exact solution, instead we take the ratios between the values for $\epsilon>10^{-9}$ and $\epsilon=10^{-9}$. This way we can see the convergence of the curves. Figure \ref{convergence_full} shows these ratios, and we can see that the curves show a similar convergence as for the simple kernel and that the ratio between $\epsilon=10^{-8}$ and $\epsilon=10^{-9}$ is again around one percent away from the ratio 1.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.9\linewidth]{convergence.pdf}
+\caption{Convergence for the simplified kernel compared to the analytic result. Plotted as points with error bars}\label{convergence}
+\end{figure}
+
+As a first step we must establish what cutoff $\epsilon$ we need to take in order to trust our values above a given $x_{min}$, which we here take to be $10^{-4}$. For the simple kernel we can compare the numerical values to the known analytic results, while for the full kernel we do not have the benefit of knowing the exact solution and must instead rely on comparing the results for higher cutoffs to the results from lowest cutoff considered. This analysis can be done for different times $\tau$ for both the one point and the two point function. A representative example is given in figure \ref{convergence}. Here we compare the numerical values of the one point function to the known analytic results down to $x_{min}=10^{-4}$ for various values of $\epsilon$ ranging from $10^{-5}$ to $10^{-9}$. As we can see, taking the cutoff to $\epsilon=10^{-9}$ and considering only values above $x_{min}=10^{-4}$ will leave us with a relative error at small $x$ around one percent. Similar results can be found from testing the full kernel. 
+
+ %In figure \ref{convergence} we compare the numerical values to the known analytic results down to $x=10^{-4}$ for various values of $\epsilon$ ranging from $10^{-5}$ to $10^{-9}$. As we can see, taking the cutoff to $\epsilon=10^{-9}$ and considering only values above $x=10^{-4}$ will leave us with a relative error at small $x$ around one percent. For the full kernel we do not have the benefit of knowing the exact solution, instead we take the ratios between the values for $\epsilon>10^{-9}$ and $\epsilon=10^{-9}$. This way we can see the convergence of the curves. Figure \ref{convergence_full} shows these ratios, and we can see that the curves show a similar convergence as for the simple kernel and that the ratio between $\epsilon=10^{-8}$ and $\epsilon=10^{-9}$ is again around one percent away from the ratio 1.
 
 
 
-Altogether, we conclude that $\epsilon=10^{-9}$ gives sufficiently trustworthy results to continue our analysis.  The gluon spectrum is plotted for this cutoff in figure \ref{Dtimes} for $\tau=0.1,\,0.5,\,1$. For this plot we use the full vector generated for each event and traverse it to find the gluons that were present at the relevant times. For the simplified kernel, we see that the one point spectrum matches the analytical result well, while for the  full kernel the spectrum looks slightly different. 
+Altogether, we conclude that $\epsilon=10^{-9}$ gives sufficiently trustworthy results to continue our analysis.  The gluon spectrum is plotted for this cutoff in figure \ref{Dtimes} for $\tau=0.1,\,0.5,\,1$. For this plot we use the full vector generated for each event and traverse it to find the gluons that were present at the relevant times. For the simplified kernel, we see that the one point spectrum matches the analytical result well, while for the  full kernel the spectrum looks slightly different. More precisely for the full kernel we see that the branching is less efficient, which is reasonable since the numerator in the splitting kernel is smaller. This is especially visible for the larger times, where we see that less energy has been lost from the spectrum. For the smaller times we see that more energy remains with the leading particle corresponding to the rightmost peak.
 
 In order to estimate the numerical accuracy, the ratio between the numerical and results for the simplified kernel is plotted for each time, with error bars for the numerical values. This is shown in the lower part of figure \ref{Dtimes}. To the right hand side of each plot the relative error is large due to the small sample size, especially at $\tau=1$ when there is a large depletion at $x \sim 1$. The ratio of 1 is still within the error bars. To the left hand side we see a systematic overestimation of the numerical values, here the error bars do not include the ratio 1 and so we can conclude that we have a bias. This bias also present in figure \ref{convergence}, and therefore originates at least in part from the effect of a nonzero cutoff.
 
@@ -773,17 +778,12 @@ In order to estimate the numerical accuracy, the ratio between the numerical and
 
 
 
-\begin{figure}
-\centering
-\includegraphics[width=0.8\linewidth]{convergence.pdf}
-\caption{Convergence for the simplified kernel compared to the analytic result. Plotted as points with error bars}\label{convergence}
-\end{figure}
 
-\begin{figure}
-\centering
-\includegraphics[width=0.8\linewidth]{convergence_full.pdf}
-\caption{Convergence for full kernel, ratio taken with the result at lowest cutoff. Plotted as points with error bars}\label{convergence_full}
-\end{figure}
+%\begin{figure}
+%\centering
+%\includegraphics[width=0.8\linewidth]{convergence_full.pdf}
+%\caption{Convergence for full kernel, ratio taken with the result at lowest cutoff. Plotted as points with error bars}\label{convergence_full}
+%\end{figure}
 
 
 
@@ -791,15 +791,15 @@ In order to estimate the numerical accuracy, the ratio between the numerical and
 \centering
 \includegraphics[width=0.9\linewidth]{times.pdf}
 \vspace*{-20pt}
-\caption{$\sqrt{x} D(x)$ at various times. The curves for the simple kernel overlaps with the analytic solutions for the simple kernel in the upper subplot, with the ratio between these curves shown in the lower three subplots. The curves for the full kernel depart from those of the simple kernel.}\label{Dtimes}
+\caption{$\sqrt{x} D(x)$ at various times. The curves for the simple kernel overlap with the analytic solutions for the simple kernel in the upper subplot, with the ratio between these curves shown in the lower three subplots. The curves for the full kernel depart from those of the simple kernel.}\label{Dtimes}
 \end{figure}
 
-\section{Perspective}
+\section{Perspective}\label{perspective}
 In this report we have presented and justified a simple one-dimensional stochastic model of jet evolution in a quark gluon plasma, and described the physical implications. Notable among these are the presence of a turbulent energy cascade making the energy lost from the leading particle end up at large angles, and the presence of fluctuations in the energy loss which are of the same order as the average energy loss itself. Both of these agree qualitatively with the results from the heavy ion collisions at the LHC.
 
 We have seen that it is possible to implement a Monte Carlo simulation for the process, and that for the simple splitting kernel the numerically generated results match the values calculated analytically. This simulation can now be used to compare the simple kernel to the full one
 
-The final weeks of the internship will be spent exploring the results of the simulation. Some interesting quantities to study are ...
+The final weeks of the internship will be spent exploring the results of the simulation. Some interesting quantities to study are ... TODO
 
  \begin{thebibliography}{10}
  
@@ -926,8 +926,15 @@ B.~Schenke, C.~Gale, and S.~Jeon, ``{Martini: an Event Generator for
 
 
 \bibitem{probabilistic}
-JP. Blaizot, F. Dominguez, E. Iancu and Y. Mehtar-Tani, ``Probabilistic picture for medium-induced jet evolution,'' {\em JHEP} {\bf 06} (2014) 075,
+J. P. Blaizot, F. Dominguez, E. Iancu and Y. Mehtar-Tani, ``Probabilistic picture for medium-induced jet evolution,'' {\em JHEP} {\bf 06} (2014) 075,
  \href{http://arxiv.org/abs/1311.5823}{{\ttfamily arXiv:1311.5823 [hep-ph]}}.
+ 	
+\bibitem{peskin}
+M. E. Peskin and D. V. Shroeder, ``An Introduction to Quantum Field Theory'', \emph{Westview Press} (1995).
+
+\bibitem{PRL}
+J. P. Blaizot and E. Iancu, ``Non-Abelian excitations of the quark-gluon plasma'', {\em PRL} {\bf 72} (1994) 3317,
+\href{https://arxiv.org/abs/hep-ph/9401210}{{\ttfamily arXiv:9401210 [hep-ph]}}.
  	
 \end{thebibliography}
 \newpage

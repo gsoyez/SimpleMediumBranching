@@ -24,10 +24,10 @@ res_9_simple='<bash -c "paste <(grep -v \"^#\" ./res/extended-tmax1.0-eps1e-9-xm
 
 exact="./res/extended-tmax1.0-exact-xmin1e-4-simple.res"
 
-plot res_5_simple i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4)/(sqrt(exp(-$2))*$9):(sqrt(exp(-$2))*$5)/(sqrt(exp(-$2))*$9) with yerr ps 0 title '{/Symbol \e}=e-5',\
-res_6_simple i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4)/(sqrt(exp(-$2))*$9):(sqrt(exp(-$2))*$5)/(sqrt(exp(-$2))*$9) with yerr ps 0 title '{/Symbol \e}=e-6',\
-res_7_simple i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4)/(sqrt(exp(-$2))*$9):(sqrt(exp(-$2))*$5)/(sqrt(exp(-$2))*$9) with yerr ps 0 title '{/Symbol \e}=e-7',\
-res_8_simple i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4)/(sqrt(exp(-$2))*$9):(sqrt(exp(-$2))*$5)/(sqrt(exp(-$2))*$9) with yerr ps 0 title '{/Symbol \e}=e-8',\
-res_9_simple i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4)/(sqrt(exp(-$2))*$9):(sqrt(exp(-$2))*$5)/(sqrt(exp(-$2))*$9) with yerr ps 0 title '{/Symbol \e}=e-9'
+plot res_5_simple i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4)/(sqrt(exp(-$2))*$9):(sqrt(exp(-$2))*$5)/(sqrt(exp(-$2))*$9) with yerr ps 0 lw 3 title '{/Symbol \e}=10^{-5}',\
+res_6_simple i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4)/(sqrt(exp(-$2))*$9):(sqrt(exp(-$2))*$5)/(sqrt(exp(-$2))*$9) with yerr ps 0 lw 3 title '{/Symbol \e}=10^{-6}',\
+res_7_simple i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4)/(sqrt(exp(-$2))*$9):(sqrt(exp(-$2))*$5)/(sqrt(exp(-$2))*$9) with yerr ps 0 lw 3 title '{/Symbol \e}=10^{-7}',\
+res_8_simple i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4)/(sqrt(exp(-$2))*$9):(sqrt(exp(-$2))*$5)/(sqrt(exp(-$2))*$9) with yerr ps 0 lw 3 title '{/Symbol \e}=10^{-8}',\
+res_9_simple i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4)/(sqrt(exp(-$2))*$9):(sqrt(exp(-$2))*$5)/(sqrt(exp(-$2))*$9) with yerr ps 0 lw 3 title '{/Symbol \e}=10^{-9}'
 
 
