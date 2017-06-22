@@ -7,7 +7,7 @@ set logscale y; set ytics (0.8,0.95,1,1.05,""1.2,""1.4,""1.6,""1.8,2)
 set yrange [0.8:2]
 set bars small
 
-set ylabel 'Ratio to analytic for simple'
+set ylabel 'Simple, ratio numerical/analytic' offset 2,0,0
 set xlabel 'x'
 
 res_5='<bash -c "paste <(grep -v \"^#\" ./res/extended--tmax1.0-eps1e-5-xmin1e-4.res) <(grep -v \"^#\" ./res/extended-tmax1.0-eps1e-9-xmin1e-4.res)"'

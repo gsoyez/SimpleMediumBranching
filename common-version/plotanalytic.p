@@ -1,5 +1,5 @@
 reset
-set terminal pdfcairo dashed enhanced font "Helvetica,12" size 5.0,5.0
+set terminal pdfcairo dashed enhanced font "Helvetica,7" #size 5.0,5.0
 set title ''
 set output "plotD.pdf"
 set ylabel '{/Symbol \326}(x) * D(x)' offset 4,0,0
@@ -18,7 +18,7 @@ set rmargin at screen 0.96
 D(x,tau)=sqrt(x)* (tau)/(x**0.5 * (1-x)**1.5) * exp((-pi*tau*tau)/(1-x));
 D2(x,y,tau)= 1/(2*pi)* sqrt(x*y)* 1/sqrt(x*y*(1-x-y)) * (exp((-pi*tau*tau)/(1-x-y)) - exp((-4*pi*tau*tau)/(1-x-y)));
 
-plot for [tau in ('0.1 0.3 0.6 1 1.2')] D(x,tau+0.0) with lines lw 5 title '{/Symbol \t}='.tau
+plot for [tau in ('0.1 0.3 0.6 1 1.2')] D(x,tau+0.0) with lines lw 3 title '{/Symbol \t}='.tau
 
 set output "plotD2.pdf"
 set ylabel 'x* D^2(x,x)'

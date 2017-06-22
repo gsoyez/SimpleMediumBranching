@@ -2,10 +2,11 @@ reset
 set terminal pdfcairo dashed enhanced font "Helvetica,7" size 5.0,7.0
 set title ''
 
-set ylabel '{/Symbol \326}(x) * D(x)' offset 3,0,0
+set ylabel '{/Symbol \326}x D(x)' offset 3.5,0,0
 
 set output "times.pdf"
-set key left top maxrows 3
+
+set key maxrows 3 width -21 top right at screen .87, screen .95  
 
 
 set multiplot
@@ -25,15 +26,16 @@ exact="./res/extended-tmax1.0-exact-xmin1e-4-simple.res"
 
 set yrange [0.001:*]
 
-plot res_simple i 0 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lc rgb"red" lt 2 lw 6  title 'simple {/Symbol \t}=0.1',\
-res i 0 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lc rgb"red" lt 3 lw 4  title 'full {/Symbol \t}=0.1',\
-exact i 0 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lt 1 lw 3 lc rgb"red" title 'exact {/Symbol \t}=0.1',\
-res_simple i 4 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lc rgb"blue" lt 2 lw 6  title 'simple {/Symbol \t}=0.4',\
-res i 4 using (exp(-$2)):(sqrt(exp(-$2))*$4):(sqrt(exp(-$2))*$5) with lines lc rgb"blue" lt 3 lw 4   title 'full {/Symbol \t}=0.4',\
-exact i 4 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lt 1 lw 3 lc rgb"blue" title 'exact {/Symbol \t}=0.4',\
-res_simple i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4):(sqrt(exp(-$2))*$5) with lines lc rgb"#008000" lt 2 lw 6  title 'simple {/Symbol \t}=1',\
-res i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4)with lines lc rgb"#008000" lt 3 lw 4   title 'full {/Symbol \t}=1',\
-exact i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lt 1 lw 3 lc rgb"#008000" title 'exact {/Symbol \t}=1'
+plot exact i 0 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lt 1 lw 3 lc rgb"red" title 'simple, analytic:   {/Symbol \t}=0.1',\
+res_simple i 0 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lc rgb"red" lt 2 lw 6  title 'simple, numerical:   {/Symbol \t}=0.1',\
+res i 0 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lc rgb"red" lt 3 lw 4  title 'full, numerical:   {/Symbol \t}=0.1',\
+exact i 4 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lt 1 lw 3 lc rgb"blue" title '{/Symbol \t}=0.4',\
+res_simple i 4 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lc rgb"blue" lt 2 lw 6  title '{/Symbol \t}=0.4',\
+res i 4 using (exp(-$2)):(sqrt(exp(-$2))*$4):(sqrt(exp(-$2))*$5) with lines lc rgb"blue" lt 3 lw 4   title '{/Symbol \t}=0.4',\
+exact i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lt 1 lw 3 lc rgb"#008000" title '{/Symbol \t}=1',\
+res_simple i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4):(sqrt(exp(-$2))*$5) with lines lc rgb"#008000" lt 2 lw 6  title '{/Symbol \t}=1',\
+res i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4)with lines lc rgb"#008000" lt 3 lw 4   title '{/Symbol \t}=1'
+
 
 
 
@@ -43,7 +45,10 @@ combined='<bash -c "paste <(grep -v \"^#\" ./res/extended-tmax1.0-eps1e-9-xmin1e
 
 
 unset ylabel
-set ylabel "Relative error" offset 2,0,0
+set key default
+set key top left
+
+
 
 set bmargin at screen 0.40
 set tmargin at screen 0.50
@@ -59,11 +64,14 @@ set tmargin at screen 0.35
 unset logscale y
 set yrange [0.95:1.05]
 
+set ylabel "Simple, ratio numerical/analytic" offset 2,0,0
+
 plot 1.0 lc rgb"black" lt 0 lw 3 notitle,\
 combined i 4 using (exp(-$2)):(sqrt(exp(-$2))*$4)/(sqrt(exp(-$2))*$9):(sqrt(exp(-$2))*$5)/(sqrt(exp(-$2))*$9) t 'simple {/Symbol \t}=0.4' w yerr lc rgb"red" lw 3 pt 7 ps 0 lt 1
 
 
 set xlabel "x"
+unset ylabel
 
 set bmargin at screen 0.10
 set tmargin at screen 0.20

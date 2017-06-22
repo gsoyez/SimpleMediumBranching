@@ -94,11 +94,10 @@ void GeneratorInMedium::_branch(){
   unsigned int parent=_particles.size()-1;
 
   double x=_particles[parent].x();///< Relies on pushing back child before branching
-  //if(x<2*_cutoff){
   if(x<_xmin){
     return;///< We have reached the bottom of the recursion => we have one particle.
   }
-  /// plittingTime, randomly generated
+  /// SplittingTime, randomly generated
   generate_branching(x);
   double splitting_time=_t;
   double z=_z;
