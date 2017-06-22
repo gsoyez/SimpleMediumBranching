@@ -15,7 +15,7 @@ using namespace std;
 //========================================================================
 // save results to file
 void write(const string &out, vector<SimpleHist> &distribs, 
-           SimpleHist &D2, SimpleHist2D &D2full,
+           vector<SimpleHist> &D2, SimpleHist2D &D2full,
            ostringstream &header, unsigned int nev, double tmax){
   ofstream ostr(out.c_str());
 
@@ -30,7 +30,7 @@ void write(const string &out, vector<SimpleHist> &distribs,
 
   // D's for slices in time
   for (unsigned int it=0; it<distribs.size(); it++){
-    ostr << "# D(x,t=" << (it+1.0)/distribs.size()*tmax << endl;
+    ostr << "# D(x,t=" << (it+1.0)/distribs.size()*tmax << ")" << endl;
     // construct the error
     SimpleHist err = sqrt(distribs[it]);
     output(distribs[it], err, &ostr, 1.0/(distribs[it].binsize()*nev));
@@ -38,10 +38,12 @@ void write(const string &out, vector<SimpleHist> &distribs,
   }
 
   // D2 (diagonal part) at fimal time
-  ostr << "# D2 (final time)" << endl;
-  SimpleHist err = sqrt(D2);
-  output(D2, err, &ostr, 1.0/(D2.binsize()*nev));
-  ostr << endl << endl;
+  for (unsigned int it=0; it<distribs.size(); it++){
+    ostr << "# D2 (t="<< (it+1.0)/distribs.size()*tmax << ")" << endl;
+    SimpleHist err = sqrt(D2[it]);
+    output(D2[it], err, &ostr, 1.0/(D2[it].binsize()*D2[it].binsize()*nev));
+    ostr << endl << endl;
+  }
 
   // D2, full 2D scane, final time
   ostr << "# D2full (final time)" << endl;
@@ -85,7 +87,7 @@ public:
     // setup things needed for the event generation
     GeneratorType gen(rseq);
     vector<SimpleHist> distribs(nt, SimpleHist(0.0, log(1.0/xmin), nbin));
-    SimpleHist D2(0.0, log(1.0/xmin), nbin);
+    vector<SimpleHist> D2      (nt, SimpleHist(0.0, log(1.0/xmin), nbin));
     SimpleHist2D D2full(0.0, log(1.0/xmin), nD2, 0.0, log(1.0/xmin), nD2);
 
     //----------------------------------------------------------------------
@@ -95,11 +97,11 @@ public:
       gen.generate_event(tmax,eps,xmin);
       
       // we only record the final particles
-      vector<double> x_above_xmin;
+      vector<vector<double> > x_above_xmin(nt);
       for (const Particle & p : gen.event().particles()){ 
         if (p.x()<xmin) continue;
-        if (p.is_final())
-          x_above_xmin.push_back(p.x());
+        //if (p.is_final())
+        //  x_above_xmin.push_back(p.x());
 
         double t0 = p.start_time();
         double t1 = p.end_time();
@@ -108,23 +110,35 @@ public:
         unsigned int itmax = (t1<0) ? nt : int(t1/tmax * nt);
         assert(itmax <= nt);
 
-        for (unsigned int it=itmin; it<itmax; ++it)
+        for (unsigned int it=itmin; it<itmax; ++it){
           distribs[it].add_entry(log(1.0/p.x()));
+          x_above_xmin[it].push_back(p.x());
+        }
       }
-
+      
       // now bin D2 
-      for (unsigned int i1 = 0; i1+1 < x_above_xmin.size(); ++i1){
-        const double &lx1 = log(1.0/x_above_xmin[i1]);
-        unsigned int ibin1 = D2.bin(lx1);
+      for (unsigned int it = 0; it<nt; ++it){
+        for (unsigned int i1 = 0; i1+1 < x_above_xmin[it].size(); ++i1){
+          const double &lx1 = log(1.0/x_above_xmin[it][i1]);
+          unsigned int ibin1 = D2[it].bin(lx1);
 
-        for (unsigned int i2 = i1+1; i2 < x_above_xmin.size(); ++i2){
-          const double &lx2 = log(1.0/x_above_xmin[i2]);
-          D2full.add_entry(lx1, lx2);
-          D2full.add_entry(lx2, lx1);
-          // WATCH OUT: the expression below is missing 2 things:
-          //  1. a fator of 2 for the x1 <-> x2 symmetry
-          //  2. a 1/binsize normalisation (D2 is double-differential)
-          if (D2.bin(lx2)==ibin1) D2.add_entry(lx1);
+          for (unsigned int i2 = i1+1; i2 < x_above_xmin[it].size(); ++i2){
+            const double &lx2 = log(1.0/x_above_xmin[it][i2]);
+
+            if (it==(nt-1)){
+              D2full.add_entry(lx1, lx2);
+              D2full.add_entry(lx2, lx1);
+            }
+
+            // WATCH OUT: the expression below is missing 2 things:
+            //  1. a fator of 2 for the x1 <-> x2 symmetry
+            //  2. a 1/binsize normalisation (D2 is double-differential)
+            // 2017-07-21: fixed
+            if (D2[it].bin(lx2)==ibin1){
+              D2[it].add_entry(lx1);
+              D2[it].add_entry(lx1);
+            }
+          }
         }
       }
       
