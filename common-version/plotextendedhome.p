@@ -29,9 +29,9 @@ set yrange [0.001:*]
 plot exact i 0 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lt 1 lw 3 lc rgb"red" title 'simple, analytic:   {/Symbol \t}=0.1',\
 res_simple i 0 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lc rgb"red" lt 2 lw 6  title 'simple, numerical:   {/Symbol \t}=0.1',\
 res i 0 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lc rgb"red" lt 3 lw 4  title 'full, numerical:   {/Symbol \t}=0.1',\
-exact i 4 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lt 1 lw 3 lc rgb"blue" title '{/Symbol \t}=0.4',\
-res_simple i 4 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lc rgb"blue" lt 2 lw 6  title '{/Symbol \t}=0.4',\
-res i 4 using (exp(-$2)):(sqrt(exp(-$2))*$4):(sqrt(exp(-$2))*$5) with lines lc rgb"blue" lt 3 lw 4   title '{/Symbol \t}=0.4',\
+exact i 4 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lt 1 lw 3 lc rgb"blue" title '{/Symbol \t}=0.5',\
+res_simple i 4 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lc rgb"blue" lt 2 lw 6  title '{/Symbol \t}=0.5',\
+res i 4 using (exp(-$2)):(sqrt(exp(-$2))*$4):(sqrt(exp(-$2))*$5) with lines lc rgb"blue" lt 3 lw 4   title '{/Symbol \t}=0.5',\
 exact i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4) with lines lt 1 lw 3 lc rgb"#008000" title '{/Symbol \t}=1',\
 res_simple i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4):(sqrt(exp(-$2))*$5) with lines lc rgb"#008000" lt 2 lw 6  title '{/Symbol \t}=1',\
 res i 9 using (exp(-$2)):(sqrt(exp(-$2))*$4)with lines lc rgb"#008000" lt 3 lw 4   title '{/Symbol \t}=1'

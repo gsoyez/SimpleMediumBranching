@@ -2,7 +2,7 @@ reset
 set terminal pdfcairo dashed enhanced font "Helvetica,7" size 5.0,7.0
 set title ''
 
-set ylabel 'x D^2(x,x)' offset 4,0,0
+set ylabel 'x D^{(2)}(x,x)' offset 4,0,0
 
 set output "D2.pdf"
 
