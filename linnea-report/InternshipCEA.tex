@@ -122,7 +122,7 @@ One very useful tool is to study the propagation of energetic jets through the Q
 In order to extract the properties of QGP out of the data from events in which jets were produced, we need a thorough theoretical understanding of how the jets interact with the medium. Thanks to asymptotic freedom in QCD, the branchings in high energy jets can be treated perturbatively -- however, there is still the need to take into account the multiple scatterings of the jet off the medium when studying the branchings. These scatterings must be resummed to all orders, a calculation that was first done about 20 years ago for a single gluon emission \cite{Baier:1996kr,Zakharov:1997uu}. In recent years the same approach has been extended to an arbitrary number of such emissions\cite{Blaizot:2012fh,Blaizot:2013hx}: an effective theory has been derived from first principles in QCD, depicting the in-medium jet evolution as a Markovian stochastic process. Among other things, this theory predicts a new mechanism for energy loss by the jet via the same type of energy cascades as are found in {\em wave turbulence}. The predictions from this new mechanism are at least qualitatively consistent with the phenomenology of jet
 quenching at the LHC \cite{Aad:2010bu,Chatrchyan:2011sx}.
 
-In the effective theory mentioned above, the successive branchings are independent from each other, making it suitable for Monte Carlo simulations. The goal of this internship is to create such a simulation, and to become familiar with the effective theory in general. While Monte Carlo simulations are already implemented in detail for jet evolution in vacuum (see \cite{Pythia,Herwig} for widely-used generic-purpose generators or \cite{SmallR} for a recent simplified implementation), there is so far no similar implementation for the in-medium case. (But see \cite{Zapp:2012ak} for an alternative approach.) 
+In the effective theory mentioned above, the successive branchings are independent from each other, making it suitable for Monte Carlo simulations. The goal of this internship is to create such a simulation, and to become familiar with the effective theory in general. While Monte Carlo simulations are already implemented in detail for jet evolution in vacuum (see \cite{Pythia,Herwig} for widely-used generic-purpose generators or \cite{SmallR} for a recent simplified implementation), there is so far no similar implementation for the in-medium case. (But see \cite{Zapp:2012ak,Schenke:2009gb} for alternative approaches.) 
 
 
 
@@ -171,7 +171,7 @@ This leads us to the conclusion that \emph{either} the initial gluon is time-lik
 
 The typical situation in a high energy process is to have a leading particle that is time-like, as it is produced in a hard process. We shall later consider the situation where there is scattering off a medium, which can make this 1-2 process possible even if the leading particle is on shell (since the scattering can put the initial parton off shell, or put a final off shell parton on shell again).
 
-Regardless of whether the branching is due to virtuality or scattering, due to the uncertainty principle the branching is not instantaneous. We can define a formation time $t_f$ related to the uncertainty in the moment at which the branching took place:
+Regardless of whether the branching is due to virtuality or scattering, due to the uncertainty principle the branching is not instantaneous. We can define a formation time $\Delta t_f$ related to the uncertainty in the moment at which the branching took place:
 \begin{equation}
 \Delta t_f=\frac{1}{|E_f-E_i|}.
 \end{equation}
@@ -258,7 +258,7 @@ In this section we will first discuss the properties of our medium in section \r
 We assume that our medium is a weakly coupled, deconfined quark gluon plasma that is in equilibrium at a temperature T. In this medium we have scattering between the partons of the jet ($\omega \gg T$) and thermal particles ($\omega \sim T$). The assumption about thermal equilibrium is a simplification, but the extension to a more general situation such as a longitudinally expanding QGP would not change the picture on a conceptual level.
 
 
-Although the coupling is weak, there are effects of the gauge interaction which cannot be expanded out in perturbation theory, meaning that they must be kept in the leading order theory. One important effect of this kind is the screening of the gauge interaction by the plasma constituents, associated to the mobility of the colour charges. In analogue to to what happens in an electromagnetic plasma, this leads to Debye screening. Specifically, the Coulomb potential of a charge $Q$ gets an exponential decay at large distances:
+Although the coupling is weak, there are effects of the gauge interaction which cannot be expanded out in perturbation theory, meaning that they must be kept in the leading order theory. One important effect of this kind is the screening of the gauge interaction by the plasma constituents, associated to the mobility of the colour charges. In analogue to what happens in an electromagnetic plasma, this leads to Debye screening. Specifically, the Coulomb potential of a charge $Q$ gets an exponential decay at large distances:
 \begin{equation}
 A_0(r)=\frac{Q}{r}e^{-m_Dr}.
 \end{equation}
@@ -366,14 +366,14 @@ This has the following physical interpretation: the integral is dominated by the
 
 \subsection{Multiple branchings in a medium}\label{multiplebranchings}
 
-The hard (and rare) gluon emissions with energies $\omega \sim \omega_c$, which as we have seen control the energy loss of the leading particle (see equation \eqref{average}), propagate at small angles w.r.t. the jet axis, $\theta_f \sim (\hat{q}/\omega_c^3)^{1/4} \sim 1/\sqrt{\hat{q}L^3}$. Hence, they cannot contribute to the energy loss of the jet as it is typically defined experimentally, which is by a jet opening angle $\theta_j \simeq 0.2-o,4$ as compared to $\theta_f(\omega_c)\leq 0.1$. The experimental observation of the phenomenon of \emph{di-jet asymmetry} (a strong energy imbalance between two jets propagating back-to-back) in Pb-Pb collisions at the LHC\cite{Aad:2010bu,Chatrchyan:2011sx} demonstrates that a jet propagating through a QGP can lose a significant fraction of its energy via soft radiation ($\omega \lesssim 2 GeV$) propagating at \emph{very} large angles $\theta \ll \theta_j$. The primary gluons which are directly emitted at such large angles are too soft to carry a significant amount of energy. However, as we shall explain in what follows, energy can still be transmitted to large angles via the successive branchings of the (relatively) hard primary gluons.
+The very hard (and rare) gluon emissions with energies $\omega \sim \omega_c$, which as we have seen control the energy loss of the leading particle (see equation \eqref{average}), propagate at small angles w.r.t. the jet axis, $\theta_f(\omega_c) \sim (\hat{q}/\omega_c^3)^{1/4} \sim 1/\sqrt{\hat{q}L^3}$. Hence, they cannot contribute to the energy loss of the jet \emph{as a whole}, where here we mean the experimentally measured jet as defined by the jet opening angle $\theta_j$. One typically has $\theta_j=0.2-0.4$, which is indeed much larger than $\theta_f(\omega_c) \leq 0.1$. The experimental observation of the phenomenon of \emph{di-jet asymmetry} (a strong energy imbalance between two jets propagating back-to-back) in Pb-Pb collisions at the LHC\cite{Aad:2010bu,Chatrchyan:2011sx} demonstrates that a jet propagating through a QGP can lose a significant fraction of its energy via soft radiation ($\omega \lesssim 2$ GeV) propagating at \emph{very} large angles $\theta \gg \theta_j$. The primary gluons which are directly emitted at such large angles are too soft to carry a significant amount of energy. However, as we shall explain in what follows, energy can still be transmitted to large angles via the successive branchings of primary gluons whose energies are relatively hard, but still much smaller than $\omega_c$.
 
 
 %There is one final piece needed for our puzzle: why do we not find most of the energy just outside of the cone used to define the jet? While there is some transverse momentum given to the gluon that gets radiated away from the jet, this is in general not enough to ensure that the gluon propagates with a large angle with respect to the jet axis. Since the primary gluons of interest are typically quite hard, their angles $\theta \sim k_\perp/\omega$ are still rather small.
 
 %What we haven't considered yet, is that each radiated gluon 
 
-The missing piece of the puzzle is that the primary gluons with $\omega \lesssim \omega_{br}$ will \emph{keep branching}. During this branching they will emit countless of very soft gluons, but since the formation time is dependent on the energy it also becomes possible to have branchings in which the energy is split fairly evenly between the child gluons. Such branchings are called democratic branchings and provide a very efficient mechanism for transfer of energy down to soft scales and large angles. Indeed, we can envisage an energy cascade, which is something that is more familiar in the context of wave turbulence. This will be seen in more detail in section \ref{stochastic}.
+The key observation is that such primary gluons will \emph{keep branching}. During this branching they will decay into a large number of very soft gluons, but since the formation time is dependent on the energy it also becomes possible to have branchings in which the energy is split fairly evenly between the child gluons. Such branchings are called democratic branchings and provide a very efficient mechanism for transfer of energy down to soft scales and large angles. Indeed, we can envisage an energy cascade, which is something that is more familiar in the context of wave turbulence. This will be seen in more detail in section \ref{stochastic}.
 
 
 
@@ -423,7 +423,7 @@ Not surprisingly, the rate is inversely proportional to the time between two suc
 
 
 \section{Medium induced branching as a Markovian process}\label{stochastic}
-
+In this section we describe the mathematical structure of the Markovian branching process introduced in the previous section, and summarize some of the known analytical results.
 %Structure: describe model, describe what kernel we get (or, probably, discuss kernel already in previous section), then introduce probability evolution equation, moment generating functional, etc. Predictions of models, i.e. energy ending up in condensate (formally, in practice T will give lower energy scale rather than zero...). Turbulence. 
 
 %Things to check against numerics would involve
@@ -511,9 +511,9 @@ A neat way to write this is to use the functional derivative $\frac{\delta Z(u(x
 \party{Z}{\tau}=\int \mathrm{d}z \int \mathrm{d}x \, K(z,x) [u(zx)u((1-z)x) - u(x)]\frac{\delta Z(u(x),\tau)}{\delta u(x)}.
 \end{equation}
 
-The above equation can now be used to find the evolution equation for the number density in $x$-space,  $n(x)=\langle \hat{n} (x)\rangle$ and the number density of pairs $n^2(x,x') = \langle \hat{n}^2(x,x') \rangle $. We define 
+The above equation can now be used to find the evolution equation for the number density in $x$-space,  $n(x)=\langle \hat{n} (x)\rangle$ and the number density of pairs $n^{(2)}(x,x') = \langle \hat{n}^{(2)}(x,x') \rangle $. We define 
 \begin{equation}
-\hat{n}(x)=\sum_{i=1}^n \delta(x_i-x), \quad \hat{n}^2(x,x')=\sum_{i \neq j} \delta(x_i-x)\delta(x_j-x').
+\hat{n}(x)=\sum_{i=1}^n \delta(x_i-x), \quad \hat{n}^{(2)}(x,x')=\sum_{i \neq j} \delta(x_i-x)\delta(x_j-x').
 \end{equation}
 The higher multiplicities are defined similarly. Taking these definitions together with the definition of $Z$ we find
 \begin{equation}\label{moments}
@@ -580,7 +580,7 @@ This quantity will in the next section be compared to the \emph{fluctuations} in
 where the last estimate holds whenever $L\ll \Delta t_{br}(E)$ or equivalently $\omega_{br}(L) \ll E$. As we predicted in section \ref{multiplebranchings} the typical energy loss is indeed of $\mathcal{O}(\omega_{br})$.
 
 
-The flow of energy out of the cascade is also visible in figure \ref{Dfig}, where for the larger values of $\tau$ each subsequent curve is below the previous one. Apart from this, one can also notice the peak close to $x=1$ for small times $\tau$; this peak corresponds to the leading particle and gets washed out when $\tau$ gets close to one. Recalling that $\tau=1 \Leftrightarrow t=t_{br}(E)$, this means that for $\tau \sim 1$ the leading particle has had the time to undergo a democratic branching and is therefore no longer visible.
+The flow of energy out of the cascade is also visible in figure \ref{Dfig}, where for the larger values of $\tau$ each subsequent curve is below the previous one. Apart from this, one can also notice the peak close to $x=1$ for small times $\tau$; this peak corresponds to the leading particle and gets washed out when $\tau$ gets close to one. Recalling that $\tau=1 \Leftrightarrow t=\Delta t_{br}(E)$, this means that for $\tau \sim 1$ the leading particle has had the time to undergo a democratic branching and is therefore no longer visible.
 
 %(Discuss a bit more about using a cutoff $x_0$ and also about angles, make connection to what is observed... Should mention somewhere what is observed, i.e. the di-jet asymmetry and the fact that energy is recovered at large angles.)
 
@@ -652,9 +652,9 @@ We can use the pair correlations to find the fluctuations in energy loss:
 \begin{equation}
 \sigma_\epsilon^2(\tau)=\sigma_X^2(\tau) = \langle X^2(\tau) \rangle - \langle X(\tau)\rangle ^2 ,
 \end{equation}
-with $\langle X(\tau)\rangle$ given by equation \eqref{X} and $\langle X(\tau)^2 \rangle$ given by
+with $\langle X(\tau)\rangle$ given by equation \eqref{X} and $\langle X^2 (\tau)\rangle$ given by
 \begin{equation}
-\langle X^2(\tau) \rangle =\int_0^1 \mathrm{d}x \int_0^1 \mathrm{d}x'\, D^2(x,x',\tau)+\int_0^1 \mathrm{d}x\, x D(x).
+\langle X^2(\tau) \rangle =\int_0^1 \mathrm{d}x \int_0^1 \mathrm{d}x'\, D^{(2)}(x,x',\tau)+\int_0^1 \mathrm{d}x\, x D(x).
 \end{equation}
 Evaluation of the above expression can be found in e.g. ref \cite{Escobedo:2016jbm} to give 
 \begin{equation}
@@ -684,7 +684,7 @@ At the core of the simulation is a function, {\tt \char`_branch()}, that starts 
 The pseudo code given in algorithm \ref{branchingAlg} gives the general idea of the function {\tt \char`_branch()}, with several bookkeeping variables omitted to increase readability. The code is given in appendix \ref{code} for comparison.
 
 
-One important feature in the simulation that we did not have to worry about in the stochastic model up until now is the need for an infra-red cutoff. Indeed, we mentioned by the end of section \ref{onepoint} the number of gluons is not a meaningful observable. Nevertheless, a number of gluons is exactly what our simulation will produce, and unless we introduce a cutoff our function {\tt \char`_branch()} will find very soft gluons with a very short splitting time at each step. We therefore chose a cutoff well below the energy scales we are interested in, restrict our splitting kernel to values above this cutoff and stop the branching whenever the energy fractions of our gluons get too small.
+One important feature in the simulation that we did not have to worry about in the stochastic model up until now is the need for an infra-red cutoff. Indeed, we mentioned by the end of section \ref{onepoint} the number of gluons is not a meaningful observable. Nevertheless, a number of gluons is exactly what our simulation will produce, and unless we introduce a cutoff our function {\tt \char`_branch()} will find very soft gluons with a very short splitting time at each step. We therefore chose a cutoff $\epsilon$ well below the energy scales we are interested in, restrict our splitting kernel to values above this cutoff and stop the branching whenever the energy fractions of our gluons get too small.
 
 %The most important function is {\tt \char`_branch()}. The pseudo code shown in algorithm \ref{branchingAlg} gives the general idea of the function, with several bookkeeping variables omitted to increase readability. This function is responsible for recursively branching the leading particle during a given branching time. The full code is given in Appendix \ref{code} for comparison. 
 %The simulation is written in C++ and makes use of the GNU Scientific Library\footnote{\url{https://www.gnu.org/software/gsl/}} for generating (pseudo-)random numbers.
@@ -698,7 +698,7 @@ During the branching, each particle (including the intermediate ones) is given a
 \item The indices of the two child particles. (Set to $-1$ for the particles that have not had time to branch, i.e. the final particles.)
 \item The energy fraction $x$ as compared to the leading particle. (Set to $1$ for the leading particle.)
 \end{itemize}
-This vector is stored in a class {\tt Event}. However, the only physical observables will be the final particles and their energy fraction. Therefore, {\tt Event} also stores a vector with only the x-values of the final particles. 
+This vector is stored in a class {\tt Event}. However, the only physical observables will be the final particles and their energy fraction. Therefore, {\tt Event} also stores a vector with only the $x$-values of the final particles. 
 
 
 \begin{algorithm}
@@ -758,7 +758,7 @@ As a first step we must establish what cutoff $\epsilon$ we need to take in orde
 
 Altogether, we conclude that $\epsilon=10^{-9}$ gives sufficiently trustworthy results to continue our analysis.  The gluon spectrum is plotted for this cutoff in figure \ref{Dtimes} for $\tau=0.1,\,0.5$ and $1$. For this plot we use the full vector generated for each event and traverse it to find the gluons that were present at the relevant times. For the simplified kernel, we see that the one point spectrum matches the analytical result well, while for the  full kernel the spectrum looks slightly different. More precisely for the full kernel we see that the branching is less efficient, which is reasonable since the numerator in the splitting kernel is smaller. This is especially visible for the larger times, where we see that less energy has been lost from the spectrum. For the smaller times we see that more energy remains with the leading particle corresponding to the rightmost peak.
 
-In order to estimate the numerical accuracy, the ratio between the numerical and results for the simplified kernel is plotted for each time, with error bars for the numerical values. This is shown in the lower part of figure \ref{Dtimes}. To the right hand side of each plot the relative error is large due to the small sample size, especially at $\tau=1$ when there is a large depletion at $x \sim 1$. The ratio of 1 is still within the error bars. To the left hand side we see a systematic overestimation of the numerical values, here the error bars do not include the ratio 1 and so we can conclude that we have a bias. This bias also present in figure \ref{convergence}, and therefore originates at least in part from the effect of a nonzero cutoff.
+In order to estimate the numerical accuracy, the ratio between the numerical and results for the simplified kernel is plotted for each time, with error bars for the numerical values. This is shown in the lower part of figure \ref{Dtimes}. At large $x$ the relative error is large due to the small sample size, especially at $\tau=1$ when there is a large depletion at $x \sim 1$. The ratio of 1 is still within our statistical uncertainties. At small $x$ we see a systematic overestimation of the numerical values, here the error bars do not include the ratio 1 and so we can conclude that we have a bias. This bias also present in figure \ref{convergence}, and therefore originates at least in part from the effect of a nonzero cutoff.
 
 
 In figure \ref{D2times} we show the same plot for the two point function, considering only the case $x=x'$. Here the numerical fluctuations are larger, suggesting that more iterations would be needed to get within the same statistical accuracy as for the one point function. Apart from this the behaviour is similar, again showing the effect of the full splitting kernel leading to a less efficient branching.
@@ -787,7 +787,7 @@ Overall, we can conclude that our simulation reproduces the known results for th
 \centering
 \includegraphics[width=0.9\linewidth]{D2.pdf}
 \vspace*{-20pt}
-\caption{$x D^2(x,x)$ at various times. The curves for the simple kernel overlap with the analytic solutions (as given by equation \eqref{D2solution}) for the simple kernel in the upper subplot, with the ratio between these curves shown in the lower three subplots. The curves for the full kernel depart from those of the simple kernel.}\label{D2times}
+\caption{$x D^{(2)}(x,x)$ at various times. The curves for the simple kernel overlap with the analytic solutions (as given by equation \eqref{D2solution}) for the simple kernel in the upper subplot, with the ratio between these curves shown in the lower three subplots. The curves for the full kernel depart from those of the simple kernel.}\label{D2times}
 \end{figure}
 
 
@@ -831,6 +831,23 @@ J.-P. Blaizot, E.~Iancu, and Y.~Mehtar-Tani, ``{Medium-induced QCD cascade:
 \href{http://arxiv.org/abs/1301.6102}{{\ttfamily arXiv:1301.6102 [hep-ph]}}.
 %%CITATION = ARXIV:1301.6102;%%.
 
+\bibitem{Aad:2010bu}
+{\bfseries ATLAS} Collaboration, G.~Aad {\em et al.}, ``{Observation of a
+  Centrality-Dependent Dijet Asymmetry in Lead-Lead Collisions at
+  $\sqrt{s_{NN}}$= 2.76 TeV with the Atlas Detector at the LHC},''
+  \href{http://dx.doi.org/10.1103/PhysRevLett.105.252303}{{\em Phys. Rev.
+  Lett.} {\bfseries 105} (2010) 252303},
+\href{http://arxiv.org/abs/1011.6182}{{\ttfamily arXiv:1011.6182 [hep-ex]}}.
+%%CITATION = 1011.6182;%%.
+
+\bibitem{Chatrchyan:2011sx}
+{\bfseries CMS} Collaboration, S.~Chatrchyan {\em et al.}, ``{Observation and
+  Studies of Jet Quenching in PbPb Collisions at Nucleon-Nucleon Center-Of-Mass
+  Energy = 2.76 TeV},''
+  \href{http://dx.doi.org/10.1103/PhysRevC.84.024906}{{\em Phys. Rev.}
+  {\bfseries C84} (2011) 024906},
+\href{http://arxiv.org/abs/1102.1957}{{\ttfamily arXiv:1102.1957 [nucl-ex]}}.
+%%CITATION = 1102.1957;%%.
 
 
 
@@ -875,24 +892,46 @@ K.~C. Zapp, F.~Krauss, and U.~A. Wiedemann, ``{A perturbative framework for jet
 %%CITATION = ARXIV:1212.1599;%%.
 
 
+  \bibitem{Schenke:2009gb}
+B.~Schenke, C.~Gale, and S.~Jeon, ``{Martini: an Event Generator for
+  Relativistic Heavy-Ion Collisions},''
+  \href{http://dx.doi.org/10.1103/PhysRevC.80.054913}{{\em Phys. Rev.}
+  {\bfseries C80} (2009) 054913},
+\href{http://arxiv.org/abs/0909.2037}{{\ttfamily arXiv:0909.2037 [hep-ph]}}.
+%%CITATION = 0909.2037;%%.
 
-\bibitem{Aad:2010bu}
-{\bfseries ATLAS} Collaboration, G.~Aad {\em et al.}, ``{Observation of a
-  Centrality-Dependent Dijet Asymmetry in Lead-Lead Collisions at
-  $\sqrt{s_{NN}}$= 2.76 TeV with the Atlas Detector at the LHC},''
-  \href{http://dx.doi.org/10.1103/PhysRevLett.105.252303}{{\em Phys. Rev.
-  Lett.} {\bfseries 105} (2010) 252303},
-\href{http://arxiv.org/abs/1011.6182}{{\ttfamily arXiv:1011.6182 [hep-ex]}}.
-%%CITATION = 1011.6182;%%.
 
-\bibitem{Chatrchyan:2011sx}
-{\bfseries CMS} Collaboration, S.~Chatrchyan {\em et al.}, ``{Observation and
-  Studies of Jet Quenching in PbPb Collisions at Nucleon-Nucleon Center-Of-Mass
-  Energy = 2.76 TeV},''
-  \href{http://dx.doi.org/10.1103/PhysRevC.84.024906}{{\em Phys. Rev.}
-  {\bfseries C84} (2011) 024906},
-\href{http://arxiv.org/abs/1102.1957}{{\ttfamily arXiv:1102.1957 [nucl-ex]}}.
-%%CITATION = 1102.1957;%%.
+\bibitem{peskin}
+M. E. Peskin and D. V. Shroeder, ``An Introduction to Quantum Field Theory,'' \emph{Westview Press} (1995).
+
+ 	
+\bibitem{Debye}
+J. P. Blaizot and E. Iancu, ``The Quark-Gluon Plasma: Collective Dynamics and Hard Thermal Loops,''
+{\em Phys.Rept.} {\bf 359} (2002) 355-528,
+\href{https://arxiv.org/abs/hep-ph/0101103}{{\ttfamily arXiv:0101103 [hep-ph]}}.
+  
+ 	
+\bibitem{Review}
+Y. Mehtar-Tani, J. G. Milhano and K. Tywoniuk, ``Jet physics in heavy-ion collisions,''
+{\em Int. J. of Mod. Phys. A} {\bf 28} (2013) 1340013,
+\href{https://arxiv.org/abs/1302.2579}{{\ttfamily arXiv:1302.2579 [hep-ph]}}.
+  
+  
+
+
+
+\bibitem{probabilistic}
+J. P. Blaizot, F. Dominguez, E. Iancu and Y. Mehtar-Tani, ``Probabilistic picture for medium-induced jet evolution,'' {\em JHEP} {\bf 06} (2014) 075,
+ \href{http://arxiv.org/abs/1311.5823}{{\ttfamily arXiv:1311.5823 [hep-ph]}}.
+ 	
+
+
+\bibitem{FisterIancu}
+ E. Iancu and L. Fister, ``Medium-induced jet evolution: wave turbulence and energy loss,''{\em JHEP} {\bf 1503} (2015) 082,
+ \href{http://arxiv.org/abs/1409.2010}{{\ttfamily arXiv:1409.2010 [hep-ph]}}.
+
+
+
 
 
 
@@ -902,43 +941,8 @@ K.~C. Zapp, F.~Krauss, and U.~A. Wiedemann, ``{A perturbative framework for jet
   {\em JHEP} {\bf 1605}  (2016) 008,
   \href{http://arxiv.org/abs/1601.03629}{{\ttfamily  arXiv:1601.03629 [hep-ph]}}.
   
-  \bibitem{Schenke:2009gb}
-B.~Schenke, C.~Gale, and S.~Jeon, ``{Martini: an Event Generator for
-  Relativistic Heavy-Ion Collisions},''
-  \href{http://dx.doi.org/10.1103/PhysRevC.80.054913}{{\em Phys. Rev.}
-  {\bfseries C80} (2009) 054913},
-\href{http://arxiv.org/abs/0909.2037}{{\ttfamily arXiv:0909.2037 [hep-ph]}}.
-%%CITATION = 0909.2037;%%.
-
-  
-  
-  
-\bibitem{FisterIancu}
- E. Iancu and L. Fister, ``Medium-induced jet evolution: wave turbulence and energy loss,''{\em JHEP} {\bf 1503} (2015) 082,
- \href{http://arxiv.org/abs/1409.2010}{{\ttfamily arXiv:1409.2010 [hep-ph]}}.
 
 
-
-
-\bibitem{probabilistic}
-J. P. Blaizot, F. Dominguez, E. Iancu and Y. Mehtar-Tani, ``Probabilistic picture for medium-induced jet evolution,'' {\em JHEP} {\bf 06} (2014) 075,
- \href{http://arxiv.org/abs/1311.5823}{{\ttfamily arXiv:1311.5823 [hep-ph]}}.
- 	
-\bibitem{peskin}
-M. E. Peskin and D. V. Shroeder, ``An Introduction to Quantum Field Theory,'' \emph{Westview Press} (1995).
-
-
-
- 	
-\bibitem{Debye}
-J. P. Blaizot and E. Iancu, ``The Quark-Gluon Plasma: Collective Dynamics and Hard Thermal Loops,''
-{\em Phys.Rept.} {\bf 359} (2002) 355-528,
-\href{https://arxiv.org/abs/hep-ph/0101103}{{\ttfamily arXiv:0101103 [hep-ph]}}.
- 	
-\bibitem{Review}
-Y. Mehtar-Tani, J. G. Milhano and K. Tywoniuk, ``Jet physics in heavy-ion collisions,''
-{\em Int. J. of Mod. Phys. A} {\bf 28} (2013) 1340013,
-\href{https://arxiv.org/abs/1302.2579}{{\ttfamily arXiv:1302.2579 [hep-ph]}}.
 
 \bibitem{KNO}
 M. A. Escobedo and E. Iancu, ``Multi-particle correlations and KNO scaling in the medium-induced jet evolution,''
@@ -964,7 +968,7 @@ We thus want to modify this solution to allow for any value of $x_0$. To make th
 \begin{equation}
 G(x,x_0,\tau)=g(\omega, \omega_0,t),
 \end{equation}
-with $x \equiv w/E$, $x_0 \equiv \omega_0/E$ and $\tau \equiv t/t_{br}(E)$, $\omega < \omega_0 <E$. In these variables our goal is to replace $E$ by $x_0$ in the one point function $D$. However, for our initial condition we want
+with $x \equiv w/E$, $x_0 \equiv \omega_0/E$ and $\tau \equiv t/\Delta t_{br}(E)$, $\omega < \omega_0 <E$. In these variables our goal is to replace $E$ by $x_0$ in the one point function $D$. However, for our initial condition we want
 \begin{equation}
 G(x,x_0,0)=g(\omega,\omega_0,0)=\delta(x-x_0)=\delta \left( \frac{\omega}{E} - \frac{\omega_0}{E}\right)=E\delta(\omega-\omega_0).
 \end{equation}
@@ -976,7 +980,7 @@ Clearly we will need to compensate by a factor $E/\omega_0$, which in our rescal
 
 With this compensation out of the way we should consider the dependence within $D$ of $E$, and hence of $x_0$:
 \begin{equation}
-g(\omega,E,t)=D(x,\tau)=D\left( \frac{\omega}{E},\frac{t}{t_{br}(E)}\right)=\tilde{D} \left( \frac{\omega}{E},\frac{t}{\sqrt{E}}\right).
+g(\omega,E,t)=D(x,\tau)=D\left( \frac{\omega}{E},\frac{t}{\Delta t_{br}(E)}\right)=\tilde{D} \left( \frac{\omega}{E},\frac{t}{\sqrt{E}}\right).
 \end{equation}
 In the redefined $\tilde{D}$ the dependence on $E$ has been made explicit. We now let $E\rightarrow \omega_0$ and obtain
 \begin{equation}
