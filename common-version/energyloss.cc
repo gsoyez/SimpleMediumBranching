@@ -4,6 +4,7 @@
 #include <numeric>
 
 #include <gsl/gsl_math.h>
+#include <gsl/gsl_sf_erf.h>
 
 #include "event.hh"
 #include "generator.hh"
@@ -18,38 +19,74 @@ using namespace std;
 int main(){
   cout << "Running"<<endl;
 
-  double test_time=0.1;
+  double tau;
   double epsilon=1e-8;
   double x_min=1e-4;
 
   GeneratorInMediumSimple g;
   g.set_seed(1);
 
-  MeanAndErr energy;
+  GeneratorInMedium g_full;
+  g_full.set_seed(1);
 
-  unsigned int iterations = 1000;
-  for (unsigned int i = 0; i < iterations; i++ ){
-    g.generate_event(test_time,epsilon,x_min);
-    const vector<double> finals=g.event().final_particles();
-    double sum = 0;
-    vector<double> sortfinals = finals;//not const, can sort
-    sort(sortfinals.begin(), sortfinals.end());
-    for (unsigned int k = 0; k < sortfinals.size(); k++ ) {
-      if (sortfinals[k] > x_min){
-        sum += sortfinals[k];
+
+  ofstream ostr("energyloss_maxt1.5_xmine-4_itere3.dat");
+  ostr << "#Time, th average, th variance, num average,  num variance,";
+  ostr <<"full num average, full num variance" << endl;
+
+  for (tau=0.1; tau<1.5;tau+=0.1){
+      cout << tau<<endl;
+    MeanAndErr energy;
+    MeanAndErr energy_full;
+    unsigned int iterations = 1000;
+    for (unsigned int i = 0; i < iterations; i++ ){
+      g.generate_event(tau,epsilon,x_min);
+      g_full.generate_event(tau,epsilon,x_min);
+      const vector<double> finals=g.event().final_particles();
+      double sum = 0;
+      vector<double> sortfinals = finals;//not const, can sort
+      sort(sortfinals.begin(), sortfinals.end());
+      for (unsigned int k = 0; k < sortfinals.size(); k++ ) {
+        if (sortfinals[k] > x_min){
+          sum += sortfinals[k];
+        }
+      }
+      energy.addEntry(1-sum);
+
+
+      const vector<double> finals_full=g_full.event().final_particles();
+      sum = 0;
+      vector<double> sortfinals_full = finals_full;//not const, can sort
+      sort(sortfinals_full.begin(), sortfinals_full.end());
+      for (unsigned int k = 0; k < sortfinals_full.size(); k++ ) {
+        if (sortfinals_full[k] > x_min){
+          sum += sortfinals_full[k];
+        }
+      }
+      energy_full.addEntry(1-sum);
+
+      if (i%10 == 0){
+        cout << i << endl;
       }
     }
-    energy.addEntry(1-sum);
-    if (i%10 == 0){
-      cout << i << endl;
-    }
+
+    double average = energy.mean();
+    double error = sqrt(energy.variance());
+    double erf1=gsl_sf_erf (sqrt(M_PI)*tau);
+    double erf2=gsl_sf_erf (2*sqrt(M_PI)*tau);
+    double variance = 2*M_PI*tau*(erf1-erf2)+2*exp(-M_PI*tau*tau)
+                      - exp(-4*M_PI*tau*tau) - exp(-2*M_PI*tau*tau);
+
+    ostr << tau << "  ";
+    ostr << 1-exp(-M_PI*tau*tau) << "  ";
+    ostr << variance << "  ";
+    ostr << energy.mean()<< "  ";
+    ostr << energy.variance() << "  ";
+    ostr << energy_full.mean()<< "  ";
+    ostr << energy_full.variance() << endl;
+
+
   }
-
-  double average = energy.mean();
-  double error = sqrt(energy.variance());
-
-  cout << "Theory: " << 1-exp(-3.14*test_time*test_time);
-  cout << ", average: " << average << ", error*sqrt(3): " << error*sqrt(3) << endl;
-
+  ostr.close();
   return 0;
 }
