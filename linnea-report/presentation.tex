@@ -1,0 +1,235 @@
+\documentclass[pstricks,mathserif]{beamer}
+\usetheme{Hannover}
+\usefonttheme[onlymath]{serif}
+
+
+\usepackage{graphicx}
+%\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb,amsthm}
+\usepackage{comment}
+%\usepackage{url} 
+\usepackage{bm}
+%\usepackage{esint}
+\usepackage{multirow}
+%\usepackage{thmtools, thm-restate}
+\usepackage{mathtools}
+%\usepackage{framed}
+%\usepackage{float}
+%\usepackage{subcaption}
+\usepackage{epstopdf}%New addition
+%\usepackage{cite}
+%\usepackage{subcaption}
+\usepackage{subfig}
+\usepackage[percent]{overpic}
+
+\definecolor{firstcolor}{HTML}{F5F5FF}
+\definecolor{secondcolor}{HTML}{EBEBFF}
+\definecolor{thirdcolor}{HTML}{E0E0FF}
+% Recreate the commands for equations
+%\renewcommand*{\equationautorefname}{equation}
+%\def\equationautorefname~#1\null{%equation~(#1)\null
+
+%Trying to get a pyramid
+  
+\usepackage{tikz}
+\usetikzlibrary{intersections}  
+\usetikzlibrary{hobby}
+%\usepackage{multido}
+%\SpecialCoor  
+%\def\Pyramid#1{%
+%    \begin{pspicture}(#1,-#1)
+%    \multido{\i=1+1}{#1}{%
+%        \pstriangle(!#1 2 div \i\space neg)(\i,\i)
+%        \uput[90](!#1 2 div \i\space neg){\char\numexpr\i+64}}
+%    \end{pspicture}}
+
+%Commands
+
+\newcommand\irregularcircle[2]{% radius, irregularity
+  \pgfextra {\pgfmathsetmacro\len{(#1)+rand*(#2)}}
+  +(0:\len pt)
+  \foreach \a in {10,20,...,350}{
+    \pgfextra {\pgfmathsetmacro\len{(#1)+rand*(#2)}}
+    -- +(\a:\len pt)
+  } -- cycle
+}
+
+\newcommand{\party}[2]{\frac{\partial{#1}}{\partial{#2}}}
+
+\title{Jet evolution in a dense QCD medium}
+\author{Linnéa Gräns Samuelsson}
+\institute % (optional)
+{
+  Internship at CEA Saclay\\
+  Supervisors: Edmond Iancu and Gregory Soyez
+}
+\begin{document}
+
+
+\frame{\titlepage}
+
+
+%\section{Structure}
+\section{Intro}
+
+
+\begin{frame}
+
+Structure of the report:
+
+\begin{itemize}
+\item Physics
+\item Stochastics
+\item Numerics
+\end{itemize}
+
+\end{frame}
+
+\section{Theoretical background}
+
+\begin{frame}
+
+Heavy ion collisions, quark gluon plasma and jets\\
+Stereotypical picture:
+
+\begin{center}
+\includegraphics[width=0.7\linewidth]{jet-quenching.jpg}
+\end{center}
+%Note: this picture is misleading.
+%This is one of the findings, fluctuations
+%are large enough to compete with jets
+%travelling a different distance through the medium
+
+\end{frame}
+
+\begin{frame}
+A typical event:
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.5\linewidth]{democraticbranch.eps}
+\end{center}
+\end{figure}
+%
+\begin{itemize}
+\small
+\item A number of $\mathcal{O}(1)$ of primary gluons emitted from leading particle.
+\item They then branch democratically.
+\item Grey gluon lines $=$ large number of non democratic, soft emissions.
+\end{itemize}
+%
+%
+\end{frame}
+
+\begin{frame}
+
+Energy cascade, wave turbulence
+
+\begin{figure}
+{\tiny
+\minipage{0.5\textwidth}
+	\begin{overpic}[width=\linewidth]{democratic.eps}
+	\put(5,40){$x=1$}
+	\put(43,47){$x \sim \frac{1}{2}$}
+	\put(53,58){$x \sim \frac{1}{4}$}
+	\put(68,59){\vector(4,0){8}}
+	\put(64,70){$x \sim \frac{1}{8}$}
+	\put(79,71){\vector(4,0){8}}
+	\end{overpic}
+  	%\vspace*{-30pt}
+  	%\caption{here go gluons}\label{fig:D0_t1}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  	\includegraphics[width=\linewidth]{Richardson_cascade.png}
+  	%\vspace*{-30pt}
+  	%\caption{Turbulence}\label{fig:D0_t5}
+\endminipage\hfill
+}
+\end{figure}
+
+\end{frame}
+
+
+
+\section{Simulation}
+
+\begin{frame}
+Numerical considerations, IR cutoff, pileup.
+
+\minipage{0.5\textwidth}
+\begin{itemize}
+\item $\epsilon$: IR cutoff for $x$ in kernel
+\item $x_{min}$: lowest $x$ considered
+\end{itemize}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+\centering
+\includegraphics[width=0.8\linewidth]{Dpileup.pdf}
+%(if I include this one, kill the text on it...)
+\endminipage\hfill
+
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth]{convergence.pdf}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+Result: full kernel $\Rightarrow$ less efficient branching
+(will probably only have D(x) and also skip ratio here)
+\begin{figure}
+\minipage{0.5\textwidth}
+\centering
+\includegraphics[width=1\linewidth]{times.pdf}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+\includegraphics[width=1\linewidth]{D2.pdf}
+\endminipage\hfill
+\end{figure}
+
+
+\end{frame}
+
+
+
+\begin{frame}
+Energy loss: (define it here)
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth]{energyloss.pdf}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}
+Energy loss, the effect of $x_{min}$
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth]{energyloss_xmins.pdf}
+\end{figure}
+
+\end{frame}
+
+\section{Outro}
+\begin{frame}
+
+%Maybe something about future work, discussion etc. I should probably have the thesis itself in a pdf viewer for easy reference in case of questions.
+
+Possible extensions:
+
+\begin{itemize}
+\item Things
+\end{itemize}
+~\\
+\center THE END\\
+~\\
+Questions?
+
+\end{frame}
+
+\end{document}
