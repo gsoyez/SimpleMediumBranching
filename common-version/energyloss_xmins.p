@@ -9,7 +9,7 @@ set ylabel 'Simple, num/th'
 set xlabel '{/Symbol \t}'
 set xrange [0.1:0.7]
 
-myfile = "./EnergyLoss/energyloss_xmins.dat"
+myfile = "./EnergyLoss/energyloss_xmins2.dat"
 
 plot 1.0 with lines lt 0 lw 3 lc rgb"black" notitle,\
 myfile i 0 using 1:($4/$2) with lines lw 2 title 'xmin = e-1',\
