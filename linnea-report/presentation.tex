@@ -59,6 +59,18 @@
 
 \newcommand{\party}[2]{\frac{\partial{#1}}{\partial{#2}}}
 
+
+
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
+
+\setbeamercolor{footline}{fg=black}
+
+
 \title{Jet evolution in a dense QCD medium}
 \author{Linnéa Gräns Samuelsson}
 \institute % (optional)
@@ -88,18 +100,26 @@
 \endminipage\hfill
 
 
+%\vspace*{1cm}
+
+\minipage{0.5\textwidth}
 \vspace*{1cm}
-
-
 Structure of presentation:
 
 \begin{itemize}
 \item Context
 \item Physical picture
 \item Markov process
-\item Monte Carlo simulation
+%\item Monte Carlo simulation
 \end{itemize}
-
+\endminipage\hfill
+\minipage{0.5\textwidth}
+\includegraphics[width=0.9\linewidth]{jet-quenching.jpg}
+\endminipage\hfill
+\vspace*{-0.25cm}
+\begin{itemize}
+\item Monte Carlo simulation $\leftarrow$ my contribution
+\end{itemize}
 \vspace*{1cm}
 
 \end{frame}
@@ -109,18 +129,27 @@ Structure of presentation:
 \begin{frame}
 
 %\frametitle{\small \flushleft HIC's, QGP's and jets}
-Heavy ion collisions, quark gluon plasma and jets,\\
-what we observe:
-
-\begin{center}
+%Heavy ion collisions, quark gluon plasma and jets,\\
+%what we observe:
+\minipage{0.5\textwidth}
+\includegraphics[width=0.9\linewidth]{jet-quenching.jpg}
+\endminipage\hfill
+\minipage{0.5\textwidth}
 \includegraphics[width=1\linewidth]{CMS_JetQ.png}
-\end{center}
+\endminipage\hfill
+%\begin{center}
+%\includegraphics[width=1\linewidth]{CMS_JetQ.png}
+%\end{center}
 %Note: this picture is misleading.
 %This is one of the findings, fluctuations
 %are large enough to compete with jets
 %travelling a different distance through the medium
 
-Di-jet asymmetry. Missing energy found among soft hadrons propagating at large angles $\Rightarrow$ different from in vacuum jet evolution.
+%Di-jet asymmetry. 
+Observation: jet loses energy in medium. Missing energy found among soft hadrons at large angles.% $\Rightarrow$ different from in vacuum jet evolution.
+\begin{itemize}
+\item Question 1: why large angles?
+\end{itemize}
 
 
 \end{frame}
@@ -131,130 +160,144 @@ Di-jet asymmetry. Missing energy found among soft hadrons propagating at large a
  %\begin{textblock}{0.5}(0.001,0.001)
  % Test
  %\end{textblock}
-\vspace*{0.5cm}
-Heavy ion collisions, quark gluon plasma and jets,\\
-the stereotypical picture:
-\begin{center}
-\includegraphics[width=0.45\linewidth]{jet-quenching.jpg}
-\end{center}
+%\vspace*{0.5cm}
+%Heavy ion collisions, quark gluon plasma and jets,\\
+%the stereotypical picture:
+%\begin{center}
+%\includegraphics[width=0.45\linewidth]{jet-quenching.jpg}
+%\end{center}
 %Note: this picture is misleading.
 %This is one of the findings, fluctuations
 %are large enough to compete with jets
 %travelling a different distance through the medium
 
 
-Implicit assumption: small energy fluctuations.
+Difference in energy loss, competition between geometry and fluctuations:
 
 \vspace*{0.5cm}
 
 \minipage{0.5\textwidth}
 	\centering
-	\includegraphics[width=0.45\linewidth, angle=180,origin=c]{Dijet_flucts1.pdf}
+	\includegraphics[width=0.7\linewidth, angle=180,origin=c]{Dijet_flucts1.pdf}
 \endminipage\hfill
 \minipage{0.5\textwidth}
 	\centering
-  	\includegraphics[width=0.45\linewidth, angle=180,origin=c]{Dijet_flucts2.eps}
+  	\includegraphics[width=0.7\linewidth, angle=180,origin=c]{Dijet_flucts2.eps}
 \endminipage\hfill
 \vspace*{1cm}
 
-\end{frame}
-
-
-
-\begin{frame}
-We need a model that answers:
 \begin{itemize}
-\item How can the lost energy end up at such large angles?
-\item How large are the energy fluctuations?
+\item Question 2: how large fluctuations?
 \end{itemize}
+
+
 \end{frame}
+
+
 
 \section{Physical picture}
 
-\begin{frame}
+\begin{frame}[t]
 \frametitle{Physical picture}
-
-{In a medium,} scattering triggers emissions:
-\begin{itemize}
-\item Destroys quantum coherence
-\item Gives broadening of transverse momentum
-\end{itemize}
-
-
-Formation time: $\lambda_\perp<\Delta x_\perp \Rightarrow \frac{1}{k_\perp}<\frac{k_\perp}{\omega}\Delta t_f .$
-
-
-
 \begin{center}
-
-
 \begin{tikzpicture}
-    \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.5\textwidth]{gluonemission.eps}};
+    \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.6\textwidth]{scattering.eps}};
     \begin{scope}[x={(image.south east)},y={(image.north west)}]
-        \draw[] (0.70,0.11) arc (-12:21:0.7);
-        \node[] at (0.65, 0.7) {$\omega,k_\perp$};
-        \node[] at (0.74, 0.27) {$\theta$};
-        \draw[red,thick,dashed, <->] (0.83,0.1) -- (0.83,0.7);
-        \node[red,right] at (0.83, 0.35){$\Delta x_\perp$};
-        \draw[blue,thick, dashed,<->] (0.5,0) -- (0.83,00);
-        \node[blue,below] at (0.65, 0){$\Delta t_f$};
+        \draw[] (0.80,0.25) arc (-12:12:0.7);
+        \node[] at (1, 0.85) {$\omega,k_\perp$};
+        \node[] at (0.85, 0.4) {$\theta$};
+        \draw[red,thick,dashed, <->] (0.95,0.05) -- (0.95,0.7);
+        \node[red,right] at (0.95, 0.4){$\Delta x_\perp$};
+        \draw[blue,thick, dashed,<->] (0.7,0) -- (0.95,00);
+        \node[blue,below] at (0.85, 0){$\Delta t_f$};
     \end{scope}
 \end{tikzpicture}
 \end{center}
 
-Note: we have mostly gluon emissions so we consider only these.
+Source of energy loss: medium induced radiation.\\
+~\\
 
-\end{frame}
-\begin{frame}
-
-
-
-$\Delta t_f \gg $ mean free path $\gg$ Debye length $\Rightarrow$  multiple scatterings lead to one emission and scattering centers are independent  $\Rightarrow$ random walk $\Rightarrow$ $\langle k_\perp^2 \rangle \sim \hat{q}\Delta t$.
-
-\begin{center}
-\includegraphics[width=0.5\linewidth]{scattering.eps}
-\end{center}
-
-
-
-All together: $\Delta t_f \sim \sqrt{\frac{\omega}{\hat{q}}}$ 
-and $\theta_f=\left( \frac{\hat{q}}{\omega^3} \right)^{1/4}$
-
-$\Rightarrow$ we favour soft gluons at large angles!
-
-\end{frame}
-
-\begin{frame}
-
-If now $\omega =$ energy of parent: $\Delta P (z, \omega, \Delta t) \sim \alpha_s \Delta t/ [\Delta t_f(z\omega)]$
-%\vspace*{-0.5cm}
 \begin{itemize}
-\item For $z \omega \sim \omega_{br}$,
-$\Delta P (z, \omega) \sim \mathcal{O}(1)$ at $\Delta t = L$  
-\item Next, $P(z, \omega_{br}) \sim \mathcal{O}(1)$ for $\Delta t < L$, even for $z \sim 1/2$
+\item Scattering destroys quantum coherence
 \end{itemize}
-\vspace*{0.7cm}
-$\Delta P\sim \mathcal{O}(1)$\\
-$\Rightarrow$ multiple branchings!\\
-A typical event:
-\vspace*{-2cm}
+
+
+Formation time: ${\color{blue}\Delta t_f = \frac{\omega}{k_\perp^2}}$, from criterion $\lambda_\perp<\Delta x_\perp$.
+
+%\frac{1}{k_\perp}<\frac{k_\perp}{\omega}\Delta t_f 
+
+~\\
+(Note: mostly gluon emissions $\Rightarrow$ consider only these.)
+\end{frame}
+
+\begin{frame}[t]
+\frametitle{Physical picture}
 \begin{center}
-\begin{overpic}[width=0.65\linewidth]{democraticbranch.eps}
-	\put(5,45){$E$}
-	\put(59,49){$\omega \sim \omega_{br}$}
-	\put(86,36){{\color{gray}$\omega \ll \omega_{br}$}}
-	\put(46,76){$(1-z) \omega$}	
-	\put(71,59){$z \omega$}
-	\put(100,58){$T$}
-	\put(96,76){$T$}
-\end{overpic}
+\begin{tikzpicture}
+    \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.6\textwidth]{scattering.eps}};
+    \begin{scope}[x={(image.south east)},y={(image.north west)}]
+        \draw[] (0.80,0.25) arc (-12:12:0.7);
+        \node[] at (1, 0.85) {$\omega,k_\perp$};
+        \node[] at (0.85, 0.4) {$\theta$};
+        \draw[red,thick,dashed, <->] (0.95,0.05) -- (0.95,0.7);
+        \node[red,right] at (0.95, 0.4){$\Delta x_\perp$};
+        \draw[blue,thick, dashed,<->] (0.7,0) -- (0.95,00);
+        \node[blue,below] at (0.85, 0){$\Delta t_f$};
+    \end{scope}
+\end{tikzpicture}
 \end{center}
 
-%
-%
+\begin{itemize}
+\item Scattering gives broadening of transverse momentum
+\end{itemize}
+
+$\Delta t_f \gg $ mean free path $\gg$ Debye length\\ $\Rightarrow$  multiple scatterings lead to one emission \emph{and} scattering centers are independent \\ $\Rightarrow$ random walk \\
+$\Rightarrow$  ${\color{blue} \langle k_\perp^2 \rangle \sim \hat{q}\Delta t }$, with $\hat{q}$ being the jet quenching parameter.
+
+%\begin{center}
+%\includegraphics[width=0.5\linewidth]{scattering.eps}
+%\end{center}
+
+\end{frame}
+\begin{frame}
+
+
+\begin{center}
+${\color{blue} \Delta t_f = \frac{\omega}{k_\perp^2}} \quad \quad \quad \quad \quad {\color{blue}\langle k_\perp^2 \rangle \sim \hat{q}\Delta t}$ 
+
+\begin{tikzpicture}
+\draw[thick, ->] (1,1) -- (1.4,0.6);
+\draw[thick, ->] (4,1) -- (3.6,0.6);
+\end{tikzpicture}
+\end{center}
+$$\Delta t_f \sim \sqrt{\frac{\omega}{\hat{q}}}$$
+~\\
+~\\
+Angles: $\theta_f=\frac{k_\perp}{\omega} = \left( \frac{\hat{q}}{\omega^3} \right)^{1/4}$
+
+$\Rightarrow$ we favour soft gluons at large angles!\\
+~\\
+
+BUT not the end of the story...
 \end{frame}
 
 \begin{frame}
+
+Small $\omega$ gives small $\Delta t_f  \Rightarrow$  need to consider multiple branchings. Hardest scale for multiple branchings:
+$$\omega_{br}= \bar{\alpha}^2 \hat{q}L^2.$$
+\begin{flushright}
+{\tiny ($\bar{\alpha}=\alpha_sN_c/\pi$) }
+\end{flushright}
+
+%Harder: not probable enough.
+
+%Softer: not energetic enough.
+
+Primary gluons emitted with $\omega_{br}$ can undergo democratic branchings (child gluons split energy $\sim$ equally).
+
+\end{frame}
+
+\begin{frame}[t]
 \begin{center}
 \begin{overpic}[width=0.65\linewidth]{democraticbranch.eps}
 	\put(5,45){$E$}
@@ -266,98 +309,107 @@ A typical event:
 	\put(96,76){$T$}
 \end{overpic}
 \end{center}
-\vspace*{-0.5cm}
+%\vspace*{-0.5cm}
 %
+Mechanism for energy loss:
+
 \begin{itemize}
 \small
-\item A number of $\mathcal{O}(1)$ of primary gluons with $\omega \sim \omega_{br}$ emitted from leading particle.
+\item $\mathcal{O}(1)$ of primary gluon emissions with $\omega \sim \omega_{br}$.
 \item They then branch democratically, transporting away all energy.
 \item Hence both energy loss and its fluctuations on the scale $\omega_{br}$.
-\item Time between branchings $\gg$ formation time $\Rightarrow$ branchings are independent $\Rightarrow$ Markov process
 \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[t]
+\begin{center}
+\begin{overpic}[width=0.65\linewidth]{democraticbranch.eps}
+	\put(5,45){$E$}
+	\put(59,49){$\omega \sim \omega_{br}$}
+	\put(86,36){{\color{gray}$\omega \ll \omega_{br}$}}
+	\put(46,76){$(1-z) \omega$}	
+	\put(71,59){$z \omega$}
+	\put(100,58){$T$}
+	\put(96,76){$T$}
+\end{overpic}
+\end{center}
+
+Time between branchings $\gg$ formation time\\
+ $\Rightarrow$ branchings are independent\\
+  $\Rightarrow$ Markov process
 \end{frame}
 
 
 \section{Markov process}
-
-
-
 \begin{frame}
 \frametitle{Markov process}
+
+
 Branching rate from BDMPS-Z spectrum:
-$$\frac{\mathrm{d}^2 P(z,\tau)}{\mathrm{d}z\mathrm{d}\tau}=\frac{K(z)}{2 \sqrt{x}} \equiv K(x,z).$$
-
+$$\frac{\mathrm{d}^2 P(z,\tau)}{\mathrm{d}z\mathrm{d}\tau}=\frac{K(z)}{2 \sqrt{x}}$$
 \begin{itemize}
-\item $\tau$ = time scaled by the time needed for the leading particle to branch democratically.
-
-\item Splitting kernel: $K(z)=\frac{[1-z(1-z)]^{5/2}}{[z(1-z)]^{3/2}}$. 
-
-Simplified: $K(z)=\frac{1}{[z(1-z)]^{3/2}}$.
+\item $\tau=\frac{\text{propagation time}}{\text{democratic branching time for leading particle}}$,  $\quad x=\frac{\omega}{E}$
+\item Splitting kernel: $K(z)=\frac{[1-z(1-z)]^{5/2}}{[z(1-z)]^{3/2}} \approx  \frac{1}{[z(1-z)]^{3/2}}$
 \end{itemize}
 ~\\
 
 
-Get equation for the one point function
-$D(x,\tau)\equiv xn(x,\tau)$ 
+For the energy spectrum we consider
+$D(x,\tau)\equiv xn(x,\tau)$, for the fluctuations we also need $D^{(2)}(x,x'\tau)\equiv xx'n^{(2)}(x,x',\tau)$.
 
 \begin{center}
-\includegraphics[width=0.9\linewidth]{RateEq_D.pdf}
+\includegraphics[width=1\linewidth]{RateEq_D.pdf}
 \end{center}
 
-
-and similarly (but longer) for the two-point function $D^{(2)}(x,x'\tau)\equiv xx'n^{(2)}(x,x',\tau)$.
 %\includegraphics[width=0.8\linewidth]{RateEq_D2.pdf}
 
 %$\party{}{\tau}D(x,\tau)=\int \mathrm{d}z\, K(z) \left[\sqrt{\frac{z}{x}} D\left(\frac{x}{z},\tau\right)- \frac{z}{\sqrt{x}}D(x,\tau)  \right]$
 \end{frame}
 
 
-\begin{frame}
-Simple kernel:
+\begin{frame}[t]
+Analytic result, simple kernel:
 \includegraphics[width=0.9\linewidth]{plotD.pdf}
 
 \begin{itemize}
-\item Energy fraction left in gluon cascade: $\int_0^1 \mathrm{d}x\, D(x,\tau) = e^{-\pi\tau^2}$ $\Rightarrow$ decreasing in time. 
+\item $D(x,\tau)=\frac{\tau}{\sqrt{x}(1-x)^{3/2}}\exp\left(-\frac{\pi \tau^2}{1-x}\right)$. 
+\item $\int_0^1 \mathrm{d}x\, D(x,\tau) = e^{-\pi\tau^2}$ $\Rightarrow$ energy decreasing in time. 
 \item Formally: condensate at $x=0$. Physically: thermalization.
+%\item At small $\tau$, loss $\simeq \pi \omega_{br}$. 
+%\item $D^{(2)}(x,x'\tau)$ used to find fluctuations. To order $\tau^4$:
+% $$\sigma_\epsilon(\tau)\simeq \langle \epsilon(\tau)\rangle/\sqrt{3}$$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t]
+Analytic result, simple kernel:
+\includegraphics[width=0.9\linewidth]{plotD.pdf}
+
+\begin{itemize}
+%\item $D(x,\tau)=\frac{\tau}{\sqrt{x}(1-x)^{3/2}}\exp\left(-\frac{\pi \tau^2}{1-x}\right)$
+%\item $\int_0^1 \mathrm{d}x\, D(x,\tau) = e^{-\pi\tau^2}$ $\Rightarrow$ energy decreasing in time. 
+%\item Formally: condensate at $x=0$. Physically: thermalization.
 \item At small $\tau$, loss $\simeq \pi \omega_{br}$. 
 \item $D^{(2)}(x,x'\tau)$ used to find fluctuations. To order $\tau^4$:
  $$\sigma_\epsilon(\tau)\simeq \langle \epsilon(\tau)\rangle/\sqrt{3}$$.
 \end{itemize}
- 
+\end{frame}
 
-%\vspace*{1cm}
-%Note: (fix point...)
-%Democratic branching compared to wave turbulence. Might actually end up skipping this part.\\
-%~\\
 
-%{\tiny
-%\minipage{0.5\textwidth}
-%	\centering
-%	\begin{overpic}[width=0.7\linewidth]{democratic.eps}
-	%\put(5,40){$x=1$}
-	%\put(43,47){$x \sim \frac{1}{2}$}
-	%\put(53,58){$x \sim \frac{1}{4}$}
-	%\put(68,59){\vector(4,0){8}}
-	%\put(64,70){$x \sim \frac{1}{8}$}
-	%\put(79,71){\vector(4,0){8}}
-%	\end{overpic}
-  	%\vspace*{-30pt}
-  	%\caption{here go gluons}\label{fig:D0_t1}
-%\endminipage\hfill
-%\minipage{0.5\textwidth}
-%	\centering
-%  	\includegraphics[width=0.7\linewidth]{Richardson_cascade.png}
-  	%\vspace*{-30pt}
-  	%\caption{Turbulence}\label{fig:D0_t5}
-%\endminipage\hfill
-%}
+\section{Monte Carlo simulation}
 
+\begin{frame}
+\begin{center}
+New work: Monte Carlo simulation\\
+~\\
+\url{https://github.com/gsoyez/SimpleMediumBranching}
+\end{center}
 
 \end{frame}
 
 
-
-\section{Monte Carlo simulation}
 
 \begin{frame}
 \frametitle{Monte Carlo simulation}
@@ -380,7 +432,7 @@ Result: full kernel $\Rightarrow$ less efficient branching\\
 Simple splitting kernel, numerical versus analytic:
 \begin{itemize}
 \item Good agreement overall
-\item Bias at small x (pileup)
+\item Small x bias $<$ 1\%
 \end{itemize}
 
 Corrections from the full splitting kernel:
@@ -430,7 +482,7 @@ Result: full kernel $\Rightarrow$ less efficient branching\\
 
 
 \begin{frame}
-Energy loss: $1 - \int_0^1 \mathrm{d}x\, D(x,\tau) $.
+Energy loss and its fluctuations - new result!
 {\centering
 \includegraphics[width=1\linewidth]{energyloss.pdf}
 }
@@ -449,9 +501,8 @@ Summary:
 \begin{itemize}
 \item Democratic branchings $\Rightarrow$ energy found at large angles
 \item Prediction: large fluctuations in energy loss
-\item Possible to make Monte Carlo simulation
-\item Full kernel $\Rightarrow$ less efficient branching
-\item Full and simple kernel have same behaviour {\em qualitatively}
+\item My contribution: Monte Carlo simulation
+\item First results for full kernel: same qualitative behaviour, quantitative differences
 \end{itemize}
 ~\\
 \center THE END\\
