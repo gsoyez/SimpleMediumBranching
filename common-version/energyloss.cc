@@ -20,8 +20,8 @@ int main(){
   cout << "Running"<<endl;
 
   double tau;
-  double epsilon=1e-9;
-  double x_min=1e-5;
+  double epsilon=1e-8;
+  double x_min=1e-4;
 
   GeneratorInMediumSimple g;
   g.set_seed(1);
@@ -30,22 +30,24 @@ int main(){
   g_full.set_seed(1);
 
 
-  ofstream ostr("energyloss_xmins2.dat");
+  ofstream ostr("energyloss_maxt3_xmine-4_itere3epsilone-8.dat");
   ostr << "#Time, th average, th variance, simple num average, simple num variance,";
   ostr <<"full num average, full num variance" << endl;
 
-  for (x_min=0.1; x_min>0.9e-5;x_min/=10){
-    ostr << "#x_min " << x_min<<endl;
+  //for (x_min=0.1; x_min>0.9e-5;x_min/=10){
+    //ostr << "#x_min " << x_min<<endl;
     cout << "xmin" << x_min <<endl;
 
-    for (tau=0.1; tau<0.75;tau+=0.1){
+    for (tau=1.6; tau<3.05;tau+=0.1){
         cout << tau<<endl;
       MeanAndErr energy;
       MeanAndErr energy_full;
-      unsigned int iterations = 500;
+      unsigned int iterations = 1000;
       for (unsigned int i = 0; i < iterations; i++ ){
         g.generate_event(tau,epsilon,x_min);
+
         g_full.generate_event(tau,epsilon,x_min);
+
         const vector<double> finals=g.event().final_particles();
         double sum = 0;
         vector<double> sortfinals = finals;//not const, can sort
@@ -69,8 +71,8 @@ int main(){
         }
         energy_full.addEntry(1-sum);
 
-        if (i%10 == 0){
-          //cout << i << endl;
+        if (i%100 == 0){
+          cout << i << endl;
         }
       }
 
@@ -90,7 +92,7 @@ int main(){
 
 
     }
-  }
+  //}
 
 
 
