@@ -149,11 +149,11 @@ Implicit assumption: small energy fluctuations.
 
 \minipage{0.5\textwidth}
 	\centering
-	\includegraphics[width=0.45\linewidth]{Dijet_flucts1.pdf}
+	\includegraphics[width=0.45\linewidth, angle=180,origin=c]{Dijet_flucts1.pdf}
 \endminipage\hfill
 \minipage{0.5\textwidth}
 	\centering
-  	\includegraphics[width=0.45\linewidth]{Dijet_flucts2.eps}
+  	\includegraphics[width=0.45\linewidth, angle=180,origin=c]{Dijet_flucts2.eps}
 \endminipage\hfill
 \vspace*{1cm}
 
@@ -174,7 +174,7 @@ We need a model that answers:
 \begin{frame}
 \frametitle{Physical picture}
 
-{\em In medium} scattering triggers emissions:
+{In a medium,} scattering triggers emissions:
 \begin{itemize}
 \item Destroys quantum coherence
 \item Gives broadening of transverse momentum
@@ -226,12 +226,12 @@ $\Rightarrow$ we favour soft gluons at large angles!
 
 \begin{frame}
 
-If instead $\omega$ energy of parent: $\Delta P (z, \omega, \Delta t) \sim \alpha_s \Delta t/ [\Delta t_f(z\omega)]$
-\vspace*{-0.5cm}
+If now $\omega =$ energy of parent: $\Delta P (z, \omega, \Delta t) \sim \alpha_s \Delta t/ [\Delta t_f(z\omega)]$
+%\vspace*{-0.5cm}
 \begin{itemize}
 \item For $z \omega \sim \omega_{br}$,
 $\Delta P (z, \omega) \sim \mathcal{O}(1)$ at $\Delta t = L$  
-\item For $\omega_{br}$, $P(z, \omega_{br}) \sim \mathcal{O}(1)$ for $\Delta t < L$, even for $z \sim 1/2$
+\item Next, $P(z, \omega_{br}) \sim \mathcal{O}(1)$ for $\Delta t < L$, even for $z \sim 1/2$
 \end{itemize}
 \vspace*{0.7cm}
 $\Delta P\sim \mathcal{O}(1)$\\
@@ -239,7 +239,7 @@ $\Rightarrow$ multiple branchings!\\
 A typical event:
 \vspace*{-2cm}
 \begin{center}
-\begin{overpic}[width=0.6\linewidth]{democraticbranch.eps}
+\begin{overpic}[width=0.65\linewidth]{democraticbranch.eps}
 	\put(5,45){$E$}
 	\put(59,49){$\omega \sim \omega_{br}$}
 	\put(86,36){{\color{gray}$\omega \ll \omega_{br}$}}
@@ -256,7 +256,7 @@ A typical event:
 
 \begin{frame}
 \begin{center}
-\begin{overpic}[width=0.6\linewidth]{democraticbranch.eps}
+\begin{overpic}[width=0.65\linewidth]{democraticbranch.eps}
 	\put(5,45){$E$}
 	\put(59,49){$\omega \sim \omega_{br}$}
 	\put(86,36){{\color{gray}$\omega \ll \omega_{br}$}}
@@ -271,7 +271,7 @@ A typical event:
 \begin{itemize}
 \small
 \item A number of $\mathcal{O}(1)$ of primary gluons with $\omega \sim \omega_{br}$ emitted from leading particle.
-\item They then branch democratically, transferring away all energy.
+\item They then branch democratically, transporting away all energy.
 \item Hence both energy loss and its fluctuations on the scale $\omega_{br}$.
 \item Time between branchings $>$ formation time $\Rightarrow$ branchings are independent $\Rightarrow$ Markov process
 \end{itemize}
@@ -284,7 +284,7 @@ A typical event:
 
 \begin{frame}
 \frametitle{Markov process}
-Branching rate from BDMPSZ spectrum:
+Branching rate from BDMPS-Z spectrum:
 $$\frac{\mathrm{d}^2 P(z,\tau)}{\mathrm{d}z\mathrm{d}\tau}=\frac{K(z)}{2 \sqrt{x}} \equiv K(x,z).$$
 
 \begin{itemize}
@@ -430,10 +430,11 @@ Result: full kernel $\Rightarrow$ less efficient branching\\
 
 
 \begin{frame}
-Energy loss: $1 - \int_0^1 \mathrm{d}x\, D(x,\tau) = 1 - e^{-\pi\tau^2}$
+Energy loss: $1 - \int_0^1 \mathrm{d}x\, D(x,\tau) $.
 {\centering
 \includegraphics[width=1\linewidth]{energyloss.pdf}
 }
+Full kernel $\Rightarrow$ shifted in $\tau$ but same qualitative picture.
 \end{frame}
 
 
