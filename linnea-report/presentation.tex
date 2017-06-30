@@ -95,9 +95,9 @@ Structure of presentation:
 
 \begin{itemize}
 \item Context
-\item Physics
-\item Stochastics
-\item Numerics
+\item Physical picture
+\item Markov process
+\item Monte Carlo simulation
 \end{itemize}
 
 \vspace*{1cm}
@@ -183,6 +183,8 @@ We need a model that answers:
 
 Formation time: $\lambda_\perp<\Delta x_\perp \Rightarrow \frac{1}{k_\perp}<\frac{k_\perp}{\omega}\Delta t_f .$
 
+
+
 \begin{center}
 
 
@@ -199,6 +201,9 @@ Formation time: $\lambda_\perp<\Delta x_\perp \Rightarrow \frac{1}{k_\perp}<\fra
     \end{scope}
 \end{tikzpicture}
 \end{center}
+
+Note: we have mostly gluon emissions so we consider only these.
+
 \end{frame}
 \begin{frame}
 
@@ -226,13 +231,30 @@ If instead $\omega$ energy of parent: $\Delta P (z, \omega, \Delta t) \sim \alph
 \begin{itemize}
 \item For $z \omega \sim \omega_{br}$,
 $\Delta P (z, \omega) \sim \mathcal{O}(1)$ at $\Delta t = L$  
-\item For $\omega_{br}$, $P(z, \omega_{br}) \sim \mathcal{O}(1)$ for $\Delta t < L$, even for $z \sim 1-z$
+\item For $\omega_{br}$, $P(z, \omega_{br}) \sim \mathcal{O}(1)$ for $\Delta t < L$, even for $z \sim 1/2$
 \end{itemize}
 \vspace*{0.7cm}
 $\Delta P\sim \mathcal{O}(1)$\\
-$\Rightarrow$ multiple branching!\\
+$\Rightarrow$ multiple branchings!\\
 A typical event:
 \vspace*{-2cm}
+\begin{center}
+\begin{overpic}[width=0.6\linewidth]{democraticbranch.eps}
+	\put(5,45){$E$}
+	\put(59,49){$\omega \sim \omega_{br}$}
+	\put(86,36){{\color{gray}$\omega \ll \omega_{br}$}}
+	\put(46,76){$(1-z) \omega$}	
+	\put(71,59){$z \omega$}
+	\put(100,58){$T$}
+	\put(96,76){$T$}
+\end{overpic}
+\end{center}
+
+%
+%
+\end{frame}
+
+\begin{frame}
 \begin{center}
 \begin{overpic}[width=0.6\linewidth]{democraticbranch.eps}
 	\put(5,45){$E$}
@@ -251,9 +273,8 @@ A typical event:
 \item A number of $\mathcal{O}(1)$ of primary gluons with $\omega \sim \omega_{br}$ emitted from leading particle.
 \item They then branch democratically, transferring away all energy.
 \item Hence both energy loss and its fluctuations on the scale $\omega_{br}$.
+\item Time between branchings $>$ formation time $\Rightarrow$ branchings are independent $\Rightarrow$ Markov process
 \end{itemize}
-%
-%
 \end{frame}
 
 
@@ -263,13 +284,16 @@ A typical event:
 
 \begin{frame}
 \frametitle{Markov process}
-In medium evolution as a Markovian process. Branching rate from BDMPSZ spectrum:
+Branching rate from BDMPSZ spectrum:
 $$\frac{\mathrm{d}^2 P(z,\tau)}{\mathrm{d}z\mathrm{d}\tau}=\frac{K(z)}{2 \sqrt{x}} \equiv K(x,z).$$
 
+\begin{itemize}
+\item $\tau$ = time scaled by the time needed for the leading particle to branch democratically.
 
-Splitting kernel: $K(z)=\frac{[1-z(1-z)]^{5/2}}{[z(1-z)]^{3/2}}$. 
+\item Splitting kernel: $K(z)=\frac{[1-z(1-z)]^{5/2}}{[z(1-z)]^{3/2}}$. 
 
-Simplified: $K(z)=\frac{1}{[z(1-z)]^{3/2}}$.\\
+Simplified: $K(z)=\frac{1}{[z(1-z)]^{3/2}}$.
+\end{itemize}
 ~\\
 
 
