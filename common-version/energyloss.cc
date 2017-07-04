@@ -21,7 +21,7 @@ int main(){
 
   double tau;
   double epsilon=1e-8;
-  double x_min=1e-4;
+  double x_min=1e-3;
 
   GeneratorInMediumSimple g;
   g.set_seed(1);
@@ -30,7 +30,7 @@ int main(){
   g_full.set_seed(1);
 
 
-  ofstream ostr("energyloss_maxt3_xmine-4_itere3epsilone-8.dat");
+  ofstream ostr("energyloss_t3_xmine-3_itere3epsilone-8.dat");
   ostr << "#Time, th average, th variance, simple num average, simple num variance,";
   ostr <<"full num average, full num variance" << endl;
 
@@ -38,7 +38,7 @@ int main(){
     //ostr << "#x_min " << x_min<<endl;
     cout << "xmin" << x_min <<endl;
 
-    for (tau=1.6; tau<3.05;tau+=0.1){
+    for (tau=3; tau<3.05;tau+=0.1){
         cout << tau<<endl;
       MeanAndErr energy;
       MeanAndErr energy_full;
