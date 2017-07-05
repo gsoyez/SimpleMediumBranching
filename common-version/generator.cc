@@ -80,6 +80,10 @@ void GeneratorBase::generate_event(double time,double cutoff,double xmin){
 
 // Branches the last particle in _particles, then iterate
 void GeneratorBase::_branch_last_recursively(){
+  //GS comments: this can be largely simplified:
+  // . splitting_time and _z are not needed (use _t and _z)
+  // . time_left is not needed and should be replaced by current_time
+
   unsigned int parent=_particles.size()-1;
 
   double x=_particles[parent].x();///< Relies on pushing back child before branching
@@ -112,18 +116,63 @@ void GeneratorBase::_branch_last_recursively(){
   _branch_last_recursively();
 }
 
+
 // generate a whole cascade stating form the existing particles in _particle
 void GeneratorBase::_branch_non_recursively(){
-  assert("not yet implemented" && false);
-
   // we start with a vector that will hold the indices of the
   // particles that ned to be forther branched.
   // Initially, it should contain all the particles in the event
-  vector<unsigned int> to_branch(_particles.size());
-  for (unsigned int i=0; i<_particles.size(); ++i)
-    to_branch[i] = i;
+  vector<unsigned int> indices_to_branch(_particles.size());
+  for (unsigned int i=0; i<_particles.size(); ++i){
+    if (_particles[i].x() > _xmin) indices_to_branch[i] = i;
+  }
 
-  /// TBC...
+  // not branch until we've exhausted the list of particles to branch
+  unsigned int current_position = 0;
+  while (current_position < indices_to_branch.size()){
+    // get the particle that we're supposed to branch
+    unsigned int particle_index = indices_to_branch[current_position];
+    const Particle & to_branch = _particles[particle_index];
+    double x = to_branch.x();
+
+    // generate (randomly) teh splitting time and momentum fraction
+    generate_branching(x);
+
+    // it we've exceeded time, discard the branching
+    double branching_time = to_branch.start_time() + _t;
+    if (branching_time > _end_time){
+      // just go to ythe next branching particle
+      ++current_position;
+      continue;
+    }
+
+    // generate the new particles
+    double x1 = _z*x;
+    double x2 = (1-_z)*x;
+    Particle child1(particle_index, branching_time, x1);
+    Particle child2(particle_index, branching_time, x2);
+
+    // update the event record
+    _particles.push_back(child1);
+    _particles.push_back(child2);
+    _particles[particle_index].set_end_time(branching_time);
+    _particles[particle_index].set_child1(_particles.size()-2);
+    _particles[particle_index].set_child2(_particles.size()-1);
+
+    // proceed w next branchings
+    if (x1>_xmin){
+      // we'll deal w the branching of x1 right now
+      indices_to_branch[current_position] = _particles.size()-2;
+
+      if (x2>_xmin) // append it for future branching
+        indices_to_branch.push_back(_particles.size()-1);
+    } else {
+      if (x2>_xmin) // deal with it immediately
+        indices_to_branch[current_position] = _particles.size()-1;
+      else // non of the 2 new particles need further branching
+        ++current_position;
+    }     
+  }    
 }
 
 //------------------------------------------------------------------------
