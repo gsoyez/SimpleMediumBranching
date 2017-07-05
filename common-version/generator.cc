@@ -1,6 +1,7 @@
 #include "event.hh"
 #include <gsl/gsl_math.h>
 #include <iostream>
+#include <cassert>
 #include <gsl/gsl_integration.h>
 #include "generator.hh"
 
@@ -19,62 +20,42 @@ namespace QCD
 }
 
 using namespace QCD;
-
+using namespace std;
 
 //Defining member functions for the class GeneratorInMedium
 
 //------------------------------------------------------------------------
-// generate an event
-//  - time    maximal time over which we keep branching
-//  - cutoff  min x value allowed
-//
-// Using simplified kernel g >= real kernel f in the veto algorithm
-//  g = 1/(z(1-z))^(3/2)
-//  f = (1-z(1-z))^(5/2)/(z(1-z))^(3/2)
+// implementation of the base class methods
 //------------------------------------------------------------------------
-
-/// default ctor
-GeneratorInMedium::GeneratorInMedium(int init_seed): _t(-1), _z(-1){
+// default ctor
+GeneratorBase::GeneratorBase(int init_seed): _t(-1), _z(-1){
   _r = gsl_rng_alloc (gsl_rng_default);
   set_seed(init_seed);
+
+  _recursive_branching = true;
 }
 
-/// default dtor
-GeneratorInMedium::~GeneratorInMedium(){
+// default dtor
+GeneratorBase::~GeneratorBase(){
   gsl_rng_free(_r);
 }
 
-void GeneratorInMedium::set_seed(int new_seed){
+// set the random seed
+void GeneratorBase::set_seed(int new_seed){
   _seed=new_seed;
   gsl_rng_set (_r, _seed);
 }
 
-void GeneratorInMedium::generate_branching(double x){
-  double z=1,R=1,fgratio=0,t=0;
-  double cutoff=_cutoff/x;
-  double root_x=sqrt(x);
-  /// Calculating the integral from cutoff to 1-cutoff
-  double alpha = (2-4*cutoff)/sqrt(cutoff*(1-cutoff));
-
-  while (fgratio<R){
-    /// Generate t according to g
-    t = t - log(gsl_rng_uniform(_r))/(alpha/(root_x));
-    /// Generate z according to g. x-dependence of alpha cancels
-    double u = gsl_rng_uniform(_r);
-    double v = (u-1)*alpha;
-    /// z distribution is symmetric around 0.5. Generate below.
-    z = 0.5 + v/(2*sqrt(v*v+16));
-    /// Decide if rejecting or not
-    fgratio = pow((1-z*(1-z)),5); /// Rejection factor f/g, squared
-    u = gsl_rng_uniform(_r);
-    R=u*u;
-  }
-  _t=t;
-  _z=z;
-}
-
-void GeneratorInMedium::generate_event(double time,double cutoff,double xmin){
-  /// -1 is the default parent, 0 is starting time, x is energy fraction
+// generate an event
+//  - time    maximal time over which we keep branching
+//  - cutoff  min x value allowed for emissions
+//  - xmin    min x value allowed for further branching
+//            (-ve means 2*cutoff i.e. no effect)
+void GeneratorBase::generate_event(double time,double cutoff,double xmin){
+  //--------------------------------------------------
+  // initialise the event and local variables
+  
+  // -1 is the default parent, 0 is starting time, x is energy fraction
   _particles.clear();
   Particle first_particle;
   first_particle.set_start_time(0);
@@ -83,14 +64,22 @@ void GeneratorInMedium::generate_event(double time,double cutoff,double xmin){
   _end_time=time;
   _cutoff=cutoff;
   set_xmin(xmin);
-  _branch();
+
+  // start the branching
+  if (_recursive_branching){
+    _branch_last_recursively();
+  } else {
+    _branch_non_recursively();
+  }    
+
+  // create the final event
   _event.set_particles(_particles);
   _event.set_cutoff(cutoff);
   _event.set_end_time(time);
 }
 
-/// Branches the last particle in _particles
-void GeneratorInMedium::_branch(){
+// Branches the last particle in _particles, then iterate
+void GeneratorBase::_branch_last_recursively(){
   unsigned int parent=_particles.size()-1;
 
   double x=_particles[parent].x();///< Relies on pushing back child before branching
@@ -116,120 +105,88 @@ void GeneratorInMedium::_branch(){
   /// First child:
   _particles.push_back(child1);
   _particles[parent].set_child1(_particles.size()-1);
-  _branch();
+  _branch_last_recursively();
   ///Second child:
   _particles.push_back(child2);
   _particles[parent].set_child2(_particles.size()-1);
-  _branch();
+  _branch_last_recursively();
 }
 
+// generate a whole cascade stating form the existing particles in _particle
+void GeneratorBase::_branch_non_recursively(){
+  assert("not yet implemented" && false);
 
-//-----------------------------------------------------------------------------------------//
+  // we start with a vector that will hold the indices of the
+  // particles that ned to be forther branched.
+  // Initially, it should contain all the particles in the event
+  vector<unsigned int> to_branch(_particles.size());
+  for (unsigned int i=0; i<_particles.size(); ++i)
+    to_branch[i] = i;
 
-
-
-
-
-
-
-
-//Defining member functions for the class GeneratorInMediumSimple
+  /// TBC...
+}
 
 //------------------------------------------------------------------------
-// generate an event
+// implementation of the in-medium branching for the full kernel
+//------------------------------------------------------------------------
+
+//------------------------------------------------------------------------
+// generate an event 
 //  - time    maximal time over which we keep branching
 //  - cutoff  min x value allowed
 //
-// Using simplified kernel
+// Using simplified kernel g >= real kernel f in the veto algorithm
+//  g = 1/(z(1-z))^(3/2)
+//  f = (1-z(1-z))^(5/2)/(z(1-z))^(3/2)
 //------------------------------------------------------------------------
-
-/// default ctor
-GeneratorInMediumSimple::GeneratorInMediumSimple(int init_seed): _t(-1), _z(-1){
-  _r = gsl_rng_alloc (gsl_rng_default);
-  set_seed(init_seed);
-}
-
-/// default dtor
-GeneratorInMediumSimple::~GeneratorInMediumSimple(){
-  gsl_rng_free(_r);
-}
-
-void GeneratorInMediumSimple::set_seed(int new_seed){
-  _seed=new_seed;
-  gsl_rng_set (_r, _seed);
-}
-
-void GeneratorInMediumSimple::generate_branching(double x){
+void GeneratorInMedium::generate_branching(double x){
   double z=1,R=1,fgratio=0,t=0;
   double cutoff=_cutoff/x;
   double root_x=sqrt(x);
   /// Calculating the integral from cutoff to 1-cutoff
   double alpha = (2-4*cutoff)/sqrt(cutoff*(1-cutoff));
 
-  /// Generate t according to g
-  t = t - log(gsl_rng_uniform(_r))/(alpha/(root_x));
-  /// Generate z according to g. x-dependence of alpha cancels
+  while (fgratio<R){
+    /// Generate t according to g
+    t = t - log(gsl_rng_uniform(_r))/(alpha/(root_x));
+    /// Generate z according to g. x-dependence of alpha cancels
+    double u = gsl_rng_uniform(_r);
+    double v = (u-1)*alpha;
+    /// z distribution is symmetric around 0.5. Generate below.
+    z = 0.5 + v/(2*sqrt(v*v+16));
+    /// Decide if rejecting or not
+    fgratio = pow((1-z*(1-z)),5); /// Rejection factor f/g, squared
+    u = gsl_rng_uniform(_r);
+    R=u*u;
+  }
+  _t=t;
+  _z=z;
+}
+
+
+//------------------------------------------------------------------------
+// implementation of the in-medium branching for the simplified kernel
+//------------------------------------------------------------------------
+
+void GeneratorInMediumSimple::generate_branching(double x){
+  double z, t; //=1,R=1,fgratio=0,t=0;
+  double cutoff=_cutoff/x;
+  double root_x=sqrt(x);
+  /// Calculating the integral from cutoff to 1-cutoff
+  double alpha = (2-4*cutoff)/sqrt(cutoff*(1-cutoff));
+
+  // Generate t according to g
+  //t = t - log(gsl_rng_uniform(_r))/(alpha/(root_x));
+  t = - log(gsl_rng_uniform(_r))/(alpha/(root_x));
+  // Generate z according to g. x-dependence of alpha cancels
   double u = gsl_rng_uniform(_r);
   double v = (u-1)*alpha;
-  /// z distribution is symmetric around 0.5. Generate below.
+  // z distribution is symmetric around 0.5. Generate below.
   z = 0.5 + v/(2*sqrt(v*v+16));
 
   _t=t;
   _z=z;
 }
-
-void GeneratorInMediumSimple::generate_event(double time,double cutoff,double xmin){
-  /// -1 is the default parent, 0 is starting time, x is energy fraction
-  _particles.clear();
-  Particle first_particle;
-  first_particle.set_start_time(0);
-  first_particle.set_x(1);
-  _particles.push_back(first_particle);
-  _end_time=time;
-  _cutoff=cutoff;
-  set_xmin(xmin);
-  _branch();
-  _event.set_particles(_particles);
-  _event.set_cutoff(cutoff);
-  _event.set_end_time(time);
-}
-
-/// Branches the last particle in _particles
-void GeneratorInMediumSimple::_branch(){
-  unsigned int parent=_particles.size()-1;
-
-  double x=_particles[parent].x();///< Relies on pushing back child before branching
-  //if(x<2*_cutoff){
-  if(x<_xmin){
-    return;///< We have reached the bottom of the recursion => we have one particle.
-  }
-  /// splitting_time, randomly generated
-  generate_branching(x);
-  double splitting_time=_t;
-  double z=_z;
-
-  double time_left=_end_time - _particles[parent].start_time();
-  if(time_left < splitting_time){
-    return;///< We have reached the bottom of the recursion => we have one particle.
-  }
-  /// No "if" triggered =>we have time enough for another split and x is large enough
-  double current_time=_particles[parent].start_time() + splitting_time;
-  _particles[parent].set_end_time(current_time);
-  /// To add to the vector storing the event
-  Particle child1(parent,current_time,z*x), child2(parent,current_time,(1-z)*x);
-
-  /// Branching into two
-  /// First child:
-  _particles.push_back(child1);
-  _particles[parent].set_child1(_particles.size()-1);
-  _branch();
-  ///Second child:
-  _particles.push_back(child2);
-  _particles[parent].set_child2(_particles.size()-1);
-  _branch();
-}
-
-
 
 
 //-----------------------------------------------------------------------------------------//
