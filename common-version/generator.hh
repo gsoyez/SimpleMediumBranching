@@ -117,6 +117,7 @@ public:
 /// \class GeneratorInMediumSimple
 /// Generate an event according to the in-medium evolution from
 /// .... This version implementes tyhe simplified evolution kernel.
+///
 class GeneratorInMediumSimple : public GeneratorBase{
 public:
   /// default ctor
