@@ -197,7 +197,7 @@ void GeneratorInMedium::generate_branching(double x){
 
   while (fgratio<R){
     /// Generate t according to g
-    t = t - log(gsl_rng_uniform(_r))/(alpha/(root_x));
+    t = t - log(gsl_rng_uniform_pos(_r))/(alpha/(root_x));
     /// Generate z according to g. x-dependence of alpha cancels
     double u = gsl_rng_uniform(_r);
     double v = (u-1)*alpha;
@@ -226,7 +226,7 @@ void GeneratorInMediumSimple::generate_branching(double x){
 
   // Generate t according to g
   //t = t - log(gsl_rng_uniform(_r))/(alpha/(root_x));
-  t = - log(gsl_rng_uniform(_r))/(alpha/(root_x));
+  t = - log(gsl_rng_uniform_pos(_r))/(alpha/(root_x));
   // Generate z according to g. x-dependence of alpha cancels
   double u = gsl_rng_uniform(_r);
   double v = (u-1)*alpha;
