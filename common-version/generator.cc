@@ -135,7 +135,7 @@ void GeneratorBase::_branch_non_recursively(){
     const Particle & to_branch = _particles[particle_index];
     double x = to_branch.x();
 
-    // generate (randomly) teh splitting time and momentum fraction
+    // generate (randomly) the splitting time and momentum fraction
     generate_branching(x);
 
     // it we've exceeded time, discard the branching
@@ -160,7 +160,7 @@ void GeneratorBase::_branch_non_recursively(){
     _particles[particle_index].set_child2(_particles.size()-1);
 
     // proceed w next branchings
-    if (x1>_xmin){
+    if (x1>=_xmin){
       // we'll deal w the branching of x1 right now
       indices_to_branch[current_position] = _particles.size()-2;
 
