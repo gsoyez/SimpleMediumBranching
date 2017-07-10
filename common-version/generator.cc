@@ -124,7 +124,7 @@ void GeneratorBase::_branch_non_recursively(){
   // Initially, it should contain all the particles in the event
   vector<unsigned int> indices_to_branch(_particles.size());
   for (unsigned int i=0; i<_particles.size(); ++i){
-    if (_particles[i].x() > _xmin) indices_to_branch[i] = i;
+    if (_particles[i].x() >= _xmin) indices_to_branch[i] = i;
   }
 
   // not branch until we've exhausted the list of particles to branch
@@ -164,10 +164,10 @@ void GeneratorBase::_branch_non_recursively(){
       // we'll deal w the branching of x1 right now
       indices_to_branch[current_position] = _particles.size()-2;
 
-      if (x2>_xmin) // append it for future branching
+      if (x2>=_xmin) // append it for future branching
         indices_to_branch.push_back(_particles.size()-1);
     } else {
-      if (x2>_xmin) // deal with it immediately
+      if (x2>=_xmin) // deal with it immediately
         indices_to_branch[current_position] = _particles.size()-1;
       else // non of the 2 new particles need further branching
         ++current_position;
