@@ -69,7 +69,7 @@ int main(int argc, char *argv[]){
     // compute the remaining energy for the simple event    
     vector<double> xsums(nt, 0.0);
     for (const Particle & p : g_simple.event().particles()){ 
-      if (p.x()<xmin) continue;
+      if (p.x()<=xmin) continue;
       double t0 = p.start_time();
       double t1 = p.end_time();
 
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]){
     // now do the same for the full event
     for (unsigned int it=0; it<nt; ++it) xsums[it] = 0.0;
     for (const Particle & p : g_full.event().particles()){ 
-      if (p.x()<xmin) continue;
+      if (p.x()<=xmin) continue;
       double t0 = p.start_time();
       double t1 = p.end_time();
 
@@ -110,7 +110,7 @@ int main(int argc, char *argv[]){
         ostr << (it+1)*dt << "  "
              << expected_simple_mean[it] << "  "
              << expected_simple_variance[it] << "  "
-             << energy_simple[it].mean() << "  "
+             << setprecision(15) << energy_simple[it].mean() << "  "
              << energy_simple[it].variance() << "  "
              << energy_full[it].mean()<< "  "
              << energy_full[it].variance() << endl;
@@ -127,7 +127,7 @@ int main(int argc, char *argv[]){
     ostr << (it+1)*dt << "  "
          << expected_simple_mean[it] << "  "
          << expected_simple_variance[it] << "  "
-         << energy_simple[it].mean() << "  "
+         << setprecision(15) << energy_simple[it].mean() << "  "
          << energy_simple[it].variance() << "  "
          << energy_full[it].mean()<< "  "
          << energy_full[it].variance() << endl;
