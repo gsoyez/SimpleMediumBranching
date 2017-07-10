@@ -28,7 +28,7 @@ int main(){
 
 
 
-  ofstream ostr("energyloss_fluctuations.dat");
+  ofstream ostr("energyloss_survivor.dat");
   ostr << "#Time, th average, th variance, simple num average, simple num variance,";
   ostr <<"full num average, full num variance, simple D2 variance, full D2 variance" << endl;
 
@@ -36,42 +36,36 @@ int main(){
   cout << "xmin " << x_min <<endl;
 
   //For tau = 2, seeds 4401 and 6707 gives surviving particle, out of seeds 1-10001
+  //One for these, 6707, is also present for tau=3
 
   x_min=1e-3;
   tau=3;
     cout << "tau " << tau<<endl;
   MeanAndErr energy;
 
-  unsigned int iterations = 5000;
-  for (unsigned int i = 0; i < iterations; i++ ){
-    int seed = i +5001;
-    g.set_seed(seed);
-    g.generate_event(tau,epsilon,x_min);
+  int seed = 6707;
+  g.set_seed(seed);
+  g.generate_event(tau,epsilon,x_min);
 
-    const vector<double> finals=g.event().final_particles();
-    double sum = 0;
-    double xsum = 0;
-    double sum2 = 0;
-    vector<double> sortfinals = finals;//not const, can sort
-    sort(sortfinals.begin(), sortfinals.end());
-    for (unsigned int k = 0; k < sortfinals.size(); k++ ) {
-      if (sortfinals[k] > x_min){
-        sum += sortfinals[k];
-
-      }
-
-    }
-    if (sum>0){
-      cout << "seed " <<seed << ". ";
-    }
-    energy.addEntry(1-sum);
-
-    if (i%100 == 0){
-      cout << "i " << i << endl;
+  const vector<double> finals=g.event().final_particles();
+  double sum = 0;
+  double xsum = 0;
+  double sum2 = 0;
+  vector<double> sortfinals = finals;//not const, can sort
+  sort(sortfinals.begin(), sortfinals.end());
+  for (unsigned int k = 0; k < sortfinals.size(); k++ ) {
+    if (sortfinals[k] > x_min){
+      sum += sortfinals[k];
+      cout << sortfinals[k] << endl;
     }
 
+  }
+  if (sum>0){
+    cout << "seed " <<seed << ". ";
+  }
+  energy.addEntry(1-sum);
 
-  } //iterations loop
+
 
 
   ostr.close();
