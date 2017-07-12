@@ -94,6 +94,31 @@ plot 1.0 w l dt 2 lc 7 lw 1 not,\
      fn  u 1:(($4-sqrt($5/(1.0*nev)))/ga($1,pi,0.0,0.0001)):(($4+sqrt($5/(1.0*nev)))/ga($1,pi,0.0,0.0001)) w filledcurve fs solid 0.2 transparent lc 7 not,\
      fn  u 1:($4/ga($1,pi,0.0,0.0001))                     w linesp dt 1 lc 7 lw 2 pt 8 ps 0.6 t '{/Symbol e}=10^{-9}, x_{min}=10^{-4}'
 
+set ylabel 'ratio of E_{kept} full/simple'
+set key bottom top right noreverse Right
+set yrange [0:10]
+set grid
+plot 1.0 w l dt 2 lc 7 lw 1 not,\
+     fn3 u 1:($6/$4)  w linesp dt 1 lc 3 lw 2 pt 7 ps 0.6 t '{/Symbol e}=10^{-8}, x_{min}=10^{-3}',\
+     fn2 u 1:($6/$4)  w linesp dt 1 lc 1 lw 2 pt 6 ps 0.6 t '{/Symbol e}=10^{-9}, x_{min}=10^{-3}',\
+     fn  u 1:($6/$4)  w linesp dt 1 lc 7 lw 2 pt 8 ps 0.6 t '{/Symbol e}=10^{-9}, x_{min}=10^{-4}'
+
+set ylabel 'ratio of E_{loss} full/simple'
+set key bottom top right noreverse Right
+set yrange [0:1.2]
+set grid
+plot 1.0 w l dt 2 lc 7 lw 1 not,\
+     fn3 u 1:((1-$6)/(1-$4))  w linesp dt 1 lc 3 lw 2 pt 7 ps 0.6 t '{/Symbol e}=10^{-8}, x_{min}=10^{-3}',\
+     fn2 u 1:((1-$6)/(1-$4))  w linesp dt 1 lc 1 lw 2 pt 6 ps 0.6 t '{/Symbol e}=10^{-9}, x_{min}=10^{-3}',\
+     fn  u 1:((1-$6)/(1-$4))  w linesp dt 1 lc 7 lw 2 pt 8 ps 0.6 t '{/Symbol e}=10^{-9}, x_{min}=10^{-4}'
+
+set ylabel 'ratio of fluctuations to loss'
+set key bottom top right noreverse Right
+set yrange [0:0.6]
+set grid
+plot 1.0/sqrt(3.0) w l dt 2 lc 7 lw 1 not,\
+     fn u 1:(sqrt($5)/(1-$4))  w linesp dt 1 lc 1 lw 2 pt 6 ps 0.6 t 'simple',\
+     fn u 1:(sqrt($7)/(1-$6))  w linesp dt 1 lc 7 lw 2 pt 8 ps 0.6 t 'full'
 
 
 set out

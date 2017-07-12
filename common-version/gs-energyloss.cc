@@ -60,7 +60,7 @@ int main(int argc, char *argv[]){
   }
 
   // event loop
-  unsigned int nev_save=100;
+  unsigned int nev_save=10;
   for (unsigned int iev = 0; iev < nev; ++iev ){
     // generate th esuimple and full events
     g_simple.generate_event(tmax,epsilon,xmin);
