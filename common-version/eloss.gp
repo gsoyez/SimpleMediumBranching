@@ -9,10 +9,10 @@ fn='res/eloss-tmax_3.0-xmin_1e-4-eps_1e-9.res'
 fn2='res/eloss-tmax_3.0-xmin_1e-3-eps_1e-9.res'
 fn3='res/eloss-tmax_3.0-xmin_1e-3-eps_1e-8.res'
 
-fndef=fn2
+fndef=fn
 
-set label 1 '{/Symbol e}=10^{-9}, x_{min}=10^{-3}' at graph 0.05,0.07
-xmin=0.001
+set label 1 '{/Symbol e}=10^{-9}, x_{min}=10^{-4}' at graph 0.05,0.07
+xmin=0.0001
 
 set xlabel '{/Symbol t}'
 
@@ -38,12 +38,12 @@ plot fndef u 1:4 w linesp dt 1 lc 3 lw 2 pt 7 ps 0.6 t 'simple (numeric)',\
 
 # try to extract the propoerties by fitting a Gaussian
 set fit errors
-fit [0.0:1.45] log(g(x)) fndef u 1:(log($4)) via a,b
+fit [0.0:1.85] log(g(x)) fndef u 1:(log($4)) via a,b
 a_simple=a
 a_simple_err=a_err
 b_simple=b
 b_simple_err=b_err
-fit [0.0:2.05] log(g(x)) fndef u 1:(log($6)) via a,b
+fit [0.0:2.25] log(g(x)) fndef u 1:(log($6)) via a,b
 a_full=a
 a_full_err=a_err
 b_full=b
@@ -68,7 +68,7 @@ plot fndef u 1:5 w linesp dt 1 lc 3 lw 2 pt 7 ps 0.6 t 'simple (numeric)',\
 
 set yrange [1e-12:1]
 plot fndef u 1:4 w l dt 1 lc 3 lw 2 not,\
-     for [i=1:30] 'res/parts/eloss-tmax_3.0-xmin_1e-3-eps_1e-8-rseq'.sprintf("%d",i).'.res' u 1:4 w l dt 1 lc 7 lw 0.5 not
+     for [i=1:30] 'res/parts/eloss-tmax_3.0-xmin_1e-4-eps_1e-9-rseq'.sprintf("%d",i).'.res' u 1:4 w l dt 1 lc 7 lw 0.5 not
 
 unset log y
 set ylabel 'ratio to th expected'
